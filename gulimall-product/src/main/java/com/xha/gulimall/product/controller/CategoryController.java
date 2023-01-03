@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,20 +20,22 @@ import java.util.Map;
  * @date 2022-12-29 16:39:19
  */
 @RestController
-@RequestMapping("product/category")
+@RequestMapping("/product/category")
 public class CategoryController {
     @Resource
     private CategoryService categoryService;
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-//    @RequiresPermissions("product:category:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
 
-        return R.ok().put("page", page);
+    /**
+     * 得到产品列表树
+     *
+     * @return {@link R}
+     */
+    @RequestMapping("/list/tree")
+//    @RequiresPermissions("product:category:list")
+    public R getProductListTree(){
+        List<CategoryEntity> entityList = categoryService.getProductCategoryListTree();
+        return R.ok().put("data",entityList);
     }
 
 
@@ -70,13 +73,13 @@ public class CategoryController {
     }
 
     /**
-     * 删除
+     * 逻辑删除分类
      */
     @RequestMapping("/delete")
 //    @RequiresPermissions("product:category:delete")
-    public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+    public R delete(@RequestBody Long[] categoryIds){
+//        批量删除分类
+		categoryService.removeCategoryByIds(Arrays.asList(categoryIds));
         return R.ok();
     }
 
