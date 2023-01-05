@@ -20,13 +20,23 @@ spring:
           filters:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
 
-#           路由到renren-fast模块
-#           http://localhost:88/api/** -> http://localhost:8080/renren-fast/**
+
+#           路由到gulimall-thirdserver 模块
+        - id: thirdserver_route
+          uri: lb://gulimall-thirdserver
+          predicates:
+            - Path=/api/thirdserver/**
+          filters:
+            - RewritePath=/api/thirdserver/?(?<segment>.*), /$\{segment}
+
+        #           路由到renren-fast模块
+        #           http://localhost:88/api/** -> http://localhost:8080/renren-fast/**
         - id: admin_route
           uri: lb://renren-fast
           predicates:
             - Path=/api/**
           filters:
             - RewritePath=/api/?(?<segment>.*), /renren-fast/$\{segment}
+
 
 

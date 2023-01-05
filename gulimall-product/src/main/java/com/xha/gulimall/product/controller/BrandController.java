@@ -2,11 +2,15 @@ package com.xha.gulimall.product.controller;
 
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.common.validator.group.AddGroup;
+import com.xha.gulimall.common.validator.group.UpdateGroup;
 import com.xha.gulimall.product.entity.BrandEntity;
 import com.xha.gulimall.product.service.BrandService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -52,9 +56,8 @@ public class BrandController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@Validated(value = AddGroup.class) @RequestBody BrandEntity brand){
 		brandService.save(brand);
-
         return R.ok();
     }
 
@@ -63,7 +66,7 @@ public class BrandController {
      */
     @RequestMapping("/update")
 //    @RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated(value = UpdateGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();

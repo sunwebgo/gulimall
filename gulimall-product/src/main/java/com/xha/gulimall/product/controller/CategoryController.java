@@ -47,7 +47,7 @@ public class CategoryController {
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -57,7 +57,6 @@ public class CategoryController {
 //    @RequiresPermissions("product:category:save")
     public R save(@RequestBody CategoryEntity category){
 		categoryService.save(category);
-
         return R.ok();
     }
 
@@ -78,7 +77,7 @@ public class CategoryController {
     @RequestMapping("/delete")
 //    @RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] categoryIds){
-//        批量删除分类
+//        单个/批量删除分类
 		categoryService.removeCategoryByIds(Arrays.asList(categoryIds));
         return R.ok();
     }
