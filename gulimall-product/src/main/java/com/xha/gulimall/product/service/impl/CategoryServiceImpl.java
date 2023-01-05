@@ -7,11 +7,17 @@ import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.product.dao.CategoryDao;
+import com.xha.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.xha.gulimall.product.entity.CategoryEntity;
+import com.xha.gulimall.product.service.CategoryBrandRelationService;
 import com.xha.gulimall.product.service.CategoryService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,6 +28,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Resource
     private CategoryDao categoryDao;
+
+    @Resource
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -63,16 +72,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return productCategoryListTree;
     }
 
-    /**
-     * 批量逻辑删除分类
-     *
-     * @param categoryIds 正如列表
-     */
-    @Override
-    public void removeCategoryByIds(List<Long> categoryIds) {
-        //TODO 检查要删除的分类是否被其他地方引用
-        categoryDao.deleteBatchIds(categoryIds);
-    }
 
     /**
      * 根据一级分类获取到其子分类
@@ -96,6 +95,72 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                         - (category2.getSort() == null ? 0 : category2.getSort()))
                 .collect(Collectors.toList());
         return childrenCategoryList;
+    }
+
+
+    /**
+     * 批量逻辑删除分类
+     *
+     * @param categoryIds 正如列表
+     */
+    @Override
+    public void removeCategoryByIds(List<Long> categoryIds) {
+        //TODO 检查要删除的分类是否被其他地方引用
+        categoryDao.deleteBatchIds(categoryIds);
+    }
+
+
+    /**
+     * 根据分类id查询到分类id路径
+     *
+     * @param catelogId catelog id
+     * @return {@link Long[]}
+     */
+    @Override
+    public Long[] findCatelogId(Long catelogId) {
+        List<Long> catelogPath = new ArrayList<>();
+//        1.调用方法获取到分类id集合
+        List<Long> parentPath = getParentPath(catelogId, catelogPath);
+//        2.反转集合
+        Collections.reverse(parentPath);
+        return catelogPath.toArray(new Long[0]);
+    }
+
+    /**
+     * 同步修改
+     *
+     * @param category 类别
+     */
+    @Transactional
+    @Override
+    public void updateDetails(CategoryEntity category) {
+        updateById(category);
+        if (!StringUtils.isEmpty(category.getName())) {
+//        2.同步更新其他关联表中的数据
+            categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+
+//        3.TODO 更新其他关联表
+        }
+    }
+
+    /**
+     * 得到父id
+     *
+     * @param catelogId   catelog id
+     * @param catelogPath catelog路径
+     * @return {@link List}<{@link Long}>
+     */
+    public List<Long> getParentPath(Long catelogId, List<Long> catelogPath) {
+//        1.将分类id添加到集合中
+        catelogPath.add(catelogId);
+//        2.根据分类id查询到分类的详细信息
+        CategoryEntity category = getById(catelogId);
+//        3.判断此分类是否还有父分类
+        if (category.getParentCid() != NumberConstants.TOP_LEVEL_CATEGORY) {
+//            3.1如果有父分类就继续查询
+            getParentPath(category.getParentCid(), catelogPath);
+        }
+        return catelogPath;
     }
 
 }

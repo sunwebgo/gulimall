@@ -7,7 +7,9 @@ import com.xha.gulimall.product.service.CategoryBrandRelationService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,6 +25,18 @@ import java.util.Map;
 public class CategoryBrandRelationController {
     @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
+
+
+    /**
+     * 列表
+     */
+    @GetMapping("/catelog/list")
+//    @RequiresPermissions("product:categorybrandrelation:list")
+    public R getBrandToCategorylist(@RequestParam Long brandId){
+
+        List<CategoryBrandRelationEntity> brandToCategorylists = categoryBrandRelationService.getBrandToCategorylist(brandId);
+        return R.ok().put("data", brandToCategorylists);
+    }
 
     /**
      * 列表
@@ -53,8 +67,8 @@ public class CategoryBrandRelationController {
     @RequestMapping("/save")
 //    @RequiresPermissions("product:categorybrandrelation:save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
 
+		categoryBrandRelationService.saveDetails(categoryBrandRelation);
         return R.ok();
     }
 

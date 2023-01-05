@@ -4,6 +4,7 @@ import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.entity.AttrEntity;
 import com.xha.gulimall.product.service.AttrService;
+import com.xha.gulimall.product.vo.AttrVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -52,8 +53,8 @@ public class AttrController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVO attr){
+		attrService.saveAttr(attr);
 
         return R.ok();
     }
