@@ -2,6 +2,7 @@ package com.xha.gulimall.product.controller;
 
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.product.dto.AttrDTO;
 import com.xha.gulimall.product.entity.AttrEntity;
 import com.xha.gulimall.product.service.AttrService;
 import com.xha.gulimall.product.vo.AttrVO;
@@ -25,27 +26,28 @@ public class AttrController {
     @Resource
     private AttrService attrService;
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-//    @RequiresPermissions("product:attr:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
 
+    /**
+     * 获取到属性列表
+     *
+     * @param params    参数个数
+     * @param catelogId catelog id
+     * @return {@link R}
+     */
+    @GetMapping("/base/list/{catelogId}")
+    public R getAttrList(@RequestParam Map<String, Object> params, @PathVariable Long catelogId){
+        PageUtils page = attrService.queryPage(params, catelogId);
         return R.ok().put("page", page);
     }
 
 
     /**
-     * 信息
+     * 根据attrId获得属性的详细信息
      */
     @RequestMapping("/info/{attrId}")
 //    @RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+        return attrService.getAttrDetailsInfo(attrId);
     }
 
     /**
@@ -53,21 +55,19 @@ public class AttrController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrVO attr){
+    public R save(@RequestBody AttrDTO attr){
 		attrService.saveAttr(attr);
 
         return R.ok();
     }
 
     /**
-     * 修改
+     * 修改属性信息
      */
     @RequestMapping("/update")
 //    @RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
-        return R.ok();
+    public R update(@RequestBody AttrDTO attr){
+        return attrService.updateAttr(attr);
     }
 
     /**
@@ -76,9 +76,7 @@ public class AttrController {
     @RequestMapping("/delete")
 //    @RequiresPermissions("product:attr:delete")
     public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
-
-        return R.ok();
+        return attrService.deleteAttr(attrIds);
     }
 
 }

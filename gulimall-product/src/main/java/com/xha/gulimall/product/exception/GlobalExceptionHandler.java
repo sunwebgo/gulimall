@@ -40,14 +40,15 @@ public class GlobalExceptionHandler {
         return R.error(HttpCode.VALID_EXCEPTION.getCode(), HttpCode.VALID_EXCEPTION.getMessage()).put("data",errorMap);
     }
 
-    /**
-     * 全局异常处理
-     *
-     * @return {@link R}
-     */
-    @ExceptionHandler(value = Throwable.class)
-    public R handlerException(Throwable throwable){
-        return R.error(HttpCode.UNKNOW_EXCEPTION.getCode(), HttpCode.UNKNOW_EXCEPTION.getMessage());
-    }
+//    /**
+//     * 全局异常处理
+//     *
+//     * @return {@link R}
+//     */
+//    @ExceptionHandler(value = Throwable.class)
+//    public R handlerException(Throwable e){
+//        log.error("出现全局异常：" + e.getMessage() + "异常类型是：" + e.getClass());
+//        return R.error(HttpCode.UNKNOW_EXCEPTION.getCode(), HttpCode.UNKNOW_EXCEPTION.getMessage());
+//    }
 
 }

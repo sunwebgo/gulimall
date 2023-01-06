@@ -14,4 +14,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AttrAttrgroupRelationDao extends BaseMapper<AttrAttrgroupRelationEntity> {
 
+    /**
+     * 更新attr集团
+     *
+     * @param attrId      attr id
+     * @param attrGroupId attr组id
+     */
+    void updateAttrGroup(Long attrId, Long attrGroupId);
 }

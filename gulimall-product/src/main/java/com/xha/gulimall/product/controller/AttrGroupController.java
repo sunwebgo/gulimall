@@ -5,9 +5,13 @@ import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.entity.AttrGroupEntity;
 import com.xha.gulimall.product.service.AttrGroupService;
 import com.xha.gulimall.product.service.CategoryService;
+import com.xha.gulimall.product.vo.AttrGroupVO;
+import com.xha.gulimall.product.vo.AttrVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -29,7 +33,7 @@ public class AttrGroupController {
     private CategoryService categoryService;
 
     /**
-     * 分页获取分组属性分组
+     * 根据属性分组id分页获取分组属性分组
      */
     @RequestMapping("/list/{catelogId}")
 //    @RequiresPermissions("product:attrgroup:list")
@@ -51,9 +55,13 @@ public class AttrGroupController {
         Long catelogId = attrGroup.getCatelogId();
 //        3.调用CategoryService，根据分类id查询分类id路径
         Long[] catelogPath = categoryService.findCatelogId(catelogId);
+//        4.将AttrGroupEntity对象转换为AttrVO对象
+        AttrGroupVO attrGroupVO = new AttrGroupVO();
+        BeanUtils.copyProperties(attrGroup, attrGroupVO);
 //        4.为实体类AttrGroupEntity添加CatelogPath属性
-        attrGroup.setCatelogPath(catelogPath);
-        return R.ok().put("attrGroup", attrGroup);
+
+        attrGroupVO.setCatelogPath(catelogPath);
+        return R.ok().put("attrGroup", attrGroupVO);
     }
 
     /**
@@ -61,7 +69,7 @@ public class AttrGroupController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("product:attrgroup:save")
-    public R save(@RequestBody AttrGroupEntity attrGroup) {
+    public R save(@Valid @RequestBody AttrGroupEntity attrGroup) {
         attrGroupService.save(attrGroup);
 
         return R.ok();
@@ -84,9 +92,7 @@ public class AttrGroupController {
     @RequestMapping("/delete")
 //    @RequiresPermissions("product:attrgroup:delete")
     public R delete(@RequestBody Long[] attrGroupIds) {
-        attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
-
-        return R.ok();
+        return attrGroupService.deleteAttrGroups(attrGroupIds);
     }
 
 }

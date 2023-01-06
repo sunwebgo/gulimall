@@ -1,11 +1,10 @@
-package com.xha.gulimall.product.vo;
+package com.xha.gulimall.product.dto;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 @Data
-public class AttrVO {
+public class AttrDTO {
     /**
      * 属性id
      */
@@ -43,16 +42,6 @@ public class AttrVO {
      * 所属分类
      */
     private Long catelogId;
-    /**
-     * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
-     */
-    private Integer showDesc;
-
-    /**
-     * 属性所属分类名
-     */
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String catelogName;
 
     /**
      * 所属属性分组
@@ -60,15 +49,8 @@ public class AttrVO {
     private Long attrGroupId;
 
     /**
-     * 属性所属属性分组名
+     * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
      */
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String groupName;
-
-    /**
-     * 分类的完整路径
-     */
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Long[] catelogPath;
+    private Integer showDesc;
 
 }

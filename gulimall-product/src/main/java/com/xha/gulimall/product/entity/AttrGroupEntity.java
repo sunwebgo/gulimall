@@ -3,8 +3,10 @@ package com.xha.gulimall.product.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
@@ -31,6 +33,7 @@ public class AttrGroupEntity implements Serializable {
 	/**
 	 * 排序
 	 */
+	@Min(value = 0)
 	private Integer sort;
 	/**
 	 * 描述
@@ -45,6 +48,7 @@ public class AttrGroupEntity implements Serializable {
 	 */
 	private Long catelogId;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@TableField(exist = false)
 	private Long[] catelogPath;
 

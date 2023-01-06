@@ -2,6 +2,7 @@ package com.xha.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xha.gulimall.common.utils.PageUtils;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.entity.BrandEntity;
 
 import java.util.Map;
@@ -17,6 +18,6 @@ public interface BrandService extends IService<BrandEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void updateDetails(BrandEntity brand);
+    R updateDetails(BrandEntity brand);
 }
 

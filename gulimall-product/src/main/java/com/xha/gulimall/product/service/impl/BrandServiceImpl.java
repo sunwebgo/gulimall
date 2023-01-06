@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dao.BrandDao;
 import com.xha.gulimall.product.entity.BrandEntity;
 import com.xha.gulimall.product.service.BrandService;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.Objects;
 
 
 @Service("brandService")
@@ -42,15 +44,20 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
 
     @Transactional
     @Override
-    public void updateDetails(BrandEntity brand) {
+    public R updateDetails(BrandEntity brand) {
+//        1.判断数据库中是否存在当前品牌
+        BrandEntity brandEntity = getById(brand);
+        if (Objects.isNull(brandEntity)){
+            return R.error().put("msg","当前品牌不存在");
+        }
 //        1.保证冗余字段的数据一致性
         updateById(brand);
         if (!StringUtils.isEmpty(brand.getName())){
 //        2.同步更新其他关联表中的数据
             categoryBrandRelationService.updateBrand(brand.getBrandId(),brand.getName());
-
 //        3.TODO 更新其他关联表
         }
+        return R.ok().put("msg","品牌更新完成");
     }
 
 }

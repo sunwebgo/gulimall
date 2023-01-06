@@ -6,27 +6,23 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dao.AttrGroupDao;
 import com.xha.gulimall.product.entity.AttrGroupEntity;
 import com.xha.gulimall.product.service.AttrGroupService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service("attrGroupService")
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<AttrGroupEntity> page = this.page(
-                new Query<AttrGroupEntity>().getPage(params),
-                new QueryWrapper<AttrGroupEntity>()
-        );
-
-        return new PageUtils(page);
-    }
 
     /**
      * 获取分组属性分组
@@ -58,7 +54,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(AttrGroupEntity::getCatelogId, catelogId);
             if (!StringUtils.isEmpty(key)) {
-//             2.2检索字段可能查询属性分组的id或名字
+//             3.1检索字段可能查询属性分组的id或名字
                 queryWrapper.and(obj -> obj.eq(AttrGroupEntity::getAttrGroupId, key)
                         .or()
                         .like(AttrGroupEntity::getAttrGroupName, key));
@@ -67,5 +63,24 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
                     this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
             return new PageUtils(page);
         }
+    }
+
+    /**
+     * 删除属性分组
+     *
+     * @param attrGroupIds attr组id
+     * @return {@link R}
+     */
+    @Override
+    public R deleteAttrGroups(Long[] attrGroupIds) {
+        List<Long> attrGroupIdList = Arrays.stream(attrGroupIds).collect(Collectors.toList());
+//        1.判断属性分组是否存在
+        for (Long attrId : attrGroupIdList) {
+            if (Objects.isNull(getById(attrId))) {
+                return R.error().put("msg", "含有不存在的属性分组");
+            }
+        }
+        removeByIds(attrGroupIdList);
+        return R.ok().put("msg", "删除成功");
     }
 }
