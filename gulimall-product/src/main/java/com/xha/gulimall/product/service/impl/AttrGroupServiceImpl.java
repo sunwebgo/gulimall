@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.enums.ProductEnums;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
@@ -19,6 +20,7 @@ import com.xha.gulimall.product.entity.AttrGroupEntity;
 import com.xha.gulimall.product.service.AttrAttrgroupRelationService;
 import com.xha.gulimall.product.service.AttrGroupService;
 import com.xha.gulimall.product.service.AttrService;
+import com.xha.gulimall.product.vo.AttrGroupVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -237,6 +239,43 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
         attrAttrgroupRelationService.saveBatch(attrAttrgroupRelationLists);
         return R.ok();
+    }
+
+
+    /**
+     * 获取分类下的属性分组和属性
+     *
+     * @param catelogId catelog id
+     * @return {@link R}
+     */
+    @Override
+    public R getCategoryAttrGroup(Long catelogId) {
+//        1.根据分类id查询到对应的属性分组列表
+        LambdaQueryWrapper<AttrGroupEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(AttrGroupEntity::getCatelogId,catelogId);
+        List<AttrGroupEntity> attrGroupLists = attrGroupDao.selectList(queryWrapper);
+//        2.判断该分类是否存在对应的属性分组
+        if (attrGroupLists.size() == NumberConstants.ARRAY_SIZE_ZERO){
+            return R.error().put("msg","当前分类不存在属性分组");
+        }
+//        3.将AttrGroupEntity对象转换为对应的AttrGroupVO对象
+        List<AttrGroupVO> attrGroupVOList = attrGroupLists.stream().map((attrGroupList) -> {
+            AttrGroupVO attrGroupVO = new AttrGroupVO();
+            BeanUtils.copyProperties(attrGroupList, attrGroupVO);
+            return attrGroupVO;
+        }).collect(Collectors.toList());
+
+//        4.查询属性分组对应的属性
+        attrGroupVOList = attrGroupVOList.stream().map((attrGroupVO -> {
+            LambdaQueryWrapper<AttrEntity> queryAttrWrapper = new LambdaQueryWrapper<>();
+            queryAttrWrapper.eq(AttrEntity::getAttrGroupId,attrGroupVO.getAttrGroupId());
+            List<AttrEntity> attrList = attrDao.selectList(queryAttrWrapper);
+            attrGroupVO.setAttrs(attrList);
+            return attrGroupVO;
+        })).collect(Collectors.toList());
+
+
+        return R.ok().put("data",attrGroupVOList);
     }
 
 }

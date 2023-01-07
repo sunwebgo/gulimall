@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dao.BrandDao;
 import com.xha.gulimall.product.dao.CategoryBrandRelationDao;
 import com.xha.gulimall.product.dao.CategoryDao;
@@ -13,11 +14,14 @@ import com.xha.gulimall.product.entity.BrandEntity;
 import com.xha.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.xha.gulimall.product.entity.CategoryEntity;
 import com.xha.gulimall.product.service.CategoryBrandRelationService;
+import com.xha.gulimall.product.vo.CategoryBrandVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("categoryBrandRelationService")
@@ -52,7 +56,7 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public List<CategoryBrandRelationEntity> getBrandToCategorylist(Long brandId) {
         LambdaQueryWrapper<CategoryBrandRelationEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(CategoryBrandRelationEntity::getBrandId,brandId);
+        queryWrapper.eq(CategoryBrandRelationEntity::getBrandId, brandId);
         List<CategoryBrandRelationEntity> brandToCategorylists = categoryBrandRelationDao.selectList(queryWrapper);
         return brandToCategorylists;
     }
@@ -79,10 +83,10 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateBrand(Long brandId, String name) {
         LambdaQueryWrapper<CategoryBrandRelationEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(CategoryBrandRelationEntity::getBrandId,brandId);
+        queryWrapper.eq(CategoryBrandRelationEntity::getBrandId, brandId);
         CategoryBrandRelationEntity categoryBrandRelationEntity = new CategoryBrandRelationEntity();
         categoryBrandRelationEntity.setBrandName(name);
-        update(categoryBrandRelationEntity,queryWrapper);
+        update(categoryBrandRelationEntity, queryWrapper);
     }
 
     /**
@@ -94,10 +98,38 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateCategory(Long catId, String name) {
         LambdaQueryWrapper<CategoryBrandRelationEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(CategoryBrandRelationEntity::getCatelogId,catId);
+        queryWrapper.eq(CategoryBrandRelationEntity::getCatelogId, catId);
         CategoryBrandRelationEntity categoryBrandRelationEntity = new CategoryBrandRelationEntity();
         categoryBrandRelationEntity.setCatelogName(name);
-        update(categoryBrandRelationEntity,queryWrapper);
+        update(categoryBrandRelationEntity, queryWrapper);
+    }
+
+    /**
+     * 获取分类关联的品牌列表
+     *
+     * @param catId 猫id
+     * @return {@link R}
+     */
+    @Override
+    public R getCategoryBrandRelationList(Long catId) {
+        LambdaQueryWrapper<CategoryBrandRelationEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(CategoryBrandRelationEntity::getCatelogId, catId);
+//        1.根据分类d查询分类品牌关联表
+        List<CategoryBrandRelationEntity> categoryBrandRelationList = categoryBrandRelationDao.selectList(queryWrapper);
+        List<CategoryBrandVO> categoryBrandVOList = null;
+        if (categoryBrandRelationList.size() > 0) {
+
+            categoryBrandVOList = categoryBrandRelationList.stream()
+                    .map((categoryBrand -> {
+//        2.将CategoryBrandRelationEntity对象转换为CategoryBrandVO对象
+                        CategoryBrandVO categoryBrandVO = new CategoryBrandVO();
+                        BeanUtils.copyProperties(categoryBrand, categoryBrandVO);
+                        return categoryBrandVO;
+                    })).collect(Collectors.toList());
+        } else {
+            return R.error().put("msg","当前分类下暂无品牌");
+        }
+        return R.ok().put("data", categoryBrandVOList);
     }
 
 }

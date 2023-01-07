@@ -94,4 +94,15 @@ public class CategoryBrandRelationController {
         return R.ok();
     }
 
+    /**
+     * 获取分类关联的品牌列表
+     *
+     * @param catId 猫id
+     * @return {@link R}
+     */
+    @GetMapping("/brands/list")
+    public R getCategoryBrandRelationList(@RequestParam Long catId){
+        return categoryBrandRelationService.getCategoryBrandRelationList(catId);
+    }
+
 }

@@ -139,4 +139,15 @@ public class AttrGroupController {
     }
 
 
+    /**
+     * 获取分类下的属性分组和属性
+     *
+     * @param catelogId catelog id
+     * @return {@link R}
+     */
+    @GetMapping("/withattr/{catelogId}")
+    public R getCategoryAttrGroup(@PathVariable Long catelogId){
+        return attrGroupService.getCategoryAttrGroup(catelogId);
+    }
+
 }

@@ -71,4 +71,6 @@ public class AttrVO {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Long[] catelogPath;
 
+
+
 }
