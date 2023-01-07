@@ -11,8 +11,19 @@ spring:
 
     gateway:
       routes:
-#          路由到gulimall-product模块
-#          http://localhost:88/api/product/** -> http://localhost:10000/product/**
+
+        #          路由到gulimall-product模块
+        #          http://localhost:88/api/product/** -> http://localhost:10000/product/**
+        - id: member_route
+          uri: lb://gulimall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
+
+
+        #          路由到gulimall-product模块
+        #          http://localhost:88/api/product/** -> http://localhost:10000/product/**
         - id: product_route
           uri: lb://gulimall-product
           predicates:
@@ -21,7 +32,7 @@ spring:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
 
 
-#           路由到gulimall-thirdserver 模块
+        #           路由到gulimall-thirdserver 模块
         - id: thirdserver_route
           uri: lb://gulimall-thirdserver
           predicates:

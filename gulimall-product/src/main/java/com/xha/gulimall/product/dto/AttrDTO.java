@@ -1,6 +1,7 @@
 package com.xha.gulimall.product.dto;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 @Data
@@ -46,6 +47,7 @@ public class AttrDTO {
     /**
      * 所属属性分组
      */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Long attrGroupId;
 
     /**

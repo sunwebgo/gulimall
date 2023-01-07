@@ -20,5 +20,5 @@ public interface AttrAttrgroupRelationDao extends BaseMapper<AttrAttrgroupRelati
      * @param attrId      attr id
      * @param attrGroupId attr组id
      */
-    void updateAttrGroup(Long attrId, Long attrGroupId);
+    void updateAttrGroup(Long attrGroupId,Long attrId);
 }

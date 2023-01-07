@@ -2,8 +2,11 @@ package com.xha.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xha.gulimall.common.utils.PageUtils;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.entity.AttrAttrgroupRelationEntity;
+import com.xha.gulimall.product.entity.AttrEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +19,6 @@ import java.util.Map;
 public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRelationEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
 }
 

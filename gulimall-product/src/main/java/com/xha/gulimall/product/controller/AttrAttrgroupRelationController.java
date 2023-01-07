@@ -3,11 +3,13 @@ package com.xha.gulimall.product.controller;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.entity.AttrAttrgroupRelationEntity;
+import com.xha.gulimall.product.entity.AttrEntity;
 import com.xha.gulimall.product.service.AttrAttrgroupRelationService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 

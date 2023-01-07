@@ -2,17 +2,16 @@ package com.xha.gulimall.product.controller;
 
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.product.dto.AttrGroupDTO;
 import com.xha.gulimall.product.entity.AttrGroupEntity;
 import com.xha.gulimall.product.service.AttrGroupService;
 import com.xha.gulimall.product.service.CategoryService;
 import com.xha.gulimall.product.vo.AttrGroupVO;
-import com.xha.gulimall.product.vo.AttrVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Map;
 
 
@@ -94,5 +93,50 @@ public class AttrGroupController {
     public R delete(@RequestBody Long[] attrGroupIds) {
         return attrGroupService.deleteAttrGroups(attrGroupIds);
     }
+
+    /**
+     * 查询属性-属性分组的关联关系
+     *
+     * @param attrGroupId attr组id
+     * @return {@link R}
+     */
+    @GetMapping("/attr/relation/{attrGroupId}")
+    public R getAttrGroupRelation(@PathVariable Long attrGroupId) {
+        return attrGroupService.getAttrGroupRelation(attrGroupId);
+    }
+
+    /**
+     * 删除属性分组和属性的关联关系
+     *
+     * @param attrGroupDTO attr集团dto
+     * @return {@link R}
+     */
+    @RequestMapping("/attr/relation/delete")
+    public R removeAttrGroupRelation(@RequestBody AttrGroupDTO[] attrGroupDTO) {
+        return attrGroupService.removeAttrGroupRelation(attrGroupDTO);
+    }
+
+    /**
+     * 获取属性分组没有关联的其他属性
+     *
+     * @return {@link R}
+     */
+    @RequestMapping("/noattr/relation/{attrGroupId}")
+    public R getAttrGroupNoRelation(@PathVariable Long attrGroupId, @RequestParam Map<String, Object> params) {
+        PageUtils page = attrGroupService.getAttrGroupNoRelation(attrGroupId,params);
+        return R.ok().put("page",page);
+    }
+
+    /**
+     * 添加属性分组和属性的关联关系
+     *
+     * @param attrGroupDTO attr集团dto
+     * @return {@link R}
+     */
+    @RequestMapping("/attr/relation")
+    public R addAttrAndAttrGroupRelation(@RequestBody AttrGroupDTO[] attrGroupDTO){
+        return attrGroupService.addAttrAndAttrGroupRelation(attrGroupDTO);
+    }
+
 
 }

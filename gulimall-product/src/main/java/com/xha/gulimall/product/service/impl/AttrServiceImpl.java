@@ -1,10 +1,11 @@
 package com.xha.gulimall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.NumberConstants;
+import com.xha.gulimall.common.enums.ProductEnums;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
@@ -47,17 +48,18 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params, Long catelogId) {
+    public PageUtils queryPage(Map<String, Object> params, String attrType, Long catelogId) {
 //        1.获取到检索字段
         String key = (String) params.get("key");
-        LambdaQueryWrapper<AttrEntity> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<AttrEntity> queryWrapper =
+                new LambdaQueryWrapper<>();
+        queryWrapper.eq(AttrEntity::getAttrType, attrType.equalsIgnoreCase("base") ? 1 : 0);
         IPage<AttrEntity> page;
 //        2.分页查询所有属性
         if (catelogId == 0 && StringUtils.isEmpty(key)) {
             page =
-                    this.page(new Query<AttrEntity>().getPage(params), new QueryWrapper<AttrEntity>());
+                    this.page(new Query<AttrEntity>().getPage(params), queryWrapper);
         } else if (catelogId == 0 && !StringUtils.isEmpty(key)) {
-            queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(AttrEntity::getAttrId, key)
                     .or()
                     .like(AttrEntity::getAttrName, key);
@@ -65,7 +67,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                     this.page(new Query<AttrEntity>().getPage(params), queryWrapper);
         } else {
 //         3.根据查询条件查询对应的分类的属性
-            queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(AttrEntity::getCatelogId, catelogId);
             if (!StringUtils.isEmpty(key)) {
 //             3.1检索字段可能查询属性分组的id或名字
@@ -100,8 +101,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             return attrVO;
         }).collect(Collectors.toList());
 
-        System.out.println(attrVOS);
-
         pageUtils.setList(attrVOS);
         return pageUtils;
     }
@@ -125,8 +124,22 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
 //        3.修改属性信息
         updateById(attrEntity);
-//        4.关联修改对应的属性-属性分组表
-        attrAttrgroupRelationDao.updateAttrGroup(attrEntity.getAttrId(), attrEntity.getAttrGroupId());
+//        4.级联更新对应的属性-属性分组表
+        if (attrEntity.getAttrType() == ProductEnums.ATTR_TYPE_BASE.getValue()) {
+//            4.1首先判断要修改的关联关系是否存在
+            if (!Objects.isNull(attrAttrgroupRelationService.getOne(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
+                    .eq(AttrAttrgroupRelationEntity::getAttrId, attr.getAttrId())))) {
+                LambdaUpdateWrapper<AttrAttrgroupRelationEntity> updateWrapper = new LambdaUpdateWrapper<>();
+                updateWrapper.set(AttrAttrgroupRelationEntity::getAttrGroupId, attrEntity.getAttrGroupId())
+                        .eq(AttrAttrgroupRelationEntity::getAttrId, attrEntity.getAttrId());
+                attrAttrgroupRelationService.update(updateWrapper);
+            } else {
+                AttrAttrgroupRelationEntity attrAttrgroupRelation = new AttrAttrgroupRelationEntity();
+                attrAttrgroupRelation.setAttrId(attr.getAttrId());
+                attrAttrgroupRelation.setAttrGroupId(attr.getAttrGroupId());
+                attrAttrgroupRelationService.save(attrAttrgroupRelation);
+            }
+        }
         return R.ok();
     }
 
@@ -137,11 +150,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 //        1.将AttrVO对象转换为AttrEntity对象
         BeanUtils.copyProperties(attr, attrEntity);
         save(attrEntity);
-//        2.向属性分组关联表中保存属性和属性分组的关联关系
-        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
-        attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId());
-        attrAttrgroupRelationEntity.setAttrId(attrEntity.getAttrId());
-        attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+//        2.只有基本属性有属性分组
+        if (attrEntity.getAttrType().equals(ProductEnums.ATTR_TYPE_BASE.getComment())) {
+//        3.向属性分组关联表中保存属性和属性分组的关联关系
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+            attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId());
+            attrAttrgroupRelationEntity.setAttrId(attrEntity.getAttrId());
+            attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+        }
     }
 
     /**
@@ -154,6 +170,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     public R getAttrDetailsInfo(Long attrId) {
 //        1.首先根据attrId查询到AttrEntity对象的详细信息
         AttrEntity attrEntity = getById(attrId);
+        if (Objects.isNull(attrEntity)) {
+            return R.error().put("msg", "当前属性不存在");
+        }
 //        2.将AttrEntity对象转换为AttrVo对象
         AttrVO attrVO = new AttrVO();
         BeanUtils.copyProperties(attrEntity, attrVO);
@@ -165,6 +184,13 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return R.ok().put("attr", attrVO);
     }
 
+
+    /**
+     * 删除attr
+     *
+     * @param attrIds attr id
+     * @return {@link R}
+     */
     @Override
     public R deleteAttr(Long[] attrIds) {
         List<Long> attrLists = Arrays.asList(attrIds);
@@ -173,10 +199,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 //            1.当属性存在时才进行删除
             if (!Objects.isNull(attr)) {
                 removeById(attrId);
-//            2.级联更新属性-属性分组表
-                LambdaQueryWrapper<AttrAttrgroupRelationEntity> queryWrapper = new LambdaQueryWrapper<>();
-                queryWrapper.eq(AttrAttrgroupRelationEntity::getAttrId,attrId);
-                attrAttrgroupRelationDao.delete(queryWrapper);
+//            2.只有当时基本属性的时候才会级联更新属性-属性分组表
+                if (attr.getAttrType().equals(ProductEnums.ATTR_TYPE_BASE.getComment())) {
+                    LambdaQueryWrapper<AttrAttrgroupRelationEntity> queryWrapper = new LambdaQueryWrapper<>();
+                    queryWrapper.eq(AttrAttrgroupRelationEntity::getAttrId, attrId);
+                    attrAttrgroupRelationDao.delete(queryWrapper);
+                }
             } else {
                 return R.ok().put("msg", "含有不存在的属性");
             }

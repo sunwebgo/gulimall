@@ -32,22 +32,6 @@ public class MemberController {
     @Resource
     private CouponFeignService couponFeignService;
 
-    @Value("${config.username}")
-    private String username;
-
-
-    @GetMapping("/coupons")
-    public R test(){
-        MemberEntity member = new MemberEntity();
-        member.setUsername("zhangsan");
-        Object coupons = couponFeignService.getMemberAllCoupon().get("coupons");
-        return R.ok().put("member:",member).put("coupons",coupons);
-    }
-
-    @GetMapping("/config")
-    public R test2(){
-        return R.ok(username);
-    }
 
     /**
      * 列表
