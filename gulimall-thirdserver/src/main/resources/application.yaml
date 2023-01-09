@@ -9,7 +9,7 @@ spring:
       discovery:
         server-addr: 192.168.26.160:8848
 
-#   \u914D\u7F6Eoss\u4FE1\u606F
+    #   \u914D\u7F6Eoss\u4FE1\u606F
     alicloud:
       access-key: LTAI5tMp71VYRJkBCsDL9vX7
       secret-key: TWrV2ypCXCVg8ckUu32r9VClqRKMGv

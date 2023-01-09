@@ -35,7 +35,7 @@
         <spring-cloud-version>Hoxton.SR12</spring-cloud-version>
         <spring-cloud-alibaba-version>2.2.8.RELEASE</spring-cloud-alibaba-version>
         <nacos-version>2.1.0.RELEASE</nacos-version>
-        <mybatis-plus-version>3.2.0</mybatis-plus-version>
+        <mybatis-plus-version>3.4.2</mybatis-plus-version>
         <lombok-version>1.18.18</lombok-version>
         <httpcore-version>4.4.12</httpcore-version>
         <common-long-version>2.6</common-long-version>
@@ -44,8 +44,10 @@
         <springboot-test-version>2.3.12.RELEASE</springboot-test-version>
         <openfeign-version>3.1.4</openfeign-version>
         <gateway-version>3.1.4</gateway-version>
+        <loadbalancer-version>3.1.4</loadbalancer-version>
         <aliyun-oss-version>2.2.0.RELEASE</aliyun-oss-version>
         <validation-version>2.7.3</validation-version>
+        <hutool-version>5.8.9</hutool-version>
     </properties>
 
     <dependencyManagement>
@@ -133,6 +135,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${springboot-test-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+                <version>${loadbalancer-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -2,6 +2,7 @@ package com.xha.gulimall.product.controller;
 
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;
 import com.xha.gulimall.product.entity.SpuInfoEntity;
 import com.xha.gulimall.product.service.SpuInfoService;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,12 @@ public class SpuInfoController {
     private SpuInfoService spuInfoService;
 
     /**
-     * 列表
+     * 根据条件查询spu信息
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("product:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryPageByConditation(params);
 
         return R.ok().put("page", page);
     }
@@ -48,14 +49,16 @@ public class SpuInfoController {
     }
 
     /**
-     * 保存
+     * 保存商品信息
+     *
+     * @param spuSaveDTO spu拯救dto
+     * @return {@link R}
      */
     @RequestMapping("/save")
-//    @RequiresPermissions("product:spuinfo:save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
-        return R.ok();
+//    @RequiresPermissions("product:skuinfo:save")
+    public R saveSpuInfo(@RequestBody SpuSaveDTO spuSaveDTO){
+//		skuInfoService.save(spuSaveVO);
+        return spuInfoService.saveSpuInfo(spuSaveDTO);
     }
 
     /**

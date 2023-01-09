@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Slf4j
 //指定要处理那些包下的异常
-@RestControllerAdvice(basePackages = "com.xha.gulimall.product.controller")
+@RestControllerAdvice(basePackages = "com.xha.gulimall.product")
 public class GlobalExceptionHandler {
 
     /**

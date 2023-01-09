@@ -3,6 +3,7 @@ package com.xha.gulimall.product.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @date 2022-12-29 16:39:19
  */
 @Data
+@Accessors(chain = true)
 @TableName("pms_product_attr_value")
 public class ProductAttrValueEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

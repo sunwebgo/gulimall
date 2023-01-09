@@ -1,8 +1,10 @@
 package com.xha.gulimall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
  * @date 2022-12-29 16:39:19
  */
 @Data
+@Accessors(chain = true)
 @TableName("pms_sku_info")
 public class SkuInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +25,7 @@ public class SkuInfoEntity implements Serializable {
 	/**
 	 * skuId
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long skuId;
 	/**
 	 * spuId
@@ -39,7 +42,7 @@ public class SkuInfoEntity implements Serializable {
 	/**
 	 * 所属分类id
 	 */
-	private Long catalogId;
+	private Long catelogId;
 	/**
 	 * 品牌id
 	 */

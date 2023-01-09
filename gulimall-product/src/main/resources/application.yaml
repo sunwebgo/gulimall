@@ -16,6 +16,11 @@ spring:
       discovery:
         server-addr: 192.168.26.160:8848
 
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
 # mybatis-plus配置
 mybatis-plus:
   #  mapper.xml文件位置
@@ -23,7 +28,7 @@ mybatis-plus:
   #  id自增
   global-config:
     db-config:
-#      主键自增
+      #      主键自增
       id-type: auto
       logic-delete-field: show_status # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
       logic-delete-value: 0 # 逻辑已删除值(默认为 1)
@@ -32,3 +37,4 @@ mybatis-plus:
 logging:
   level:
     com.xha.gulimall: debug
+
