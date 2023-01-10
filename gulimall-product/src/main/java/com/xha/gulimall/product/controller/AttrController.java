@@ -3,10 +3,12 @@ package com.xha.gulimall.product.controller;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.AttrDTO;
+import com.xha.gulimall.product.entity.ProductAttrValueEntity;
 import com.xha.gulimall.product.service.AttrService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 
@@ -74,6 +76,27 @@ public class AttrController {
 //    @RequiresPermissions("product:attr:delete")
     public R delete(@RequestBody Long[] attrIds) {
         return attrService.deleteAttr(attrIds);
+    }
+
+    /**
+     * 获取到squ的基本属性
+     *
+     * @return {@link R}
+     */
+    @RequestMapping("/base/listforspu/{spuId}")
+    public R getSpuAttrBySpuId(@PathVariable Long spuId){
+        return attrService.getSpuAttrBySpuId(spuId);
+    }
+
+    /**
+     * 修改spu的基本属性
+     *
+     * @param spuId spu id
+     * @return {@link R}
+     */
+    @RequestMapping("/update/{spuId}")
+    public R updateSpuAttrBySpuId(@PathVariable Long spuId, @RequestBody List<ProductAttrValueEntity> pavList){
+        return attrService.updateSpuAttrBySpuId(spuId,pavList);
     }
 
 

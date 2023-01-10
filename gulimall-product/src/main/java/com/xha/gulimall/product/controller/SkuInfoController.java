@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -46,10 +47,25 @@ public class SkuInfoController {
      */
     @RequestMapping("/info/{skuId}")
 //    @RequiresPermissions("product:skuinfo:info")
-    public R info(@PathVariable("skuId") Long skuId){
+    public R list(@PathVariable("skuId") Long skuId){
 		SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
 
         return R.ok().put("skuInfo", skuInfo);
+    }
+
+
+    /**
+     * 信息
+     */
+    @RequestMapping("/getskuname/{skuId}")
+//    @RequiresPermissions("product:skuinfo:info")
+    public String getSkuName(@PathVariable("skuId") Long skuId){
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+        if (!Objects.isNull(skuInfo)){
+            return skuInfo.getSkuName();
+        }else{
+            return "当前sku信息不存在";
+        }
     }
 
     /**

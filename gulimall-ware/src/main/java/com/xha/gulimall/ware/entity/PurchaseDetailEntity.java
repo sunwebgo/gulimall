@@ -3,6 +3,7 @@ package com.xha.gulimall.ware.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
  * @date 2022-12-29 16:47:49
  */
 @Data
+@Accessors(chain = true)
 @TableName("wms_purchase_detail")
 public class PurchaseDetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -24,13 +24,17 @@ public class PurchaseDetailController {
     @Resource
     private PurchaseDetailService purchaseDetailService;
 
+
     /**
-     * 列表
+     *查询采购需求
+     *
+     * @param params 参数个数
+     * @return {@link R}
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("ware:purchasedetail:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = purchaseDetailService.queryPage(params);
+        PageUtils page = purchaseDetailService.queryPageByConsition(params);
 
         return R.ok().put("page", page);
     }

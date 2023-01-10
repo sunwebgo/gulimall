@@ -24,3 +24,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+# 打印日志信息
+logging:
+  level:
+    com.xha: debug

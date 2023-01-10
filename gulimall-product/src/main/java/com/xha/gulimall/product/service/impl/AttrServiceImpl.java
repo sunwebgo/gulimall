@@ -9,15 +9,9 @@ import com.xha.gulimall.common.enums.ProductEnums;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
-import com.xha.gulimall.product.dao.AttrAttrgroupRelationDao;
-import com.xha.gulimall.product.dao.AttrDao;
-import com.xha.gulimall.product.dao.AttrGroupDao;
-import com.xha.gulimall.product.dao.CategoryDao;
+import com.xha.gulimall.product.dao.*;
 import com.xha.gulimall.product.dto.AttrDTO;
-import com.xha.gulimall.product.entity.AttrAttrgroupRelationEntity;
-import com.xha.gulimall.product.entity.AttrEntity;
-import com.xha.gulimall.product.entity.AttrGroupEntity;
-import com.xha.gulimall.product.entity.CategoryEntity;
+import com.xha.gulimall.product.entity.*;
 import com.xha.gulimall.product.service.AttrAttrgroupRelationService;
 import com.xha.gulimall.product.service.AttrService;
 import com.xha.gulimall.product.vo.AttrVO;
@@ -39,6 +33,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Resource
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    @Resource
+    private ProductAttrValueDao productAttrValueDao;
 
     @Resource
     private CategoryDao categoryDao;
@@ -229,5 +226,44 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return categoryIds;
     }
 
+    /**
+     * 获取到squ的基本属性
+     *
+     * @return {@link R}
+     */
+    @Override
+    public R getSpuAttrBySpuId(Long spuId) {
+        LambdaQueryWrapper<ProductAttrValueEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductAttrValueEntity::getSpuId, spuId);
+        List<ProductAttrValueEntity> productAttrValueLists = productAttrValueDao.selectList(queryWrapper);
+        if (Objects.isNull(productAttrValueLists)) {
+            return R.error().put("msg", "当前spu不存在");
+        }
+        return R.ok().put("data", productAttrValueLists);
+    }
+
+    /**
+     * 修改spu的基本属性
+     *
+     * @param spuId spu id
+     * @return {@link R}
+     */
+    @Override
+    public R updateSpuAttrBySpuId(Long spuId, List<ProductAttrValueEntity> pavList) {
+        List<ProductAttrValueEntity> productAttrValueEntityList = productAttrValueDao.selectList(new LambdaQueryWrapper<ProductAttrValueEntity>()
+                .eq(ProductAttrValueEntity::getSpuId, spuId));
+        if (productAttrValueEntityList.isEmpty()){
+            return R.error().put("msg","不存在当前spu的基本属性信息");
+        }
+        for (ProductAttrValueEntity pav : pavList) {
+            LambdaQueryWrapper<ProductAttrValueEntity> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper
+                    .eq(ProductAttrValueEntity::getSpuId, spuId)
+                    .eq(ProductAttrValueEntity::getAttrId, pav.getAttrId());
+            pav.setSpuId(spuId);
+            productAttrValueDao.update(pav, queryWrapper);
+        }
+        return R.ok();
+    }
 
 }

@@ -2,12 +2,15 @@ package com.xha.gulimall.ware.controller;
 
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.ware.dto.MergePurchaseDTO;
+import com.xha.gulimall.ware.dto.PurchaseDoneDTO;
 import com.xha.gulimall.ware.entity.PurchaseEntity;
 import com.xha.gulimall.ware.service.PurchaseService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,7 +28,57 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     /**
-     * 列表
+     * 查询未领取的采购单
+     *
+     * @param params 参数个数
+     * @return {@link R}
+     */
+    @RequestMapping("/unreceive/list")
+//    @RequiresPermissions("ware:purchase:list")
+    public R queryPageUnreceivePurchase(@RequestParam Map<String, Object> params){
+        PageUtils page = purchaseService.queryPageUnreceivePurchase(params);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 合并采购单
+     *
+     * @return {@link R}
+     */
+    @RequestMapping("/merge")
+    public R mergePurchaseTable(@RequestBody MergePurchaseDTO mergePurchaseDTO){
+       return purchaseService.mergePurchaseTable(mergePurchaseDTO);
+    }
+
+
+    /**
+     * 领取采购单
+     *
+     * @param ids id
+     * @return {@link R}
+     */
+    @RequestMapping("/received")
+    public R received(@RequestBody List<Long> ids){
+        return purchaseService.received(ids);
+    }
+
+    /**
+     * 完成采购
+     *
+     * @param purchaseDoneDTO 购买完成dto
+     * @return {@link R}
+     */
+    @PostMapping("/done")
+    public R finishPurchase(@RequestBody PurchaseDoneDTO purchaseDoneDTO){
+        return purchaseService.finishPurchase(purchaseDoneDTO);
+    }
+
+    /**
+     * 查询采购列表
+     *
+     * @param params 参数个数
+     * @return {@link R}
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("ware:purchase:list")

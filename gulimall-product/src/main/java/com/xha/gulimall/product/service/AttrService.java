@@ -5,7 +5,9 @@ import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.AttrDTO;
 import com.xha.gulimall.product.entity.AttrEntity;
+import com.xha.gulimall.product.entity.ProductAttrValueEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +28,9 @@ public interface AttrService extends IService<AttrEntity> {
     R getAttrDetailsInfo(Long attrId);
 
     R deleteAttr(Long[] attrIds);
+
+    R getSpuAttrBySpuId(Long spuId);
+
+    R updateSpuAttrBySpuId(Long spuId, List<ProductAttrValueEntity> pavList);
 }
 

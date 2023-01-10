@@ -12,8 +12,8 @@ spring:
     gateway:
       routes:
 
-        #          路由到gulimall-product模块
-        #          http://localhost:88/api/product/** -> http://localhost:10000/product/**
+        #          路由到gulimall-member模块
+        #          http://localhost:88/api/member/** -> http://localhost:10000/member/**
         - id: member_route
           uri: lb://gulimall-member
           predicates:
@@ -31,6 +31,15 @@ spring:
           filters:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
 
+        #          路由到gulimall-ware模块
+        #          http://localhost:88/api/ware/** -> http://localhost:10000/ware/**
+        - id: ware_route
+          uri: lb://gulimall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
+
 
         #           路由到gulimall-thirdserver 模块
         - id: thirdserver_route
@@ -39,6 +48,7 @@ spring:
             - Path=/api/thirdserver/**
           filters:
             - RewritePath=/api/thirdserver/?(?<segment>.*), /$\{segment}
+
 
         #           路由到renren-fast模块
         #           http://localhost:88/api/** -> http://localhost:8080/renren-fast/**

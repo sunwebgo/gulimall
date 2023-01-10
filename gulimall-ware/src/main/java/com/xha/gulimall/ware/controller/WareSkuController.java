@@ -24,13 +24,17 @@ public class WareSkuController {
     @Resource
     private WareSkuService wareSkuService;
 
+
     /**
-     * 列表
+     * 根据检索条件查询库存中的sku信息
+     *
+     * @param params 参数个数
+     * @return {@link R}
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("ware:waresku:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wareSkuService.queryPage(params);
+        PageUtils page = wareSkuService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }

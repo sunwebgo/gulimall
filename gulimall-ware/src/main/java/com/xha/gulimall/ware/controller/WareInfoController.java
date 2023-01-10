@@ -24,14 +24,17 @@ public class WareInfoController {
     @Resource
     private WareInfoService wareInfoService;
 
+
     /**
-     * 列表
+     * 根据条件查询仓库列表
+     *
+     * @param params 参数个数
+     * @return {@link R}
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("ware:wareinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wareInfoService.queryPage(params);
-
+        PageUtils page = wareInfoService.queryPageByCondition(params);
         return R.ok().put("page", page);
     }
 
