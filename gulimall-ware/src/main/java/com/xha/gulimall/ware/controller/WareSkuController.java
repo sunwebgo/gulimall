@@ -1,5 +1,7 @@
 package com.xha.gulimall.ware.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.xha.gulimall.common.to.SkuStockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
@@ -8,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -33,7 +38,7 @@ public class WareSkuController {
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("ware:waresku:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareSkuService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
@@ -45,8 +50,8 @@ public class WareSkuController {
      */
     @RequestMapping("/info/{id}")
 //    @RequiresPermissions("ware:waresku:info")
-    public R info(@PathVariable("id") Long id){
-		WareSkuEntity wareSku = wareSkuService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        WareSkuEntity wareSku = wareSkuService.getById(id);
 
         return R.ok().put("wareSku", wareSku);
     }
@@ -56,8 +61,8 @@ public class WareSkuController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("ware:waresku:save")
-    public R save(@RequestBody WareSkuEntity wareSku){
-		wareSkuService.save(wareSku);
+    public R save(@RequestBody WareSkuEntity wareSku) {
+        wareSkuService.save(wareSku);
 
         return R.ok();
     }
@@ -67,8 +72,8 @@ public class WareSkuController {
      */
     @RequestMapping("/update")
 //    @RequiresPermissions("ware:waresku:update")
-    public R update(@RequestBody WareSkuEntity wareSku){
-		wareSkuService.updateById(wareSku);
+    public R update(@RequestBody WareSkuEntity wareSku) {
+        wareSkuService.updateById(wareSku);
 
         return R.ok();
     }
@@ -78,10 +83,19 @@ public class WareSkuController {
      */
     @RequestMapping("/delete")
 //    @RequiresPermissions("ware:waresku:delete")
-    public R delete(@RequestBody Long[] ids){
-		wareSkuService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        wareSkuService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
 
+    /**
+     * 根据skuID列表查询当前sku是否有库存
+     *
+     * @return {@link Boolean}
+     */
+    @PostMapping("/hasstock")
+    public List<SkuStockTO> hasStock(@RequestBody List<Long> skuIds) {
+        return wareSkuService.hashStock(skuIds);
+    }
 }

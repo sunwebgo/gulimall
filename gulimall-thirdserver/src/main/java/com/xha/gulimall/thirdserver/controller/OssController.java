@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -36,12 +35,11 @@ public class OssController {
     private String dir;
 
 
-
     @RequestMapping("/oss/policy")
     public R policy() {
         // 填写Host地址，格式为https://bucketname.endpoint。
         //https://gulimall.oss-cn-shanghai.aliyuncs.com
-        String host = "https://"+ bucket + "." + endpoint;
+        String host = "https://" + bucket + "." + endpoint;
 
         // 设置上传回调URL，即回调服务器地址，用于处理应用服务器与OSS之间的通信。OSS会在文件上传完成后，把文件上传信息通过此回调URL发送给应用服务器。
         // String callbackUrl = "https://192.168.0.0:8888";
@@ -75,6 +73,6 @@ public class OssController {
             System.out.println(e.getMessage());
         }
 
-        return R.ok().put("data",respMap);
+        return R.ok().put("data", respMap);
     }
 }

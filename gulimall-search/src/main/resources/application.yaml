@@ -1,0 +1,12 @@
+server:
+  port: 12000
+
+# mysql配置
+spring:
+  application:
+    name: gulimall-search
+  #    nacos配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.26.160:8848

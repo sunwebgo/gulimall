@@ -22,5 +22,7 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     R saveSpuInfo(SpuSaveDTO spuSaveDTO);
 
     PageUtils queryPageByConditation(Map<String, Object> params);
+
+    R upProduct(Long spuId);
 }
 

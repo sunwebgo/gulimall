@@ -5,7 +5,9 @@ import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;
 import com.xha.gulimall.product.entity.SkuInfoEntity;
+import com.xha.gulimall.product.entity.SpuInfoEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +22,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils queryPageByCondition(Map<String, Object> params);
+
+    List<SkuInfoEntity> getSkuInfo(Long spuId);
 }
 

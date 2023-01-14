@@ -27,6 +27,16 @@ public class NumberConstants {
      */
     public static final int RANDOM_NUMBER_SIZE = 10;
 
+    /**
+     * 热度评分默认为0
+     */
+    public static final Long HOT_SCORE = 0L;
+
+    /**
+     * 库存为0
+     */
+    public static final Long HAS_STOCK = 0L;
+
 
 
 

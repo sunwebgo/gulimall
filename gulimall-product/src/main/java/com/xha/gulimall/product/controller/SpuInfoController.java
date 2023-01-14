@@ -19,6 +19,7 @@ import java.util.Map;
  * @email 2533694604@qq.com
  * @date 2022-12-29 16:39:19
  */
+
 @RestController
 @RequestMapping("product/spuinfo")
 public class SpuInfoController {
@@ -82,5 +83,16 @@ public class SpuInfoController {
 
         return R.ok();
     }
+
+    /**
+     * 上架商品
+     *
+     * @return {@link R}
+     */
+    @PostMapping("/up/{spuId}")
+    public R upProduct(@PathVariable("spuId") Long spuId){
+       return spuInfoService.upProduct(spuId);
+    }
+
 
 }

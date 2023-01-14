@@ -14,12 +14,18 @@ import com.xha.gulimall.product.service.SkuInfoService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 
 @Service("skuInfoService")
 public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> implements SkuInfoService {
+
+
+    @Resource
+    private SkuInfoDao skuInfoDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -78,5 +84,20 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return new PageUtils(page);
     }
 
-
+    /**
+     * 根据spuID得到sku信息
+     *
+     * @param spuId spu id
+     * @return {@link List}<{@link SkuInfoEntity}>
+     */
+    @Override
+    public List<SkuInfoEntity> getSkuInfo(Long spuId) {
+        LambdaQueryWrapper<SkuInfoEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SkuInfoEntity::getSpuId,spuId);
+        List<SkuInfoEntity> skuInfoList = skuInfoDao.selectList(queryWrapper);
+        if (skuInfoList.isEmpty()){
+            return null;
+        }
+        return skuInfoList;
+    }
 }
