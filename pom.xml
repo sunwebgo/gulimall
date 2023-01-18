@@ -49,6 +49,8 @@
         <aliyun-oss-version>2.2.0.RELEASE</aliyun-oss-version>
         <validation-version>2.7.3</validation-version>
         <hutool-version>5.8.9</hutool-version>
+        <themeleaf-version>2.3.12.RELEASE</themeleaf-version>
+        <redis-version>2.3.12.RELEASE</redis-version>
     </properties>
 
     <dependencyManagement>
@@ -147,7 +149,16 @@
                 <artifactId>spring-cloud-starter-loadbalancer</artifactId>
                 <version>${loadbalancer-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${themeleaf-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${redis-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>

@@ -42,7 +42,6 @@ public class ElasticSaveServiceImpl implements ElasticSaveService {
             indexRequest.id(product.getSkuId().toString());
 //            将上传的对象转换为JSON数据
             String upProductsString = new ObjectMapper().writeValueAsString(product);
-            System.out.println(upProductsString);
 //            指定source，并且为JSON类型
             indexRequest.source(upProductsString, XContentType.JSON);
             bulkRequest.add(indexRequest);
