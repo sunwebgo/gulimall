@@ -1,7 +1,6 @@
 package com.xha.gulimall.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-//import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.to.SkuReductionTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.coupon.entity.SkuFullReductionEntity;

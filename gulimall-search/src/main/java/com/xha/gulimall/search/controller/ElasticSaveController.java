@@ -1,6 +1,6 @@
 package com.xha.gulimall.search.controller;
 
-import com.xha.gulimall.common.to.es.SpuInfoES;
+import com.xha.gulimall.common.to.es.SkuInfoES;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.search.service.ElasticSaveService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class ElasticSaveController {
      * @return {@link R}
      */
     @PostMapping("/product")
-    public boolean upProduct(@RequestBody List<SpuInfoES> upProducts) throws IOException {
+    public boolean upProduct(@RequestBody List<SkuInfoES> upProducts) throws IOException {
         return elasticSaveService.upProduct(upProducts);
     }
 }

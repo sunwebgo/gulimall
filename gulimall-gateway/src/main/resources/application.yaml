@@ -9,6 +9,8 @@ spring:
       discovery:
         server-addr: 192.168.26.160:8848
 
+
+
     gateway:
       routes:
 
@@ -65,5 +67,11 @@ spring:
           predicates:
             - Host=gulimall.com
 
+
+        #        根据Host（gulimall.com）路由到gulimall-product
+        - id: gulimall_search_route
+          uri: lb://gulimall-search
+          predicates:
+            - Host=search.gulimall.com
 
 

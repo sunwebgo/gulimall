@@ -5,6 +5,7 @@ import com.xha.gulimall.ware.entity.PurchaseEntity;
 import com.xha.gulimall.ware.service.PurchaseService;
 import com.xha.gulimall.ware.service.WareSkuService;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ class GulimallWareApplicationTests {
 
     @Resource
     private WareSkuService wareSkuService;
+
 
     @Test
     void contextLoads() {

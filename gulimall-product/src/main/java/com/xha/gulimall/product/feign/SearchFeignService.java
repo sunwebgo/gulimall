@@ -1,6 +1,6 @@
 package com.xha.gulimall.product.feign;
 
-import com.xha.gulimall.common.to.es.SpuInfoES;
+import com.xha.gulimall.common.to.es.SkuInfoES;
 import com.xha.gulimall.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -19,5 +19,5 @@ public interface SearchFeignService {
      * @return {@link R}
      */
     @PostMapping("/search/save/product")
-    public boolean upProduct(@RequestBody List<SpuInfoES> upProducts);
+    public boolean upProduct(@RequestBody List<SkuInfoES> upProducts);
 }

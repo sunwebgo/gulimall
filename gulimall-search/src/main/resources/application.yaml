@@ -10,3 +10,12 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+  thymeleaf:
+    #    关闭thymeleaf缓存
+    cache: false
+    #    页面位置
+    prefix: classpath:/templates/
+  #    指定静态资源位置
+  resources:
+    static-locations: classpath:/static/
+

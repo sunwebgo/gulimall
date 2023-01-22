@@ -16,12 +16,14 @@ import com.xha.gulimall.product.service.CategoryBrandRelationService;
 import com.xha.gulimall.product.service.CategoryService;
 import com.xha.gulimall.product.vo.Catelog2VO;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -175,6 +177,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * @return {@link List}<{@link CategoryEntity}>
      */
     @Override
+    @Cacheable(value = "category",key = "'getFirstCategory'")
     public List<CategoryEntity> getFirstCategory() {
         LambdaQueryWrapper<CategoryEntity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(CategoryEntity::getParentCid, NumberConstants.TOP_LEVEL_CATEGORY);
@@ -189,6 +192,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      */
     @Override
     public Map<String, List<Catelog2VO>> getCatalogJson() {
+
 //        1.首先查询缓存
         String categoryList = stringRedisTemplate.opsForValue().get(RedisConstants.CATEGORY_TREE_CACHE);
 //        2.如果缓存未命中就查询数据库，重建缓存

@@ -11,7 +11,7 @@ import com.xha.gulimall.common.to.SkuReductionTO;
 import com.xha.gulimall.common.to.SkuStockTO;
 import com.xha.gulimall.common.to.SpuBoundTO;
 import com.xha.gulimall.common.to.es.AttrES;
-import com.xha.gulimall.common.to.es.SpuInfoES;
+import com.xha.gulimall.common.to.es.SkuInfoES;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
@@ -307,11 +307,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return skuInfo.getSkuId();
         }).collect(Collectors.toList());
 
-//        6.将sku对象转换为SpuInfoES对象
-        List<SpuInfoES> upProducts = skuInfoList.stream().map(sku -> {
-            SpuInfoES spuInfoES = new SpuInfoES();
-            BeanUtils.copyProperties(sku, spuInfoES);
-            spuInfoES.setSkuTitle(sku.getSkuName())
+//        6.将sku对象转换为SkuInfoES对象
+        List<SkuInfoES> upProducts = skuInfoList.stream().map(sku -> {
+            SkuInfoES SkuInfoES = new SkuInfoES();
+            BeanUtils.copyProperties(sku, SkuInfoES);
+            SkuInfoES.setSkuTitle(sku.getSkuName())
                     .setSkuPrice(sku.getPrice())
                     .setSkuImg(sku.getSkuDefaultImg())
                     .setHotScore(NumberConstants.HOT_SCORE);
@@ -330,22 +330,22 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             }
 
             Map<Long, Boolean> finalHasStock = hasStock;
-            spuInfoES.setHasStock(finalHasStock.get(sku.getSkuId()));
+            SkuInfoES.setHasStock(finalHasStock.get(sku.getSkuId()));
 
 //        8.查询品牌名和品牌图片
             BrandEntity brand = brandService.getById(sku.getBrandId());
             if (!Objects.isNull(brand)) {
-                spuInfoES.setBrandName(brand.getName()).setBrandImg(brand.getLogo());
+                SkuInfoES.setBrandName(brand.getName()).setBrandImg(brand.getLogo());
             }
 //        9.查询分类的名字
             CategoryEntity category = categoryService.getById(sku.getCatelogId());
             if (!Objects.isNull(category)) {
-                spuInfoES.setCatelogName(category.getName());
+                SkuInfoES.setCatelogName(category.getName());
             }
 
 //        10.设置基本属性列表
-            spuInfoES.setAttrs(attrESList);
-            return spuInfoES;
+            SkuInfoES.setAttrs(attrESList);
+            return SkuInfoES;
 
         }).collect(Collectors.toList());
 

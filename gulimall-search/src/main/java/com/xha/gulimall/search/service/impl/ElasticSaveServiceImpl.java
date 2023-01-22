@@ -1,7 +1,7 @@
 package com.xha.gulimall.search.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xha.gulimall.common.to.es.SpuInfoES;
+import com.xha.gulimall.common.to.es.SkuInfoES;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.search.config.ElasticsearchConfig;
 import com.xha.gulimall.search.constants.EsConstants;
@@ -32,9 +32,9 @@ public class ElasticSaveServiceImpl implements ElasticSaveService {
      * @return {@link R}
      */
     @Override
-    public boolean upProduct(List<SpuInfoES> upProducts) throws IOException {
+    public boolean upProduct(List<SkuInfoES> upProducts) throws IOException {
         BulkRequest bulkRequest = new BulkRequest();
-        for (SpuInfoES product : upProducts) {
+        for (SkuInfoES product : upProducts) {
             IndexRequest indexRequest = new IndexRequest();
 //            指定索引
             indexRequest.index(EsConstants.PRODUCT_INDEX);
