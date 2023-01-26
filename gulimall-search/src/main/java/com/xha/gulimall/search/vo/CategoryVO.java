@@ -1,8 +1,9 @@
-package com.xha.gulimall.search.dto;
+package com.xha.gulimall.search.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 类别dto
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO {
+public class CategoryVO {
     /**
      * 分类id
      */

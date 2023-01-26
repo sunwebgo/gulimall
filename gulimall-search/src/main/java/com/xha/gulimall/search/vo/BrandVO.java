@@ -1,8 +1,9 @@
-package com.xha.gulimall.search.dto;
+package com.xha.gulimall.search.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 品牌dto
@@ -13,7 +14,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BrandDTO {
+@Accessors(chain = true)
+public class BrandVO {
     private Long brandId;
 
     private String brandName;

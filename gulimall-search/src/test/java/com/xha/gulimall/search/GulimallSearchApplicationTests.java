@@ -3,6 +3,7 @@ package com.xha.gulimall.search;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xha.gulimall.search.config.ElasticsearchConfig;
+import com.xha.gulimall.search.constants.EsConstants;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.index.IndexRequest;
@@ -133,6 +134,15 @@ class GulimallSearchApplicationTests {
 
         Avg balanceAvgs = aggregations.get("balanceAvg");
         log.info("平均薪资：" + balanceAvgs.getValue());
+    }
+
+    @Test
+    public void test1(){
+        System.out.println("--------------");
+        int i = (int) Math.ceil(((double) 1 / EsConstants.PRODUCT_PAGESIZE));
+        System.out.println(i);
+        System.out.println("--------------");
+
     }
 
 }

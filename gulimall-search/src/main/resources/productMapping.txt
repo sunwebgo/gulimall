@@ -15,7 +15,7 @@ PUT /gulimall_product
       "skuPrice": {
         "type": "double"
       },
-      "skuImg": {
+      "skuDefaultImg": {
         "type": "keyword"
       },
       "saleCount": {

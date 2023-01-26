@@ -65,10 +65,10 @@ spring:
         - id: gulimall_host_route
           uri: lb://gulimall-product
           predicates:
-            - Host=gulimall.com
+            - Host=gulimall.com,item.gulimall.com
 
 
-        #        根据Host（gulimall.com）路由到gulimall-product
+        #        根据Host（search.gulimall.com）路由到gulimall-search
         - id: gulimall_search_route
           uri: lb://gulimall-search
           predicates:

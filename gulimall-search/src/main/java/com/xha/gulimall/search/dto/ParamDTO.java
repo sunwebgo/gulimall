@@ -20,7 +20,7 @@ public class    ParamDTO {
     /**
      * 检索关键字
      */
-    private String keyword;
+        private String keyword;
 
     /**
      * 三级分类id
@@ -49,7 +49,7 @@ public class    ParamDTO {
      * 是否有货
      * hasStock 0/1(是否有货)
      */
-    private Integer hasStock;
+    private Integer hasStock = 1;
 
     /**
      * 价格区间
@@ -60,6 +60,11 @@ public class    ParamDTO {
      * 页码
      */
     private Integer pageNum = 1;
+
+    /**
+     * 查询条件
+     */
+    private String queryString;
 
 
 }
