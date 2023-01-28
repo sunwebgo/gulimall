@@ -767,7 +767,8 @@
         </div>
         <div class="JD_ipone_one c">
             <!-- 遍历面包屑功能 -->
-            <a th:href="${nav.link}" th:each="nav:${searchResult.navs}"><span th:text="${nav.navName}"></span>：<span th:text="${nav.navValue}"></span> x</a>
+            <a th:href="${nav.link}" th:each="nav:${searchResult.navs}"><span th:text="${nav.navName}"></span>：<span
+                    th:text="${nav.navValue}"></span> x</a>
         </div>
         <i><img src="/static/search/image/right-@1x.png" alt=""></i>
     </div>
@@ -1058,13 +1059,13 @@
                                th:attr="style=${(!#strings.isEmpty(p) && #strings.startsWith(p,'saleCount')) ?
                                    'color: #fff; border-color: #e4393c; background: #e4393c;':'color: #333; border-color: #ccc; background: #fff;' }">
                                 销量[[${(!#strings.isEmpty(p) && #strings.startsWith(p,'saleCount') &&
-                                #strings.endsWith(p,'desc'))?'↓':'↑'  }]]</a>
+                                #strings.endsWith(p,'desc'))?'↓':'↑' }]]</a>
                             <a sort="skuPrice"
                                th:class="${(!#strings.isEmpty(p) && #strings.startsWith(p,'skuPrice') && #strings.endsWith(p,'desc')) ? 'sort_a desc' : 'sort_a'}"
                                th:attr="style=${(!#strings.isEmpty(p) && #strings.startsWith(p,'skuPrice')) ?
                                    'color: #fff; border-color: #e4393c; background: #e4393c;':'color: #333; border-color: #ccc; background: #fff;' }">
                                 价格[[${(!#strings.isEmpty(p) && #strings.startsWith(p,'skuPrice') &&
-                                #strings.endsWith(p,'desc'))?'↓':'↑'  }]]</a>
+                                #strings.endsWith(p,'desc'))?'↓':'↑' }]]</a>
                             <a sort="hotScore" class="sort_a">评论分</a>
                             <a sort="hotScore" class="sort_a">上架时间</a>
                             <input id="skuPriceFrom" type="number"
@@ -1184,7 +1185,8 @@
                                 </li>
                                 <li>
                                     <a th:with="check = ${param.hasStock}">
-                                        <input id="showHasStock" type="checkbox" th:checked="${#strings.equals(check,'1')?true:false}">
+                                        <input id="showHasStock" type="checkbox"
+                                               th:checked="${#strings.equals(check,'1')?true:false}">
                                         仅显示有货
                                     </a>
                                 </li>
@@ -1206,8 +1208,8 @@
                                 <a href="/static/search/#">关注</a>
                             </div>
                             <p class="da">
-                                <a href="/static/search/#">
-                                    <img th:src="${product.skuImg}" class="dim">
+                                <a th:href="|http://item.gulimall.com/${product.skuId}.html|">
+                                    <img class="dim" th:src="${product.skuImg}">
                                 </a>
                             </p>
                             <ul class="tab_im">
@@ -2025,7 +2027,7 @@
     $("#showHasStock").click(function () {
         let checked = $(this).prop("checked");
         console.log(checked);
-        location.href=replaceParamVal(location.href,"hasStock",checked?1:0,false)
+        location.href = replaceParamVal(location.href, "hasStock", checked ? 1 : 0, false)
     })
 
     <!--价格区间-->

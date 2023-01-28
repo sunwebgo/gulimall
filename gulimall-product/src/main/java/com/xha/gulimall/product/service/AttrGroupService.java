@@ -5,7 +5,9 @@ import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.AttrGroupDTO;
 import com.xha.gulimall.product.entity.AttrGroupEntity;
+import com.xha.gulimall.product.vo.SpuItemAttrGroupVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,5 +33,8 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     R addAttrAndAttrGroupRelation(AttrGroupDTO[] attrGroupDTO);
 
     R getCategoryAttrGroup(Long catelogId);
+
+    List<SpuItemAttrGroupVO> getAttrGroupWithAttrsBySpuId(Long spuId);
+
 }
 

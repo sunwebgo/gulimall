@@ -315,7 +315,7 @@ public class MallSearchServiceImpl implements MallSearchService {
             searchResponseVO.setNavs(navVOS);
         }
 
-
+        System.out.println(searchResponseVO);
         return searchResponseVO;
     }
 }

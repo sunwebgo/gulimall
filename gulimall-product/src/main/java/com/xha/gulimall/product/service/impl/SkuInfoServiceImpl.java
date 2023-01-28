@@ -8,9 +8,13 @@ import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.product.dao.SkuInfoDao;
+import com.xha.gulimall.product.entity.SkuImagesEntity;
 import com.xha.gulimall.product.entity.SkuInfoEntity;
-import com.xha.gulimall.product.entity.SpuInfoEntity;
-import com.xha.gulimall.product.service.SkuInfoService;
+import com.xha.gulimall.product.entity.SpuInfoDescEntity;
+import com.xha.gulimall.product.service.*;
+import com.xha.gulimall.product.vo.SkuItemSaleAttrVO;
+import com.xha.gulimall.product.vo.SkuItemVO;
+import com.xha.gulimall.product.vo.SpuItemAttrGroupVO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,6 +22,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 @Service("skuInfoService")
@@ -26,6 +33,21 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
     @Resource
     private SkuInfoDao skuInfoDao;
+
+    @Resource
+    private SkuImagesService skuImagesService;
+
+    @Resource
+    private SpuInfoDescService spuInfoDescService;
+
+    @Resource
+    private AttrGroupService attrGroupService;
+
+    @Resource
+    private SkuSaleAttrValueService skuSaleAttrValueService;
+
+    @Resource
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -93,11 +115,65 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Override
     public List<SkuInfoEntity> getSkuInfo(Long spuId) {
         LambdaQueryWrapper<SkuInfoEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SkuInfoEntity::getSpuId,spuId);
+        queryWrapper.eq(SkuInfoEntity::getSpuId, spuId);
         List<SkuInfoEntity> skuInfoList = skuInfoDao.selectList(queryWrapper);
-        if (skuInfoList.isEmpty()){
+        if (skuInfoList.isEmpty()) {
             return null;
         }
         return skuInfoList;
+    }
+
+
+    /**
+     * 根据skuID获取到sku的详细信息
+     *
+     * @param skuId sku id
+     * @return {@link SkuItemVO}
+     */
+    @Override
+    public SkuItemVO getSkuItemInfo(Long skuId) throws ExecutionException, InterruptedException {
+        SkuItemVO skuItemVO = new SkuItemVO();
+
+        CompletableFuture<SkuInfoEntity> infoFuture = CompletableFuture.supplyAsync(() -> {
+//        1.获取到sku的基本信息 pms_sku_info
+            SkuInfoEntity skuInfo = getById(skuId);
+            skuItemVO.setSkuInfoEntity(skuInfo);
+            return skuInfo;
+        }, threadPoolExecutor);
+
+//        2.以下三个任务都依赖于infoFuture的执行结果
+
+//        3.获取spu的介绍
+        CompletableFuture<Void> descFuture = infoFuture.thenAcceptAsync((result) -> {
+            SpuInfoDescEntity spuInfoDescEntity = spuInfoDescService.getById(result.getSpuId());
+            skuItemVO.setDesp(spuInfoDescEntity);
+            }, threadPoolExecutor);
+
+//        4.获取spu的基本属性信息
+        CompletableFuture<Void> baseAttrFuture = infoFuture.thenAcceptAsync((result) -> {
+            List<SpuItemAttrGroupVO> spuItemAttrGroupVOS = attrGroupService
+                    .getAttrGroupWithAttrsBySpuId(result.getSpuId());
+            skuItemVO.setGroupVos(spuItemAttrGroupVOS);
+        }, threadPoolExecutor);
+
+//        5.获取到spu的销售属性组合
+        CompletableFuture<Void> saleAttrFuture = infoFuture.thenAcceptAsync((result) -> {
+            List<SkuItemSaleAttrVO> saleAttrVOS =
+                    skuSaleAttrValueService.getSaleAttrBySpuId(result.getSpuId());
+            skuItemVO.setSaleAttr(saleAttrVOS);
+        }, threadPoolExecutor);
+
+
+//        6.获取到sku的图片信息 pms_sku_images
+        CompletableFuture<Void> imageFuture = CompletableFuture.runAsync(() -> {
+            List<SkuImagesEntity> skuImageInfo = skuImagesService.getSkuImageInfo(skuId);
+            skuItemVO.setImages(skuImageInfo);
+        });
+
+//        等待所有任务完成
+        CompletableFuture
+                .allOf(descFuture,baseAttrFuture,saleAttrFuture,imageFuture)
+                .get();
+        return skuItemVO;
     }
 }

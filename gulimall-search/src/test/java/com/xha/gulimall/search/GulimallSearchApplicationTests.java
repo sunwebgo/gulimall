@@ -39,6 +39,8 @@ class GulimallSearchApplicationTests {
     private RestHighLevelClient rhlc;
 
 
+
+
     @Data
     class User {
         private String username;
@@ -138,10 +140,7 @@ class GulimallSearchApplicationTests {
 
     @Test
     public void test1(){
-        System.out.println("--------------");
-        int i = (int) Math.ceil(((double) 1 / EsConstants.PRODUCT_PAGESIZE));
-        System.out.println(i);
-        System.out.println("--------------");
+
 
     }
 

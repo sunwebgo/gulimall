@@ -8,6 +8,7 @@ import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.product.dao.SpuInfoDescDao;
 import com.xha.gulimall.product.entity.SpuInfoDescEntity;
 import com.xha.gulimall.product.service.SpuInfoDescService;
+import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -25,5 +26,6 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoD
 
         return new PageUtils(page);
     }
+
 
 }

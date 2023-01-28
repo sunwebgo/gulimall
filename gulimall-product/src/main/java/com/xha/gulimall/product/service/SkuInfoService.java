@@ -6,9 +6,11 @@ import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;
 import com.xha.gulimall.product.entity.SkuInfoEntity;
 import com.xha.gulimall.product.entity.SpuInfoEntity;
+import com.xha.gulimall.product.vo.SkuItemVO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * sku信息
@@ -24,5 +26,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     PageUtils queryPageByCondition(Map<String, Object> params);
 
     List<SkuInfoEntity> getSkuInfo(Long spuId);
+
+    SkuItemVO getSkuItemInfo(Long skuId) throws ExecutionException, InterruptedException;
 }
 

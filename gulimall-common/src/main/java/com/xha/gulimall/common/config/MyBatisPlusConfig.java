@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * mybatis-plus分页插件配置
+ */
 @Configuration
 public class MyBatisPlusConfig {
     @Bean

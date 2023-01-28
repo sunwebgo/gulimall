@@ -17,19 +17,20 @@ import com.xha.gulimall.product.dto.AttrGroupDTO;
 import com.xha.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.xha.gulimall.product.entity.AttrEntity;
 import com.xha.gulimall.product.entity.AttrGroupEntity;
+import com.xha.gulimall.product.entity.SpuInfoEntity;
 import com.xha.gulimall.product.service.AttrAttrgroupRelationService;
 import com.xha.gulimall.product.service.AttrGroupService;
 import com.xha.gulimall.product.service.AttrService;
+import com.xha.gulimall.product.service.SpuInfoService;
 import com.xha.gulimall.product.vo.AttrGroupVO;
+import com.xha.gulimall.product.vo.SpuBaseAttrVO;
+import com.xha.gulimall.product.vo.SpuItemAttrGroupVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -51,6 +52,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Resource
     private AttrService attrService;
+
+    @Resource
+    private SpuInfoService spuInfoService;
 
     /**
      * 获取分组属性分组
@@ -164,7 +168,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             //        2.将当前属性的属性分组id置为空
             AttrEntity attr = attrService.getById(relation.getAttrId());
             attrService.update(new LambdaUpdateWrapper<AttrEntity>()
-                    .set(AttrEntity::getAttrGroupId,null).eq(AttrEntity::getAttrId,attr.getAttrId()));
+                    .set(AttrEntity::getAttrGroupId, null).eq(AttrEntity::getAttrId, attr.getAttrId()));
             attrAttrgroupRelationDao.delete(queryWrapper);
 
         }
@@ -252,11 +256,11 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     public R getCategoryAttrGroup(Long catelogId) {
 //        1.根据分类id查询到对应的属性分组列表
         LambdaQueryWrapper<AttrGroupEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(AttrGroupEntity::getCatelogId,catelogId);
+        queryWrapper.eq(AttrGroupEntity::getCatelogId, catelogId);
         List<AttrGroupEntity> attrGroupLists = attrGroupDao.selectList(queryWrapper);
 //        2.判断该分类是否存在对应的属性分组
-        if (attrGroupLists.size() == NumberConstants.ARRAY_SIZE_ZERO){
-            return R.error().put("msg","当前分类不存在属性分组");
+        if (attrGroupLists.size() == NumberConstants.ARRAY_SIZE_ZERO) {
+            return R.error().put("msg", "当前分类不存在属性分组");
         }
 //        3.将AttrGroupEntity对象转换为对应的AttrGroupVO对象
         List<AttrGroupVO> attrGroupVOList = attrGroupLists.stream().map((attrGroupList) -> {
@@ -268,14 +272,54 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 //        4.查询属性分组对应的属性
         attrGroupVOList = attrGroupVOList.stream().map((attrGroupVO -> {
             LambdaQueryWrapper<AttrEntity> queryAttrWrapper = new LambdaQueryWrapper<>();
-            queryAttrWrapper.eq(AttrEntity::getAttrGroupId,attrGroupVO.getAttrGroupId());
+            queryAttrWrapper.eq(AttrEntity::getAttrGroupId, attrGroupVO.getAttrGroupId());
             List<AttrEntity> attrList = attrDao.selectList(queryAttrWrapper);
             attrGroupVO.setAttrs(attrList);
             return attrGroupVO;
         })).collect(Collectors.toList());
 
 
-        return R.ok().put("data",attrGroupVOList);
+        return R.ok().put("data", attrGroupVOList);
+    }
+
+    /**
+     * 获取到spu的基本属性信息
+     *
+     * @param spuId spu id
+     * @return {@link List}<{@link SpuItemAttrGroupVO}>
+     */
+    @Override
+    public List<SpuItemAttrGroupVO> getAttrGroupWithAttrsBySpuId(Long spuId) {
+
+//        1.首先根据spuID获取到Spu信息
+        SpuInfoEntity spuInfoEntity = spuInfoService.getById(spuId);
+//        2.获取到当前spu的categoryID
+        Long categoryId = spuInfoEntity.getCatelogId();
+//        3.根据categoryID获取到属性分组列表
+        LambdaQueryWrapper<AttrGroupEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(AttrGroupEntity::getCatelogId, categoryId);
+        List<AttrGroupEntity> attrGroupList = attrGroupDao.selectList(queryWrapper);
+
+//        4.查询属性分组下的所有属性
+        List<AttrEntity> attrList = attrDao.selectList(null);
+        List<SpuItemAttrGroupVO> spuItemAttrGroupVOList = attrGroupList.stream().map(attrGroup -> {
+            SpuItemAttrGroupVO spuItemAttrGroupVO = new SpuItemAttrGroupVO();
+            List<SpuBaseAttrVO> spuBaseAttrVO = new ArrayList<>();
+//            4.1设置属性分组名
+            spuItemAttrGroupVO.setGroupName(attrGroup.getAttrGroupName());
+//            4.2根据当前属性分组获取到分组内的所有属性
+            for (AttrEntity attr : attrList) {
+                if (attr.getAttrGroupId() == attrGroup.getAttrGroupId()) {
+                    spuBaseAttrVO.add(new SpuBaseAttrVO()
+                            .setAttrName(attr.getAttrName())
+                            .setAttrValue(attr.getValueSelect()));
+                }
+            }
+            spuItemAttrGroupVO.setAttrs(spuBaseAttrVO);
+            return spuItemAttrGroupVO;
+        }).collect(Collectors.toList());
+
+        return spuItemAttrGroupVOList;
     }
 
 }
