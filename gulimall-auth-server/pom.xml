@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.xha</groupId>
-    <artifactId>gulimall-thirdserver</artifactId>
+    <artifactId>gulimall-auth-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gulimall-thirdserver</name>
+    <name>gulimall-auth-server</name>
 
     <parent>
         <artifactId>gulimall</artifactId>
@@ -26,15 +26,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alicloud-oss</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
+
 
 </project>

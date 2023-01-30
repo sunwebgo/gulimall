@@ -1,0 +1,35 @@
+server:
+  port: 20000
+
+
+spring:
+  application:
+    name: gulimall-auth-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.26.160:8848
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+  resources:
+    static-locations: classpath:/static/
+
+  redis:
+    host: 192.168.26.160
+    port: 6379
+  # spring-cache指定缓存类型
+  cache:
+    type: redis
+    #    指定缓存的过期时间
+    redis:
+      time-to-live: 3600000
+      #      如果指定了前缀，就是用配置文件中的前缀，如果没有配置前缀就是用缓存名作为前缀
+      use-key-prefix: true
+      #      是否缓存空值，防止缓存穿透
+      cache-null-values: true
+
+logging:
+  level:
+    com.xha.gulimall: debug
+

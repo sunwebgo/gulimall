@@ -8,8 +8,7 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
-
-    #   \u914D\u7F6Eoss\u4FE1\u606F
+#   OSS对象存储服务
     alicloud:
       access-key: LTAI5tMp71VYRJkBCsDL9vX7
       secret-key: TWrV2ypCXCVg8ckUu32r9VClqRKMGv
@@ -17,3 +16,14 @@ spring:
         endpoint: oss-cn-shanghai.aliyuncs.com
         bucket: imagebed-xuhuaiang
         dir: gulimall
+#   短信服务
+      sms:
+        host: https://gyytz.market.alicloudapi.com
+        path: /sms/smsSend
+        appcode: a3b542043c8e4f4c8508249cf85e45f0
+        smsSignId: 2e65b1bb3d054466b82f0c9d125465e2
+        templateIdl: 53e616d338974cba905bd929f4d056ca
+        minute: 10
+
+
+

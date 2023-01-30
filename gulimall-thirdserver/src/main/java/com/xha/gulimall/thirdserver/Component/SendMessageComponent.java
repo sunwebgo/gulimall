@@ -1,39 +1,40 @@
-package com.xha.gulimall.thirdserver;
+package com.xha.gulimall.thirdserver.Component;
 
-import com.xha.gulimall.thirdserver.Component.SendMessageComponent;
 import com.xha.gulimall.thirdserver.util.HttpUtils;
+import lombok.Data;
 import org.apache.http.HttpResponse;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest
-class GulimallThirdserverApplicationTests {
+@Data
+@Component
+@ConfigurationProperties(prefix = "spring.cloud.alicloud.sms")
+public class SendMessageComponent {
+    private String host;
 
-    @Resource
-    private SendMessageComponent sendMessageComponent;
+    private String path;
 
-    @Test
-    void contextLoads() {
-    }
+    private String appcode;
 
-    @Test
-    public void testSendMessage(String phone,String code) {
-        String host = "https://gyytz.market.alicloudapi.com";
-        String path = "/sms/smsSend";
+    private String smsSignId;
+
+    private String templateIdl;
+
+    private String minute;
+
+    public void sendMessage(String phone,String captcha) {
         String method = "POST";
-        String appcode = "a3b542043c8e4f4c8508249cf85e45f0";
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
-        querys.put("mobile", "13783239983");
-        querys.put("param", "**code**:12345,**minute**:5");
-        querys.put("smsSignId", "2e65b1bb3d054466b82f0c9d125465e2");
-        querys.put("templateId", "908e94ccf08b4476ba6c876d13f084ad");
+        querys.put("mobile", phone);
+        querys.put("param", "**code**:" + captcha +",**minute**:" + minute);
+        querys.put("smsSignId", smsSignId);
+        querys.put("templateId", templateIdl);
         Map<String, String> bodys = new HashMap<String, String>();
 
 
@@ -55,10 +56,4 @@ class GulimallThirdserverApplicationTests {
             e.printStackTrace();
         }
     }
-
-    @Test
-    public void sendMessage(){
-        sendMessageComponent.sendMessage("19839379921","521521");
-    }
-
 }
