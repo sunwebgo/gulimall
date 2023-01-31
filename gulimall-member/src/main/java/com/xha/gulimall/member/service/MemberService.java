@@ -1,6 +1,7 @@
 package com.xha.gulimall.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xha.gulimall.common.to.GiteeResponseTO;
 import com.xha.gulimall.common.to.UserLoginTO;
 import com.xha.gulimall.common.to.UserRegisterTO;
 import com.xha.gulimall.common.utils.PageUtils;
@@ -29,5 +30,7 @@ public interface MemberService extends IService<MemberEntity> {
     void checkUsernameUnique(String username) throws UsernameExitException;
 
     R userLogin(UserLoginTO userLoginTO);
+
+    MemberEntity userOAuthGiteeLogin(GiteeResponseTO giteeResponseTO);
 }
 

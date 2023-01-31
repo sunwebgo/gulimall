@@ -37,6 +37,11 @@ public class NumberConstants {
      */
     public static final Long HAS_STOCK = 0L;
 
+    /**
+     * 访问令牌到期时间(24小时)
+     */
+    public static final Integer ACCESS_TOKEN_EXPIRE_TIME = 86400;
+
 
 
 

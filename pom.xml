@@ -54,6 +54,8 @@
         <redis-version>2.3.12.RELEASE</redis-version>
         <redisson-version>3.17.6</redisson-version>
         <spring-cache-version>2.3.12.RELEASE</spring-cache-version>
+        <httpclient-version>4.2.1</httpclient-version>
+        <httpcore-version>4.2.1</httpcore-version>
     </properties>
 
     <dependencyManagement>
@@ -171,6 +173,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-cache</artifactId>
                 <version>${spring-cache-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

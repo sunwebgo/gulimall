@@ -14,6 +14,9 @@ spring:
     url: jdbc:mysql://192.168.26.160:3306/gulimall_ums?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
     username: root
     password: xu.123456
+  redis:
+    host: 192.168.26.160
+    port: 6379
 
 # mybatis-plus配置
 mybatis-plus:
@@ -26,3 +29,13 @@ mybatis-plus:
 logging:
   level:
     com.xha.gulimall: debug
+
+
+oauth:
+  gitee:
+    host: https://gitee.com
+    path: /api/v5/user
+    grant_type: authorization_code
+    client_id: 6cc5fdfed2ad10ba2e004282103ded8b7ef7be5f734691391f5a5868362a4bd7
+    client_secret: e6280cc73ae2d3a102bbab27309b11491ca1b0e30d227aa44ac38bf1c72febb7
+    redirect_uri: http://auth.gulimall.com/oauth/gitee

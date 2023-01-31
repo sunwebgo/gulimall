@@ -1,6 +1,6 @@
 package com.xha.gulimall.thirdserver;
 
-import com.xha.gulimall.thirdserver.Component.SendMessageComponent;
+import com.xha.gulimall.thirdserver.component.SendMessageComponent;
 import com.xha.gulimall.thirdserver.util.HttpUtils;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;

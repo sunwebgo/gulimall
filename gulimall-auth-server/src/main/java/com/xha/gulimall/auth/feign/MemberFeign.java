@@ -1,5 +1,6 @@
 package com.xha.gulimall.auth.feign;
 
+import com.xha.gulimall.common.to.GiteeResponseTO;
 import com.xha.gulimall.common.to.UserLoginTO;
 import com.xha.gulimall.common.to.UserRegisterTO;
 import com.xha.gulimall.common.utils.R;
@@ -27,4 +28,12 @@ public interface MemberFeign {
      */
     @PostMapping("/member/member/login")
     public R userLogin(@RequestBody UserLoginTO userLoginTO);
+
+    /**
+     * Gitee第三方用户登录
+     *
+     * @return {@link R}
+     */
+    @PostMapping("/member/member/oauth/gitee/login")
+    public R userOAuthGiteeLogin(@RequestBody GiteeResponseTO giteeResponseTO);
 }

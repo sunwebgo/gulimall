@@ -1,7 +1,7 @@
 package com.xha.gulimall.thirdserver.controller;
 
 import com.xha.gulimall.common.utils.R;
-import com.xha.gulimall.thirdserver.Component.SendMessageComponent;
+import com.xha.gulimall.thirdserver.component.SendMessageComponent;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

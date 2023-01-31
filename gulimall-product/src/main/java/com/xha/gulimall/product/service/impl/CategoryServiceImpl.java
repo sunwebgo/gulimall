@@ -5,9 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xha.gulimall.common.constants.NumberConstants;
-import com.xha.gulimall.common.constants.RedisConstants;
+import com.xha.gulimall.common.constants.CacheConstants;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.product.dao.CategoryDao;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -194,13 +192,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public Map<String, List<Catelog2VO>> getCatalogJson() {
 
 //        1.首先查询缓存
-        String categoryList = stringRedisTemplate.opsForValue().get(RedisConstants.CATEGORY_TREE_CACHE);
+        String categoryList = stringRedisTemplate.opsForValue().get(CacheConstants.CATEGORY_TREE_CACHE);
 //        2.如果缓存未命中就查询数据库，重建缓存
         if (StringUtils.isEmpty(categoryList)){
 //            2.1查询数据库
             Map<String, List<Catelog2VO>> categoryByPermanent = getCategoryByPermanent();
 //            2.2重建缓存
-            stringRedisTemplate.opsForValue().set(RedisConstants.CATEGORY_TREE_CACHE,
+            stringRedisTemplate.opsForValue().set(CacheConstants.CATEGORY_TREE_CACHE,
                     JSONUtil.toJsonStr(categoryByPermanent));
             return categoryByPermanent;
         }

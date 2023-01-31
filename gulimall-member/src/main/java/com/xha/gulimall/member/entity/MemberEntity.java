@@ -77,7 +77,7 @@ public class MemberEntity implements Serializable {
 	/**
 	 * 用户来源
 	 */
-	private Integer sourceType;
+	private String sourceType;
 	/**
 	 * 积分
 	 */
@@ -94,5 +94,10 @@ public class MemberEntity implements Serializable {
 	 * 注册时间
 	 */
 	private Date createTime;
+
+	/**
+	 * 第三方id
+	 */
+	private String thirdId;
 
 }

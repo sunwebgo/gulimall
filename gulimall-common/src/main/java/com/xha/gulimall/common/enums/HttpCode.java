@@ -25,6 +25,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum HttpCode {
+    STATUS_NORMAL(200,"请求成功"),
     UNKNOW_EXCEPTION(10000, "系统未知异常"),
     VALID_EXCEPTION(10001, "参数格式校验失败"),
     CHPRCHE_EXCEPTION(10002, "发送验证码频率过高，请稍后再试"),
@@ -32,6 +33,7 @@ public enum HttpCode {
     PHONE_EXIST_EXCEPTION(15002, "当前手机号已经注册"),
     USER_NOT_EXIST_EXCEPTION(15003, "当前用户不存在"),
     PASSWORD_EXCEPTION(15004, "密码错误"),
+    OAUTH_LOGIN_EXCEPTION(15005, "授权登录异常"),
     DATA_EXCEPTION(16001,"数据不能为空");
 
     private int code;

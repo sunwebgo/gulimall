@@ -1,4 +1,4 @@
-package com.xha.gulimall.thirdserver.Component;
+package com.xha.gulimall.thirdserver.component;
 
 import com.xha.gulimall.thirdserver.util.HttpUtils;
 import lombok.Data;
