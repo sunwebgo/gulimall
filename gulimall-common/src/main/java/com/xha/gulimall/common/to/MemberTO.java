@@ -3,10 +3,11 @@ package com.xha.gulimall.common.to;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class MemberTO {
+public class MemberTO implements Serializable {
 
     /**
      * id

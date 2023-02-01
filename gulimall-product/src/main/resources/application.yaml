@@ -15,7 +15,6 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
-
   thymeleaf:
     #    关闭thymeleaf缓存
     cache: false
@@ -38,6 +37,8 @@ spring:
       use-key-prefix: true
       #      是否缓存空值，防止缓存穿透
       cache-null-values: true
+  session:
+    store-type: redis
 
 
 # mybatis-plus配置

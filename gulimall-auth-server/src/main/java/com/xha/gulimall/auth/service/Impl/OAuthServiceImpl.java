@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.TypeReference;
 import com.xha.gulimall.auth.feign.MemberFeign;
 import com.xha.gulimall.auth.service.OAuthService;
+import com.xha.gulimall.common.constants.CommonConstants;
 import com.xha.gulimall.common.enums.HttpCode;
 import com.xha.gulimall.common.to.GiteeResponseTO;
 import com.xha.gulimall.common.to.MemberTO;
@@ -16,6 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +49,7 @@ public class OAuthServiceImpl implements OAuthService {
      * @return {@link String}
      */
     @Override
-    public String giteeOAuth(String code) {
+    public String giteeOAuth(String code, HttpSession session) {
         Map<String, String> querys = new HashMap<>();
         querys.put("grant_type", grant_type);
         querys.put("code", code);
@@ -67,11 +69,10 @@ public class OAuthServiceImpl implements OAuthService {
 //            5.调用member服务，用户注册或者登录
                 R oauthResult = memberFeign.userOAuthGiteeLogin(giteeResponseTO);
                 if (oauthResult.getCode() == 0) {
-                    MemberTO data = oauthResult.getData(new TypeReference<MemberTO>() {
+                    MemberTO member = oauthResult.getData(new TypeReference<MemberTO>() {
                     });
-                    System.out.println(data);
-
-//                    TODO 使用SpringSession处理数据共享问题
+//            6.将当前登录对象存入session
+                    session.setAttribute(CommonConstants.LOGIN_USER,member);
                 } else {
 //                    第三方认证登录失败
                     return "redirect:http://auth.gulimall.com/login.html";

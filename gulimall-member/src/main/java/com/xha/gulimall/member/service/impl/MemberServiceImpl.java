@@ -3,10 +3,10 @@ package com.xha.gulimall.member.service.impl;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.CacheConstants;
+import com.xha.gulimall.common.constants.CommonConstants;
 import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.enums.HttpCode;
 import com.xha.gulimall.common.enums.MemberEnums;
@@ -63,11 +63,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         return new PageUtils(page);
     }
 
+
     /**
      * 用户注册
      *
      * @param userRegisterTO 用户注册
-     * @return {@link R}
      */
     @Override
     public void userRegister(UserRegisterTO userRegisterTO) {
@@ -138,61 +138,61 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
                 return R.error(HttpCode.PASSWORD_EXCEPTION.getCode(), HttpCode.PASSWORD_EXCEPTION.getMessage());
             }
         }
-        return R.ok();
+        return R.ok().put(CommonConstants.LOGIN_USER,member);
     }
 
 
-            /**
-             * Gitee第三方用户登录
-             *
-             * @return {@link R}
-             */
-            @Override
-            public MemberEntity userOAuthGiteeLogin(GiteeResponseTO giteeResponseTO) {
+    /**
+     * Gitee第三方用户登录
+     *
+     * @return {@link R}
+     */
+    @Override
+    public MemberEntity userOAuthGiteeLogin(GiteeResponseTO giteeResponseTO) {
         //        1.判断当前第三方用户是否已经注册过
         //          1.1根据token查询用户id
-                Map<String, String> querys = new HashMap<>();
-                querys.put("access_token", giteeResponseTO.getAccess_token());
-                MemberEntity member = null;
-                try {
-                    HttpResponse response = HttpUtils.doGet(host, path, "get", new HashMap<String, String>(), querys);
-                    String userInfo = EntityUtils.toString(response.getEntity());
-        //            将用户信息转为GiteeUserInfo对象
-                    GiteeUserInfo giteeUserInfo = JSONUtil.toBean(userInfo, GiteeUserInfo.class);
-        //            根据gitee提供的唯一id查询当前用户是否存在
-                    LambdaQueryWrapper<MemberEntity> queryWrapper = new LambdaQueryWrapper<>();
-                    queryWrapper.eq(MemberEntity::getThirdId, giteeUserInfo.getId());
-                    member = getOne(queryWrapper);
-                    if (Objects.isNull(member)) {
-        //                当前用户为首次登录，先注册
-                        MemberEntity memberEntity = new MemberEntity();
-                        memberEntity.setThirdId(String.valueOf(giteeUserInfo.getId()))
-                                .setSourceType(UserOriginName.GITEE)
-                                .setLevelId(MemberEnums.GENERAL_MEMBER.getLevel())
-                                .setUsername(giteeUserInfo.getLogin())
-                                .setEmail(giteeUserInfo.getEmail())
-                                .setHeader(giteeUserInfo.getAvatar_url());
-                        save(memberEntity);
-        //                将当前的access_token和expire_in存入缓存
-                        stringRedisTemplate.opsForValue().set(
-                                CacheConstants.GITEE_LOGIN_ACCESS_TOKEN_CACHE + memberEntity.getThirdId(),
-                                giteeResponseTO.getAccess_token(),
-                                NumberConstants.ACCESS_TOKEN_EXPIRE_TIME,
-                                TimeUnit.SECONDS);
-                        member = memberEntity;
-                    }else{
-        //               重制当前用户对应缓存中的access_token的超时时间
-                        stringRedisTemplate.opsForValue().set(
-                                CacheConstants.GITEE_LOGIN_ACCESS_TOKEN_CACHE + member.getThirdId(),
-                                giteeResponseTO.getAccess_token(),
-                                NumberConstants.ACCESS_TOKEN_EXPIRE_TIME,
-                                TimeUnit.SECONDS);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return member;
+        Map<String, String> querys = new HashMap<>();
+        querys.put("access_token", giteeResponseTO.getAccess_token());
+        MemberEntity member = null;
+        try {
+            HttpResponse response = HttpUtils.doGet(host, path, "get", new HashMap<String, String>(), querys);
+            String userInfo = EntityUtils.toString(response.getEntity());
+            //            将用户信息转为GiteeUserInfo对象
+            GiteeUserInfo giteeUserInfo = JSONUtil.toBean(userInfo, GiteeUserInfo.class);
+            //            根据gitee提供的唯一id查询当前用户是否存在
+            LambdaQueryWrapper<MemberEntity> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(MemberEntity::getThirdId, giteeUserInfo.getId());
+            member = getOne(queryWrapper);
+            if (Objects.isNull(member)) {
+                //                当前用户为首次登录，先注册
+                MemberEntity memberEntity = new MemberEntity();
+                memberEntity.setThirdId(String.valueOf(giteeUserInfo.getId()))
+                        .setSourceType(UserOriginName.GITEE)
+                        .setLevelId(MemberEnums.GENERAL_MEMBER.getLevel())
+                        .setUsername(giteeUserInfo.getLogin())
+                        .setEmail(giteeUserInfo.getEmail())
+                        .setHeader(giteeUserInfo.getAvatar_url());
+                save(memberEntity);
+                //                将当前的access_token和expire_in存入缓存
+                stringRedisTemplate.opsForValue().set(
+                        CacheConstants.GITEE_LOGIN_ACCESS_TOKEN_CACHE + memberEntity.getThirdId(),
+                        giteeResponseTO.getAccess_token(),
+                        NumberConstants.ACCESS_TOKEN_EXPIRE_TIME,
+                        TimeUnit.SECONDS);
+                member = memberEntity;
+            } else {
+                //               重制当前用户对应缓存中的access_token的超时时间
+                stringRedisTemplate.opsForValue().set(
+                        CacheConstants.GITEE_LOGIN_ACCESS_TOKEN_CACHE + member.getThirdId(),
+                        giteeResponseTO.getAccess_token(),
+                        NumberConstants.ACCESS_TOKEN_EXPIRE_TIME,
+                        TimeUnit.SECONDS);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return member;
+    }
 
 }

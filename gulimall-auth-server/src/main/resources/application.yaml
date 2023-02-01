@@ -1,5 +1,8 @@
 server:
   port: 20000
+  servlet:
+    session:
+      timeout: 30m
 
 
 spring:
@@ -28,6 +31,9 @@ spring:
       use-key-prefix: true
       #      是否缓存空值，防止缓存穿透
       cache-null-values: true
+#      springsession的缓存类型
+  session:
+    store-type: redis
 
 logging:
   level:

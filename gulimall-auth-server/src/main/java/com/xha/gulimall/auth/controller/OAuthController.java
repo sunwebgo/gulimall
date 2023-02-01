@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -30,7 +31,7 @@ public class OAuthController {
      * @return {@link String}
      */
     @GetMapping("/oauth/gitee")
-    public String giteeOAuth(@RequestParam("code") String code) {
-        return oAuthService.giteeOAuth(code);
+    public String giteeOAuth(@RequestParam("code") String code, HttpSession session) {
+        return oAuthService.giteeOAuth(code,session);
     }
 }
