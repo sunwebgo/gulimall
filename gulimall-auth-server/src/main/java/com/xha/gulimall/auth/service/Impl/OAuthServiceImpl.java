@@ -66,13 +66,13 @@ public class OAuthServiceImpl implements OAuthService {
                 GiteeResponseTO giteeResponseTO = JSONUtil.toBean(httpEntityStr, GiteeResponseTO.class);
 //            5.调用member服务，用户注册或者登录
                 R oauthResult = memberFeign.userOAuthGiteeLogin(giteeResponseTO);
-                if (oauthResult.getCode() == 0){
+                if (oauthResult.getCode() == 0) {
                     MemberTO data = oauthResult.getData(new TypeReference<MemberTO>() {
                     });
                     System.out.println(data);
 
 //                    TODO 使用SpringSession处理数据共享问题
-                }else{
+                } else {
 //                    第三方认证登录失败
                     return "redirect:http://auth.gulimall.com/login.html";
                 }
