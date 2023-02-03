@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
 
 <head>
     <meta charset="UTF-8">
-    <title>商品详情页</title>
+    <title></title>
     <link rel="stylesheet" type="text/css" href="/static/item/scss/shop.css"/>
     <link rel="stylesheet" type="text/css" href="/static/item/scss/jd.css"/>
     <link rel="stylesheet" href="/static/item/scss/header.css"/>
@@ -15,7 +16,7 @@
         <!--品牌官方网站-->
         <div class="min">
             <ul class="header_ul_left">
-                <li class="glyphicon glyphicon-home"><a href="http://gulimall.com/" class="aa">谷粒商城首页</a></li>
+                <li class="glyphicon glyphicon-home"><a href="http://gulimall.com" class="aa">商城首页</a></li>
                 <li class="glyphicon glyphicon-map-marker"><a href="/static/item/javascript:;">北京</a>
                     <ol id="beijing">
                         <li style="background: red;"><a href="/static/item/javascript:;" style="color: white;">北京</a>
@@ -57,19 +58,17 @@
                     </ol>
                 </li>
             </ul>
-            `
             <ul class="header_ul_right">
                 <li style="border: 0;">
-                    <a th:if="${session.loginUser!=null}" style="font-weight: bolder">你好:[[${session.loginUser == null
-                        ?'':session.loginUser.username}]]</a>
+                    <a th:if="${session.loginUser!=null}">亲爱的:[[${session.loginUser == null
+                        ?'':session.loginUser.nickname}]]</a>
                     <a href="http://auth.gulimall.com/login.html" th:if="${session.loginUser==null}">登录</a>
                 </li>
-                <li th:if="${session.loginUser==null}">
-                    <a href="http://auth.gulimall.com/register.html" style="color: red;">注册</a>
+                <li th:if="${session.loginUser==null}"><a href="http://auth.gulimall.com/reg.html" style="color: red;">免费注册</a>
                     |
                 </li>
-                <li><a href="http://member.gulimall.com/memberOrder.html" class="aa">我的订单</a> |</li>
-                <li class="jingdong"><a href="/static/item/javascript:;">我的谷粒商城</a><span
+                <li><a href="http://order.gulimall.com/list.html" class="aa">我的订单</a> |</li>
+                <li class="jingdong"><a href="/static/item/javascript:;">我的商城</a><span
                         class="glyphicon glyphicon-menu-down">|</span>
                     <ol class="jingdong_ol">
                         <li><a href="/static/item/javascript:;">待处理订单</a></li>
@@ -86,7 +85,7 @@
                     </ol>
                 </li>
 
-                <li><a href="/static/item/javascript:;" class="aa">谷粒商城会员</a> |</li>
+                <li><a href="/static/item/javascript:;" class="aa">商城会员</a> |</li>
                 <li><a href="/static/item/javascript:;" class="aa">企业采购</a> |</li>
                 <li class="fuwu"><a href="/static/item/javascript:;">客户服务</a><span
                         class="glyphicon glyphicon-menu-down"></span> |
@@ -115,14 +114,14 @@
                         <li style="width: 34%;">
                             <h5>特色主题</h5>
                             <p>
-                                <a href="/static/item/javascript:;">谷粒商城试用</a>
-                                <a href="/static/item/javascript:;">谷粒商城金融</a>
+                                <a href="/static/item/javascript:;">商城试用</a>
+                                <a href="/static/item/javascript:;">商城金融</a>
                                 <a href="/static/item/javascript:;">全球售</a>
                                 <a href="/static/item/javascript:;">国际站</a>
                             </p>
                             <p>
-                                <a href="/static/item/javascript:;">谷粒商城会员</a>
-                                <a href="/static/item/javascript:;">谷粒商城预售</a>
+                                <a href="/static/item/javascript:;">商城会员</a>
+                                <a href="/static/item/javascript:;">商城预售</a>
                                 <a href="/static/item/javascript:;">买什么</a>
                                 <a href="/static/item/javascript:;">俄语站</a>
                             </p>
@@ -139,7 +138,7 @@
                                 <a href="/static/item/javascript:;">印尼站</a>
                             </p>
                             <p>
-                                <a href="/static/item/javascript:;">谷粒商城金融科技</a>
+                                <a href="/static/item/javascript:;">商城金融科技</a>
                                 <a href="/static/item/javascript:;">In货推荐</a>
                                 <a href="/static/item/javascript:;">陪伴计划</a>
                                 <a href="/static/item/javascript:;">出海招商</a>
@@ -155,7 +154,7 @@
                             <p>
                                 <a href="/static/item/javascript:;" class="aa_2">电脑办公</a>
                                 <a href="/static/item/javascript:;" class="aa_2">家用电器</a>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城智能</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城智能</a>
                             </p>
                             <p>
                                 <a href="/static/item/javascript:;" class="aa_2">服装城</a>
@@ -176,12 +175,12 @@
                         <li>
                             <h5>生活服务</h5>
                             <p>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城众筹</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城众筹</a>
                                 <a href="/static/item/javascript:;" class="aa_2">白条</a>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城金融APP</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城金融APP</a>
                             </p>
                             <p>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城小金库</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城小金库</a>
                                 <a href="/static/item/javascript:;" class="aa_2">理财</a>
                                 <a href="/static/item/javascript:;" class="aa_2">智能家电</a>
                             </p>
@@ -196,8 +195,8 @@
                                 <a href="/static/item/javascript:;" class="aa_2">电影票</a>
                             </p>
                             <p>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城到家</a>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城众测</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城到家</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城众测</a>
                                 <a href="/static/item/javascript:;" class="aa_2">游戏</a>
                             </p>
                         </li>
@@ -205,8 +204,8 @@
                             <h5>更多精选</h5>
                             <p>
                                 <a href="/static/item/javascript:;" class="aa_2">合作招商</a>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城通信</a>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城E卡</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城通信</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城E卡</a>
                             </p>
                             <p>
                                 <a href="/static/item/javascript:;" class="aa_2">企业采购</a>
@@ -219,7 +218,7 @@
                                 <a href="/static/item/javascript:;" class="aa_2">京友邦</a>
                             </p>
                             <p>
-                                <a href="/static/item/javascript:;" class="aa_2">谷粒商城社区</a>
+                                <a href="/static/item/javascript:;" class="aa_2">商城社区</a>
                                 <a href="/static/item/javascript:;" class="aa_2">智能社区</a>
                                 <a href="/static/item/javascript:;" class="aa_2">游戏社区</a>
                             </p>
@@ -231,18 +230,18 @@
                         </li>
                     </ol>
                 </li>
-                <li class="sjjd" style="border: 0;"><a href="/static/item/javascript:;" class="aa">手机谷粒商城</a>
+                <li class="sjjd" style="border: 0;"><a href="/static/item/javascript:;" class="aa">手机商城</a>
                     <div class="er">
                         <div class="er_1">
                             <div class="er_1_1">
-                                <h6><a href="/static/item/#">手机谷粒商城</a></h6>
+                                <h6><a href="/static/item/#">手机商城</a></h6>
                                 <p>新人专享大礼包</p>
 
                             </div>
                         </div>
                         <div class="er_1">
                             <div class="er_1_1">
-                                <h6><a href="/static/item/#">关注谷粒商城微信</a></h6>
+                                <h6><a href="/static/item/#">关注商城微信</a></h6>
                                 <p>微信扫一扫关注新粉最高180元惊喜礼包</p>
                             </div>
                         </div>
@@ -250,7 +249,7 @@
                         <div class="er_1" style="border: 0;">
                             <img src="/static/item/img/5874a555Ne8192324.jpg"/>
                             <div class="er_1_1">
-                                <h6><a href="/static/item/#">谷粒商城金融客户端</a></h6>
+                                <h6><a href="/static/item/#">商城金融客户端</a></h6>
                                 <p>新人专享大礼包</p>
                                 <div><a href="/static/item/#"><img src="/static/item/img/11.png"/></a><a
                                         href="/static/item/#"><img src="/static/item/img/22.png"/></a></div>
@@ -264,7 +263,7 @@
     <nav>
         <div class="nav_min">
             <div class="nav_top">
-                <div class="nav_top_one"><a href="http://gulimall.com"><img src="/static/search/image/logo1.jpg"/></a></div>
+                <div class="nav_top_one"><a href="http://gulimall.com"><img src="/static/item/img/logo1.jpg"/></a></div>
                 <div class="nav_top_two"><input type="text"/>
                     <button>搜索</button>
                 </div>
@@ -393,12 +392,12 @@
             <ul class="contact-ul">
                 <li>
                     <a href="/static/item/#">
-                        华为谷粒商城自营官方旗舰店
+                        华为商城自营官方旗舰店
                     </a>
 
                     <span class="contact-sp">
 								<span class="contact-sp1">
-								JD
+								GL
 							</span>
 							<span class="contact-sp2">
 								自营
@@ -448,11 +447,13 @@
 
                 <div class="imgbox">
                     <div class="probox">
-                        <img class="img1" alt="" th:src="${item.skuInfoEntity.skuDefaultImg}">
+                        <img class="img1" alt="" src="/static/item/img/59ded626N7c4cb0a3.jpg"
+                             th:src="${item.skuInfoEntity.skuDefaultImg}">
                         <div class="hoverbox"></div>
                     </div>
                     <div class="showbox">
-                        <img class="img1" alt="" th:src="${item.skuInfoEntity.skuDefaultImg}">
+                        <img class="img1" alt="" src="/static/item/img/59ded626N7c4cb0a3.jpg"
+                             th:src="${item.skuInfoEntity.skuDefaultImg}">
                     </div>
                 </div>
 
@@ -460,7 +461,8 @@
 
                     <div class="box-lh-one">
                         <ul>
-                            <li th:each="img : ${item.images}"><img th:src="${img.imgUrl}"/></li>
+                            <li th:each="img:${item.images}" th:if="${!#strings.isEmpty(img.imgUrl)}"><img
+                                    th:src="${img.imgUrl}"/></li>
                         </ul>
                     </div>
                     <div id="left">
@@ -518,22 +520,22 @@
                 </div>
                 <div class="box-summary clear">
                     <ul>
-                        <li>谷粒商城价</li>
+                        <li>京东价</li>
                         <li>
                             <span>￥</span>
-                            <span th:text="${#numbers.formatDecimal(item.skuInfoEntity.price,3,2)}">4499.00</span>
+                            <!--thymeleaf文档上 数字格式化-->
+                            <span th:text="${ #numbers.formatDecimal(item.skuInfoEntity.price,3,2)}">4499.00</span>
                         </li>
-                        <!--                        <li style="color: red" th:if="${item.seckillSkuVo != null}">-->
+                        <li style="color: red;" th:if="${item.seckillSkuInfoVo != null}">
+							<span th:if="${#dates.createNow().getTime() < item.seckillSkuInfoVo.startTime}">
+									商品将会在{[[${#dates.format(new java.util.Date(item.seckillSkuInfoVo.startTime),"yyyy-MM-dd HH:mm:ss")}]]
+                                - [[${#dates.format(new java.util.Date(item.seckillSkuInfoVo.endTime),"yyyy-MM-dd HH:mm:ss")}]]}进行抢购
+							</span>
 
-                        <!--                            <span th:if="${#dates.createNow().getTime() < item.seckillSkuVo.startTime}">-->
-                        <!--                                商品将会在[[${#dates.format(new java.util.Date(item.seckillSkuVo.startTime),"yyyy-MM-dd HH:mm:ss")}]]进行秒杀-->
-                        <!--                            </span>-->
-
-                        <!--                            <span th:if="${#dates.createNow().getTime() >= item.seckillSkuVo.startTime && #dates.createNow().getTime() <= item.seckillSkuVo.endTime}">-->
-                        <!--                                秒杀价  [[${#numbers.formatDecimal(item.seckillSkuVo.seckillPrice,1,2)}]]-->
-                        <!--                            </span>-->
-
-                        <!--                        </li>-->
+                            <span th:if="${#dates.createNow().getTime() >= item.seckillSkuInfoVo.startTime && #dates.createNow().getTime() <= item.seckillSkuInfoVo.endTime}">
+										秒杀价：[[${#numbers.formatDecimal(item.seckillSkuInfoVo.seckillPrice,1,2)}]] | 秒杀结束时间：[[${#dates.format(new java.util.Date(item.seckillSkuInfoVo.endTime),"yyyy-MM-dd HH:mm:ss")}]]
+							</span>
+                        </li>
                         <li>
                             <a href="/static/item/">
                                 预约说明
@@ -607,27 +609,31 @@
                             </div>
 
                         </li>
+                        <li>
+                            <span th:text="${item.hasStock?'有货':'无货'}">无货</span>， 此商品暂时售完
+                        </li>
                     </ul>
                 </div>
                 <div class="box-supply">
                     <ul class="box-ul">
                         <li></li>
                         <li>
-                            由<span>谷粒商城</span> 发货，并提供售后服务
+                            由<span>狗东</span> 发货，并提供售后服务
                         </li>
                     </ul>
                 </div>
                 <div class="box-attr-3">
-                    <div class="box-attr clear" th:each="attr : ${item.saleAttr}">
+                    <div class="box-attr clear" th:each="attr:${item.saleAttr}">
                         <dl>
+                            <!--strings.listSplit 切分
+                            #list.contains(A,B) 判断A数组中间 是否包含B
+                            skuId 同时设置一个class 在列表中包含的设置为选中 否则不选中
+                            -->
                             <dt>选择[[${attr.attrName}]]</dt>
-                            // TODO
-                            <dd th:each="val : ${attr.attrValues}">
-                                <a th:attr=" class=${#lists.contains(#strings.listSplit(val.skuIds,','),item.skuInfoEntity.skuId.toString())
-                                   ? 'sku_attr_value checked': 'sku_attr_value'}, skus=${val.skuIds} "
-                                >
-                                    [[${val.attrValue}]]
-                                    <!--											<img src="/static/item/img/59ddfcb1Nc3edb8f1.jpg" /> -->
+                            <dd th:each="vals:${(attr.attrValues)}">
+                                <a th:attr="skus=${vals.skuIds},class=${#lists.contains(#strings.listSplit(vals.skuIds,','),
+										item.skuInfoEntity.skuId.toString())? 'sku_attr_value checked':'sku_attr_value'}">
+                                    [[${vals.attrValue}]]
                                 </a>
                             </dd>
                         </dl>
@@ -636,9 +642,8 @@
 
                 <div class="box-btns clear">
                     <div class="box-btns-one">
-                        <input type="text" name="" id="productNum" value="1"/>
+                        <input type="text" name="" id="numInput" value="1"/>
                         <div class="box-btns-one1">
-
                             <div>
                                 <button id="jia">
                                     +
@@ -649,26 +654,21 @@
                                     -
                                 </button>
                             </div>
-
                         </div>
                     </div>
-
-                    <!--                    <div class="box-btns-two"-->
-                    <!--                         th:if="${item.seckillSkuVo == null }">-->
-                    <!--                        <a class="addToCart" href="http://cart.gulimall.com/addToCart"-->
-                    <!--                           th:attr="skuId=${item.skuInfoEntity.skuId}">-->
-                    <!--                            加入购物车-->
-                    <!--                        </a>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="box-btns-two"-->
-                    <!--                         th:if="${item.seckillSkuVo != null && (#dates.createNow().getTime() >= item.seckillSkuVo.startTime && #dates.createNow().getTime() <= item.seckillSkuVo.endTime)}">-->
-                    <!--                        <a class="seckill" href="#"-->
-                    <!--                           th:attr="skuId=${item.skuInfoEntity.skuId},sessionId=${item.seckillSkuVo.promotionSessionId},code=${item.seckillSkuVo.randomCode}">-->
-                    <!--                            立即抢购-->
-                    <!--                        </a>-->
-                    <!--                    </div>-->
-
+                    <div class="box-btns-two"
+                         th:if="${item.seckillSkuInfoVo != null && #dates.createNow().getTime()>=item.seckillSkuInfoVo.startTime && #dates.createNow().getTime()<=item.seckillSkuInfoVo.endTime}">
+                        <a href="#" id="seckillA"
+                           th:attr="skuId = ${item.skuInfoEntity.skuId},sessionId=${item.seckillSkuInfoVo.promotionSessionId},code=${item.seckillSkuInfoVo.randomCode}">
+                            立即抢购
+                        </a>
+                    </div>
+                    <div class="box-btns-two"
+                         th:if="${item.seckillSkuInfoVo == null || #dates.createNow().getTime()< item.seckillSkuInfoVo.startTime || #dates.createNow().getTime()>item.seckillSkuInfoVo.endTime}">
+                        <a href="#" id="addToCartA" th:attr="skuId = ${item.skuInfoEntity.skuId}">
+                            加入购物车
+                        </a>
+                    </div>
                     <div class="box-btns-three">
                         <img src="/static/item/img/e4ed3606843f664591ff1f68f7fda12d.png" alt=""/> 分享
                     </div>
@@ -755,7 +755,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/5a12873eN41754123.jpg"/></a>
                         <p>
                             <a target="_blank" title="詹姆士（GEMRY） R19plus全网通4G 智能手机 双卡双待 6+128GB 鳄鱼纹雅致版（新品预约）"
-                               href="/static/item/item.jd.com/20348283521.html">詹姆士（GEMRY） R19plus全网通4G 智能手机 双卡双待
+                               href="/static/item///item.jd.com/20348283521.html">詹姆士（GEMRY） R19plus全网通4G 智能手机 双卡双待
                                 6+128GB 鳄鱼纹雅致版（新品预约）</a>
                         </p>
                         <p><strong class="J-p-20348283521">￥13999.00</strong></p>
@@ -764,7 +764,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/59ec0131Nf239df75.jpg"/></a>
                         <p>
                             <a target="_blank" title="斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器 静音大吸力吸尘器TF-X60"
-                               href="/static/item/item.jd.com/16683419775.html">斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器
+                               href="/static/item///item.jd.com/16683419775.html">斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器
                                 静音大吸力吸尘器TF-X60</a>
                         </p>
                         <p><strong class="J-p-16683419775">￥1599.00</strong></p>
@@ -773,7 +773,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/59015444N27317512.jpg"/></a>
                         <p>
                             <a target="_blank" title="斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金"
-                               href="/static/item/item.jd.com/12187770381.html">斐纳（TOMEFON）
+                               href="/static/item///item.jd.com/12187770381.html">斐纳（TOMEFON）
                                 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金</a>
                         </p>
                         <p><strong class="J-p-12187770381">￥2599.00</strong></p>
@@ -790,7 +790,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/59e55e01N369f98f2.jpg"/></a>
                         <p>
                             <a target="_blank" title="华为（HUAWEI） 华为 Mate10 4G手机  双卡双待 亮黑色 全网通(6GB RAM+128GB ROM)"
-                               href="/static/item/item.jd.com/17931625443.html">华为（HUAWEI） 华为 Mate10 4G手机 双卡双待 亮黑色
+                               href="/static/item///item.jd.com/17931625443.html">华为（HUAWEI） 华为 Mate10 4G手机 双卡双待 亮黑色
                                 全网通(6GB RAM+128GB ROM)</a>
                         <p><strong class="J-p-17931625443">￥4766.00</strong></p>
                     </li>
@@ -798,7 +798,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/584fcc3eNdb0ab94c.jpg"/></a>
                         <p>
                             <a target="_blank" title="华为 Mate 9 Pro 6GB+128GB版 琥珀金 移动联通电信4G手机 双卡双待"
-                               href="/static/item/item.jd.com/3749093.html">华为 Mate 9 Pro 6GB+128GB版 琥珀金 移动联通电信4G手机
+                               href="/static/item///item.jd.com/3749093.html">华为 Mate 9 Pro 6GB+128GB版 琥珀金 移动联通电信4G手机
                                 双卡双待</a>
                         </p>
                         <p><strong class="J-p-3749093">￥4899.00</strong></p>
@@ -808,7 +808,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/59eb0df9Nd66d7585.jpg"/></a>
                         <p>
                             <a target="_blank" title="华为（HUAWEI） 华为 Mate10 手机 亮黑色 全网通(4+64G)标准版"
-                               href="/static/item/item.jd.com/12306211773.html">华为（HUAWEI） 华为 Mate10 手机 亮黑色
+                               href="/static/item///item.jd.com/12306211773.html">华为（HUAWEI） 华为 Mate10 手机 亮黑色
                                 全网通(4+64G)标准版</a>
                         </p>
                         <p><strong class="J-p-12306211773">￥4088.00</strong></p>
@@ -817,7 +817,7 @@
                         <a href="/static/item/##"><img src="/static/item/img/5a002ba3N126c2f73.jpg"/></a>
                         <p>
                             <a target="_blank" title="斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金"
-                               href="/static/item/item.jd.com/12187770381.html">斐纳（TOMEFON）
+                               href="/static/item///item.jd.com/12187770381.html">斐纳（TOMEFON）
                                 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金</a>
                         </p>
                         <p><strong class="J-p-12187770381">￥2599.00</strong></p>
@@ -911,53 +911,54 @@
                             <!--										</tr>-->
                             <!--									</table>-->
                             <img class="xiaoguo" th:src="${descp}"
-                                 th:each="descp : ${#strings.listSplit(item.desp.decript,',')}"/>
-                            <!--                             <div class="guiGebox guiGebox1">-->
-                            <!--                                <div class="guiGe">-->
-                            <!--                                    <h3 th:text="guige.groupName"></h3>-->
-                            <!--                                    <dl>-->
-                            <!--                                        <dt>品牌</dt>-->
-                            <!--                                        <dd>华为(HUAWEI)</dd>-->
-                            <!--                                        <dt>型号</dt>-->
-                            <!--                                        <dd class="Ptable-tips">-->
-                            <!--                                            <a href="/static/item/#"><i>？</i></a>-->
-                            <!--                                        </dd>-->
-                            <!--                                        <dd>ALP-AL00</dd>-->
-                            <!--                                        <dt>入网型号</dt>-->
-                            <!--                                        <dd class="Ptable-tips">-->
-                            <!--                                            <a href="/static/item/#"><i>？</i></a>-->
-                            <!--                                        </dd>-->
-                            <!--                                        <dd>ALP-AL00</dd>-->
-                            <!--                                        <dt>上市年份</dt>-->
-                            <!--                                        <dd>2017年</dd>-->
-                            <!--                                        <dt>上市时间</dt>-->
-                            <!--                                        <dd>10月</dd>-->
-                            <!--                                    </dl>-->
-                            <!--                                </div>-->
-                            <!--                                <div class="package-list">-->
-                            <!--                                    <h3>包装清单</h3>-->
-                            <!--                                    <p>手机（含内置电池） X 1、5A大电流华为SuperCharge充电器X 1、5A USB数据线 X 1、半入耳式线控耳机 X 1、快速指南X 1、三包凭证 X-->
-                            <!--                                        1、取卡针 X 1、保护壳 X 1</p>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
+                                 th:each="descp:${#strings.listSplit(item.desc.decript,',')}"/>
+                            <div class="guiGebox guiGebox1">
+                                <div class="guiGe" th:each="guige:${item.groupVos}">
+                                    <h3>主体</h3>
+                                    <dl>
+                                        <dt>品牌</dt>
+                                        <dd>华为(HUAWEI)</dd>
+                                        <dt>型号</dt>
+                                        <dd class="Ptable-tips">
+                                            <a href="/static/item/#"><i>？</i></a>
+                                        </dd>
+                                        <dd>ALP-AL00</dd>
+                                        <dt>入网型号</dt>
+                                        <dd class="Ptable-tips">
+                                            <a href="/static/item/#"><i>？</i></a>
+                                        </dd>
+                                        <dd>ALP-AL00</dd>
+                                        <dt>上市年份</dt>
+                                        <dd>2017年</dd>
+                                        <dt>上市时间</dt>
+                                        <dd>10月</dd>
+                                    </dl>
+                                </div>
+
+                                <div class="package-list">
+                                    <h3>包装清单</h3>
+                                    <p>手机（含内置电池） X 1、5A大电流华为SuperCharge充电器X 1、5A USB数据线 X 1、半入耳式线控耳机 X 1、快速指南X 1、三包凭证 X
+                                        1、取卡针 X 1、保护壳 X 1</p>
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li class="baozhuang actives" id="li2">
                         <div class="guiGebox">
-                            <div class="guiGe" th:each="group : ${item.groupVos}">
+                            <div class="guiGe" th:each="group:${item.groupVos}">
                                 <h3 th:text="${group.groupName}">主体</h3>
                                 <dl>
-                                    <div th:each="attr : ${group.attrs}">
+                                    <div th:each="attr:${group.attrs}">
                                         <dt th:text="${attr.attrName}">品牌</dt>
                                         <dd th:text="${attr.attrValue}">华为(HUAWEI)</dd>
                                     </div>
                                 </dl>
                             </div>
-                            <div class="package-list">
-                                <h3>包装清单</h3>
-                                <p>手机（含内置电池） X 1、5A大电流华为SuperCharge充电器X 1、5A USB数据线 X 1、半入耳式线控耳机 X 1、快速指南X 1、三包凭证 X
-                                    1、取卡针 X 1、保护壳 X 1</p>
-                            </div>
+
+                            <!--									<div class="package-list">-->
+                            <!--										<h3>包装清单</h3>-->
+                            <!--										<p>手机（含内置电池） X 1、5A大电流华为SuperCharge充电器X 1、5A USB数据线 X 1、半入耳式线控耳机 X 1、快速指南X 1、三包凭证 X 1、取卡针 X 1、保护壳 X 1</p>-->
+                            <!--									</div>-->
                         </div>
                     </li>
                     <!--包装-->
@@ -985,7 +986,7 @@
                                 <div class="lianBao oCn">
 				<span class="oImg">
 					<img src="/static/item/img/2017.jpg" alt=""/>
-					<h3>谷粒商城承诺</h3>
+					<h3>商城承诺</h3>
 				</span>
                                     <div class="wenZi">
                                         本产品全国联保，享受三包服务，质保期为：一年保<br/>
@@ -1001,7 +1002,7 @@
 					<h3>正品行货</h3>
 				</span>
                                     <div class="wenZi hangHuo">
-                                        谷粒商城商城向您保证所售商品均为正品行货，谷粒商城自营商品开具机打发票或电子发票。
+                                        商城商城向您保证所售商品均为正品行货，商城自营商品开具机打发票或电子发票。
                                     </div>
                                 </div>
                                 <div class="lianBao quanGuo">
@@ -1010,7 +1011,7 @@
 					<h3>全国联保</h3>
 				</span>
                                     <div class="wenZi">
-                                        凭质保证书及谷粒商城商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由谷粒商城联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。谷粒商城商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！
+                                        凭质保证书及商城商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由商城联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。商城商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！
                                         <br/>
 
                                         注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！
@@ -1020,15 +1021,15 @@
                                 <div class="quanLi">
                                     <h4>权利声明:</h4>
                                     <div class="jingDong">
-                                        谷粒商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是谷粒商城重要的经营资源，未经许可，禁止非法转载使用。<br/>
+                                        商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是商城重要的经营资源，未经许可，禁止非法转载使用。<br/>
                                         <span class="oZhu">注</span>：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。
                                     </div>
                                 </div>
                                 <div class="quanLi jiaGe">
                                     <h4>价格说明:</h4>
                                     <div class="jingDong">
-                                        <span class="oZhu">谷粒商城价</span>：谷粒商城价为商品的销售价，是您最终决定是否购买商品的依据。<br/>
-                                        <span class="oZhu">划线价</span>：商品展示的划横线价格为参考价，该价格可能是品牌专柜标价、商品吊牌价或由品牌供应商提供的正品零售价（如厂商指导价、建议零售价等）或该商品在谷粒商城平台上曾经展示过的销售价；由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价等可能会与您购物时展示的不一致，该价格仅供您参考。<br/>
+                                        <span class="oZhu">商城价</span>：商城价为商品的销售价，是您最终决定是否购买商品的依据。<br/>
+                                        <span class="oZhu">划线价</span>：商品展示的划横线价格为参考价，该价格可能是品牌专柜标价、商品吊牌价或由品牌供应商提供的正品零售价（如厂商指导价、建议零售价等）或该商品在商城平台上曾经展示过的销售价；由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价等可能会与您购物时展示的不一致，该价格仅供您参考。<br/>
                                         <span class="oZhu">折扣</span>：如无特殊说明，折扣指销售商在原价、或划线价（如品牌专柜标价、商品吊牌价、厂商指导价、厂商建议零售价）等某一价格基础上计算出的优惠比例或优惠金额；如有疑问，您可在购买前联系销售商进行咨询。<br/>
                                         <span class="oZhu">异常问题</span>：商品促销信息以商品详情页“促销”栏中的信息为准；商品的具体售价以订单结算页价格为准；如您发现活动商品售价或促销信息有异常，建议购买前先联系销售商咨询。
                                     </div>
@@ -1104,6 +1105,7 @@
                             </ul>
                         </div>
                     </li>
+
                     <li class="shuoming actives" id="li5"></li>
                 </ul>
             </div>
@@ -1112,10 +1114,10 @@
 </div>
 <div class="headera">
     <div class="Logo-tu">
-        <span><img src="/static/item/img/service_items_1.png"/></span>
+        <!--<span><img src="/static/item/img/service_items_1.png"/></span>
         <span><img src="/static/item/img/service_items_2.png"/></span>
         <span><img src="/static/item/img/service_items_3.png"/></span>
-        <span><img src="/static/item/img/service_items_4.png"/></span>
+        <span><img src="/static/item/img/service_items_4.png"/></span>-->
     </div>
     <div class="table">
         <dl>
@@ -1208,13 +1210,13 @@
                 <a href="/static/item/##">延保服务</a>
             </dd>
             <dd>
-                <a href="/static/item/##">谷粒商城E卡</a>
+                <a href="/static/item/##">商城E卡</a>
             </dd>
             <dd>
-                <a href="/static/item/##">谷粒商城通信</a>
+                <a href="/static/item/##">商城通信</a>
             </dd>
             <dd>
-                <a href="/static/item/##">谷粒商城JD+</a>
+                <a href="/static/item/##">谷粒商城+</a>
             </dd>
         </dl>
     </div>
@@ -1246,7 +1248,7 @@
             </li>
             <li>|</li>
             <li>
-                <a href="/static/item/##">手机谷粒商城</a>
+                <a href="/static/item/##">手机商城</a>
             </li>
             <li>|</li>
             <li>
@@ -1258,7 +1260,7 @@
             </li>
             <li>|</li>
             <li>
-                <a href="/static/item/##">谷粒商城社区</a>
+                <a href="/static/item/##">商城社区</a>
             </li>
             <li>|</li>
             <li>
@@ -1270,7 +1272,7 @@
             </li>
             <li>|</li>
             <li>
-                <a href="/static/item/##">谷粒商城公益</a>
+                <a href="/static/item/##">商城公益</a>
             </li>
             <li>|</li>
             <li>
@@ -1298,12 +1300,12 @@
         <a href="/static/item/##">：4006561155 </a>
     </p>
     <p class="p1">
-        <a href="/static/item/##"> Copyright © 2004-2017 谷粒商城JD.com 版权所有</a>|
+        <a href="/static/item/##"> Copyright © 2004-2017 谷粒商城gulimall.com 版权所有</a>|
         <a href="/static/item/##"> 消费者维权热线：4006067733 经营证照</a>|
     </p>
     <p class="p1">
-        <a href="/static/item/##"> 谷粒商城旗下网站：谷粒商城支付</a>|
-        <a href="/static/item/##"> 谷粒商城云</a>
+        <a href="/static/item/##"> 商城旗下网站：商城支付</a>|
+        <a href="/static/item/##"> 商城云</a>
     </p>
     <p class="p3">
         <img src="/static/item/img/54b8871eNa9a7067e.png"/>
@@ -1328,60 +1330,57 @@
 <script src="/static/item/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/item/js/js.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-</script>
-
-<script>
     $(".sku_attr_value").click(function () {
-        // 1、点击的元素添加上自定义的属性
-        let skus = new Array();
-        let curr = $(this).attr("skus").split(",");
-
+        //1、点击元素先添加自定义的属性 为了识别我们是刚刚点击的
+        var skus = new Array();
+        $(this).addClass("clicked");
+        //属性skus以逗号拆分
+        var curr = $(this).attr("skus").split(",");
+        //当前被点击的所有sku组合数据放进去
+        skus.push(curr);
+        //去掉同一行的所有的checked
+        /**
+         * parent 父类 中查询 拥有class的 然后删除调 checked
+         */
         $(this).parent().parent().find(".sku_attr_value").removeClass("checked");
-        $(this).addClass("checked");
-        changeCheckedStyle();
 
-        $("a[class='sku_attr_value checked']").each(function () {
-            skus.push($(this).attr("skus").split(","));
-        });
-        let filterEle = skus[0];
-        for (let i = 1; i < skus.length; i++) {
-            filterEle = $(filterEle).filter(skus[i])[0];
+        //2、取出他们的交集 得到skuId 用到的是 filter求交集
+        var filterEle = skus[0]
+        for (var i = 1; i < skus.length; i++) {
+            filterEle = $(filterEle).filter(skus[i]);
         }
+        //spuId
+        console.log(filterEle[0])
 
-        location.href = "http://item.gulimall.com/" + filterEle + ".html";
+        location.href = "http://item.gulimall.com/" + filterEle[0] + ".html";
+        //4、跳转页面
+    })
 
-        return false;
-    });
     $(function () {
-        changeCheckedStyle();
-    });
+        //页面初始化 给父类id设置样式
+        $(".sku_attr_value").parent().css({"border": "solid 1px #CCC"});
+        //class里面有对应样式的父类设置样式 checked 表示选中
+        $("a[class = 'sku_attr_value checked']").parent().css({"border": "1px solid red"});
+    })
 
-    function changeCheckedStyle() {
-        $(".sku_attr_value").parent().css({"border": "solid 1px #ccc"});
-        $("a[class='sku_attr_value checked']").parent().css({"border": "solid 1px red"});
-    };
-
-
-    $(".addToCart").click(function () {
+    $("#addToCartA").click(function () {
+        let num = $("#numInput").val();
         let skuId = $(this).attr("skuId");
-        let num = $("#productNum").val();
-        location.href = "http://cart.gulimall.com/addCartItem?skuId=" + skuId + "&num=" + num;
+        location.href = "http://cart.gulimall.com/addToCart?skuId=" + skuId + "&num=" + num;
         return false;
-    });
-
-    $(".seckill").click(function () {
-        var isLogin = [[${session.loginUser != null}]];     //true
+    })
+    $("#seckillA").click(function () {
+        var isLogin = [[${session.loginUser != null}]]
         if (isLogin) {
-            var killId = $(this).attr("sessionid") + "-" + $(this).attr("skuid");
-            var code = $(this).attr("code");
-            var num = $("#productNum").val();
-            location.href = "http://seckill.gulimall.com/kill?killId=" + killId + "&key=" + code + "&num=" + num;
+            var killId = $(this).attr("sessionid") + "场->" + $(this).attr("skuid");
+            var key = $(this).attr("code");
+            var num = $("#numInput").val();
+            location.href = "http://seckill.gulimall.com/kill?killId=" + killId + "&key=" + key + "&num=" + num + "";
+            return false
         } else {
-            alert("秒杀请先登录");
+            alert("秒杀前你得请先登录鸭=(^.^)=");
         }
-        return false;
-    });
-
+    })
 </script>
 
 </html>

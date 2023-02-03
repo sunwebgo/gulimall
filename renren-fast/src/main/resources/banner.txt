@@ -1,5 +1,4 @@
 ${AnsiColor.BRIGHT_GREEN}
-Application Version: ${ruoyi.version}
 Spring Boot Version: ${spring-boot.version}
 ${AnsiColor.CYAN}
  __   __   __   __      ______      __       _____   __  __  ____

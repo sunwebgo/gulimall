@@ -1,13 +1,18 @@
 package com.xha.gulimall.product.controller;
 
+import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.entity.SkuSaleAttrValueEntity;
 import com.xha.gulimall.product.service.SkuSaleAttrValueService;
+import org.junit.jupiter.api.Test;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -37,15 +42,17 @@ public class SkuSaleAttrValueController {
 
 
     /**
-     * 信息
+     * 根据skuId获取到销售属性列表
+     *
+     * @param skuId sku id
+     * @return {@link List}<{@link String}>
      */
-    @RequestMapping("/info/{id}")
+    @RequestMapping("/info/{skuId}")
 //    @RequiresPermissions("product:skusaleattrvalue:info")
-    public R info(@PathVariable("id") Long id){
-		SkuSaleAttrValueEntity skuSaleAttrValue = skuSaleAttrValueService.getById(id);
-
-        return R.ok().put("skuSaleAttrValue", skuSaleAttrValue);
+    public List<String> getSaleAttrBySkuId(@PathVariable("skuId") Long skuId){
+	   return skuSaleAttrValueService.getSaleAttrBySkuId(skuId);
     }
+
 
     /**
      * 保存

@@ -20,5 +20,7 @@ public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity
     PageUtils queryPage(Map<String, Object> params);
 
     List<SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId);
+
+    List<String> getSaleAttrBySkuId(Long skuId);
 }
 

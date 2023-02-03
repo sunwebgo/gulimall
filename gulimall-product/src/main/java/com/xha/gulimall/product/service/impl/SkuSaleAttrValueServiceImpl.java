@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dao.SkuInfoDao;
 import com.xha.gulimall.product.dao.SkuSaleAttrValueDao;
-import com.xha.gulimall.product.entity.SkuInfoEntity;
 import com.xha.gulimall.product.entity.SkuSaleAttrValueEntity;
 import com.xha.gulimall.product.service.SkuSaleAttrValueService;
 import com.xha.gulimall.product.vo.SkuItemSaleAttrVO;
@@ -49,6 +49,23 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao
     @Override
     public List<SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId) {
         return skuSaleAttrValueDao.getSaleAttrBySpuId(spuId);
+    }
+
+    /**
+     * 得到销售attr sku id
+     *
+     * @param skuId sku id
+     * @return {@link R}
+     */
+    @Override
+    public List<String> getSaleAttrBySkuId(Long skuId) {
+        LambdaQueryWrapper<SkuSaleAttrValueEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SkuSaleAttrValueEntity::getSkuId,skuId);
+        List<SkuSaleAttrValueEntity> saleAttrList = skuSaleAttrValueDao.selectList(queryWrapper);
+        List<String> saleAttrStr = saleAttrList.stream().map(saleAttr -> {
+            return saleAttr.getAttrName() + "：" + saleAttr.getAttrValue();
+        }).collect(Collectors.toList());
+        return saleAttrStr;
     }
 
 }

@@ -1,10 +1,13 @@
 server:
   port: 40000
-# mysql\u914D\u7F6E
+  servlet:
+    session:
+      timeout: 30m
+
 spring:
   application:
     name: gulimall-cart
-  #    nacos\u914D\u7F6E
+
   cloud:
     nacos:
       discovery:
@@ -18,21 +21,31 @@ spring:
     host: 192.168.26.160
     port: 6379
   thymeleaf:
+    #    关闭thymeleaf缓存
     cache: false
+    #    页面位置
     prefix: classpath:/templates/
   resources:
     static-locations: classpath:/static/
+  session:
+    store-type: redis
 
-# mybatis-plus\u914D\u7F6E
+
 mybatis-plus:
-  #  mapper.xml\u6587\u4EF6\u4F4D\u7F6E
   mapper-locations: classpath:/mapper/**/*.xml
-  #  id\u81EA\u589E
   global-config:
     db-config:
       id-type: auto
 logging:
   level:
     com.xha.gulimall: debug
+
+
+#线程池配置
+gulimall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
 
 

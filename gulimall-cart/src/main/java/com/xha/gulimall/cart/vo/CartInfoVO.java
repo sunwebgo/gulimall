@@ -3,6 +3,7 @@ package com.xha.gulimall.cart.vo;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @date 2023/02/01
  */
 @Data
+@Accessors(chain = true)
 public class CartInfoVO {
     private Long skuId;
 
@@ -43,7 +45,7 @@ public class CartInfoVO {
     private BigDecimal price;
 
     /**
-     * 数
+     * 数量
      */
     private Integer count;
 
@@ -51,9 +53,5 @@ public class CartInfoVO {
      * 总价格
      */
     private BigDecimal totalPrice;
-
-//    public BigDecimal getTotalPrice() {
-//        return this.price.multiply(new BigDecimal(this.count));
-//    }
 
 }

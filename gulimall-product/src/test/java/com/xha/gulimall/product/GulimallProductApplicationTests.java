@@ -1,9 +1,13 @@
 package com.xha.gulimall.product;
 
+import com.alibaba.fastjson.TypeReference;
 import com.xha.gulimall.common.constants.NumberConstants;
+import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.product.controller.SkuSaleAttrValueController;
 import com.xha.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.xha.gulimall.product.dao.SkuSaleAttrValueDao;
 import com.xha.gulimall.product.entity.AttrAttrgroupRelationEntity;
+import com.xha.gulimall.product.entity.SkuSaleAttrValueEntity;
 import com.xha.gulimall.product.entity.SpuInfoDescEntity;
 import com.xha.gulimall.product.entity.SpuInfoEntity;
 import com.xha.gulimall.product.service.AttrGroupService;
@@ -79,5 +83,7 @@ class GulimallProductApplicationTests {
         System.out.println(saleAttrBySpuId);
     }
 
+    @Resource
+    private SkuSaleAttrValueController skuSaleAttrValueController;
 
 }

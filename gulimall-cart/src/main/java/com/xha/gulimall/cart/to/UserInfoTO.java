@@ -7,4 +7,6 @@ public class UserInfoTO {
     private Long userId;
 
     private String userKey;
+
+    private boolean tempUser = false;
 }

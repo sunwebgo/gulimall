@@ -1,6 +1,7 @@
 package com.xha.gulimall.cart.vo;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * @date 2023/02/01
  */
 @Data
+@Accessors(chain = true)
 public class CartVO {
 
     /**
@@ -37,5 +39,5 @@ public class CartVO {
     /**
      * 优惠价格
      */
-    private BigDecimal reducePrice;
+    private BigDecimal reducePrice = new BigDecimal(0);
 }
