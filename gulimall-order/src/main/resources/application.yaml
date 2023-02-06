@@ -1,5 +1,8 @@
 server:
   port: 9000
+  servlet:
+    session:
+      timeout: 30m
 
 # mysql配置
 spring:
@@ -15,6 +18,34 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+  rabbitmq:
+    host: 192.168.26.160
+    port: 5672
+    username: guest
+    password: guest
+    #    开启消息发送到Bocker的发布确认
+    publisher-confirm-type: correlated
+    #    开启消息发送到队列的发布确认
+    publisher-returns: true
+    #    只要消息到达队列,就优先回调ReturenCallback
+    template:
+      mandatory: true
+    #     消费端手动ACK
+    listener:
+      simple:
+        acknowledge-mode: manual
+  thymeleaf:
+    #    关闭thymeleaf缓存
+    cache: false
+    #    页面位置
+    prefix: classpath:/templates/
+  resources:
+    static-locations: classpath:/static/
+  session:
+    store-type: redis
+  redis:
+    port: 6379
+    host: 192.168.26.160
 
 # mybatis-plus配置
 mybatis-plus:
@@ -24,3 +55,19 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
+feign:
+  client:
+    config:
+      default:
+        # 指的是建立连接所用的时间，适用于网络状态正常的情况下，两端连接所用的时间
+        ConnectTimeOut: 100000
+        # 指的是建立连接后从服务器读取可用资源所用的时间
+        ReadTimeOut: 100000
+#线程池配置
+gulimall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
+

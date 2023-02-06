@@ -1,28 +1,18 @@
-package com.xha.gulimall.cart.vo;
+package com.xha.gulimall.order.vo;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * 购物项内容
- *
- * @author Xu Huaiang
- * @date 2023/02/01
- */
 @Data
-@Accessors(chain = true)
-public class CartInfoVO {
+public class OrderItemVO {
     private Long skuId;
 
     /**
-     * 检查
+     * 选中
      */
-    private Boolean check = true;
+    private Boolean check;
 
     /**
      * 标题
@@ -54,4 +44,13 @@ public class CartInfoVO {
      */
     private BigDecimal totalPrice;
 
+    /**
+     * 有货
+     */
+    private boolean hasStock;
+
+    /**
+     * 重量
+     */
+    private BigDecimal weight;
 }

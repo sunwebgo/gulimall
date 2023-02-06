@@ -4,9 +4,11 @@ package com.xha.gulimall.cart.feign;
 import com.xha.gulimall.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -29,6 +31,15 @@ public interface ProductFeign {
      * @return {@link List}<{@link String}>
      */
     @RequestMapping("/product/skusaleattrvalue/info/{skuId}")
-//    @RequiresPermissions("product:skusaleattrvalue:info")
     public List<String> getSaleAttrBySkuId(@PathVariable("skuId") Long skuId);
+
+
+    /**
+     * 获得sku价格
+     *
+     * @param skuId sku id
+     * @return {@link BigDecimal}
+     */
+    @GetMapping("/product/skuinfo/price/{skuId}")
+    public R getSkuPrice(@PathVariable("skuId") Long skuId);
 }

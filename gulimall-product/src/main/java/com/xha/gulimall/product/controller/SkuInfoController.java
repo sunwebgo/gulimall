@@ -26,6 +26,12 @@ public class SkuInfoController {
     @Resource
     private SkuInfoService skuInfoService;
 
+    @GetMapping("/price/{skuId}")
+    public R getSkuPrice(@PathVariable("skuId") Long skuId) {
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+        return R.ok().setData(skuInfo.getPrice().toString());
+    }
+
 
     /**
      * 根据条件查询sku信息
@@ -35,7 +41,7 @@ public class SkuInfoController {
      */
     @RequestMapping("/list")
 //    @RequiresPermissions("product:skuinfo:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = skuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
@@ -47,8 +53,8 @@ public class SkuInfoController {
      */
     @RequestMapping("/info/{skuId}")
 //    @RequiresPermissions("product:skuinfo:info")
-    public R getSkuInfo(@PathVariable("skuId") Long skuId){
-		SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+    public R getSkuInfo(@PathVariable("skuId") Long skuId) {
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
         return R.ok().put("skuInfo", skuInfo);
     }
 
@@ -58,11 +64,11 @@ public class SkuInfoController {
      */
     @RequestMapping("/getskuname/{skuId}")
 //    @RequiresPermissions("product:skuinfo:info")
-    public String getSkuName(@PathVariable("skuId") Long skuId){
+    public String getSkuName(@PathVariable("skuId") Long skuId) {
         SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
-        if (!Objects.isNull(skuInfo)){
+        if (!Objects.isNull(skuInfo)) {
             return skuInfo.getSkuName();
-        }else{
+        } else {
             return "当前sku信息不存在";
         }
     }
@@ -75,7 +81,7 @@ public class SkuInfoController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("product:skuinfo:save")
-    public R saveSpuInfo(@RequestBody SpuSaveDTO spuSaveDTO){
+    public R saveSpuInfo(@RequestBody SpuSaveDTO spuSaveDTO) {
 //		skuInfoService.save(spuSaveVO);
         return null;
     }
@@ -85,8 +91,8 @@ public class SkuInfoController {
      */
     @RequestMapping("/update")
 //    @RequiresPermissions("product:skuinfo:update")
-    public R update(@RequestBody SkuInfoEntity skuInfo){
-		skuInfoService.updateById(skuInfo);
+    public R update(@RequestBody SkuInfoEntity skuInfo) {
+        skuInfoService.updateById(skuInfo);
 
         return R.ok();
     }
@@ -96,8 +102,8 @@ public class SkuInfoController {
      */
     @RequestMapping("/delete")
 //    @RequiresPermissions("product:skuinfo:delete")
-    public R delete(@RequestBody Long[] skuIds){
-		skuInfoService.removeByIds(Arrays.asList(skuIds));
+    public R delete(@RequestBody Long[] skuIds) {
+        skuInfoService.removeByIds(Arrays.asList(skuIds));
 
         return R.ok();
     }

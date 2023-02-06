@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.CacheConstants;
-import com.xha.gulimall.common.constants.CommonConstants;
 import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.enums.HttpCode;
 import com.xha.gulimall.common.enums.MemberEnums;
@@ -138,7 +137,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
                 return R.error(HttpCode.PASSWORD_EXCEPTION.getCode(), HttpCode.PASSWORD_EXCEPTION.getMessage());
             }
         }
-        return R.ok().put(CommonConstants.LOGIN_USER,member);
+       return R.ok().setData(member);
     }
 
 

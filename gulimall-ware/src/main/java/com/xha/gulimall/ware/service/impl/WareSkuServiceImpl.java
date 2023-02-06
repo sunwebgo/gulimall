@@ -11,7 +11,7 @@ import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.dao.WareSkuDao;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
-import com.xha.gulimall.ware.feign.GetSkuInfoService;
+import com.xha.gulimall.ware.feign.ProductFeign;
 import com.xha.gulimall.ware.service.WareSkuService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,7 +30,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     private WareSkuDao wareSkuDao;
 
     @Resource
-    private GetSkuInfoService getSkuInfoService;
+    private ProductFeign productFeign;
 
     @Resource
     private WareSkuService wareSkuService;
@@ -85,7 +85,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     @Override
     public R addStock(Long skuId, Long wareId, Integer skuNum) {
 //        1.根据skuID查询sku信息
-        String skuName = getSkuInfoService.getSkuName(skuId);
+        String skuName = productFeign.getSkuName(skuId);
         if (skuName.equals("当前sku信息不存在")){
             return R.error().put("msg","当前sku信息不存在");
         }

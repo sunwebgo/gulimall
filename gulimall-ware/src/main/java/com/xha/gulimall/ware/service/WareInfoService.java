@@ -1,9 +1,11 @@
 package com.xha.gulimall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xha.gulimall.common.to.ReceiveAddressTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.ware.entity.WareInfoEntity;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -18,5 +20,7 @@ public interface WareInfoService extends IService<WareInfoEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils queryPageByCondition(Map<String, Object> params);
+
+    ReceiveAddressTO getUserInfo(Long addrId);
 }
 

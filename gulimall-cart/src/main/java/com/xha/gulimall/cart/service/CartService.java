@@ -2,7 +2,9 @@ package com.xha.gulimall.cart.service;
 
 import com.xha.gulimall.cart.vo.CartInfoVO;
 import com.xha.gulimall.cart.vo.CartVO;
+import com.xha.gulimall.common.to.CartInfoTO;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public interface CartService {
@@ -17,4 +19,7 @@ public interface CartService {
     void updateNum(Long skuId, Integer num);
 
     void deleteProduct(Long skuId);
+
+    List<CartInfoTO> getUserCartItems();
+
 }

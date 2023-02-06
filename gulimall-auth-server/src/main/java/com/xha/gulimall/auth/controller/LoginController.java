@@ -4,6 +4,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.xha.gulimall.auth.dto.UserLoginDTO;
 import com.xha.gulimall.auth.feign.MemberFeign;
 import com.xha.gulimall.common.constants.CommonConstants;
+import com.xha.gulimall.common.to.MemberTO;
 import com.xha.gulimall.common.to.UserLoginTO;
 import com.xha.gulimall.common.utils.R;
 import org.springframework.beans.BeanUtils;
@@ -32,14 +33,16 @@ public class LoginController {
         UserLoginTO userLoginTO = new UserLoginTO();
         BeanUtils.copyProperties(userLoginDTO,userLoginTO);
 //        2.调用member服务，验证用户登录
-        R r = memberFeign.userLogin(userLoginTO);
-        if (r.getCode() == 0){
+        R loginResult = memberFeign.userLogin(userLoginTO);
+        if (loginResult.getCode() == 0){
 //        3.将当前登录对象存入session
-            session.setAttribute(CommonConstants.LOGIN_USER,r.get(CommonConstants.LOGIN_USER));
+            MemberTO memberTO = loginResult.getData(new TypeReference<MemberTO>() {
+            });
+            session.setAttribute(CommonConstants.LOGIN_USER,memberTO);
             return "redirect:http://gulimall.com";
         }else{
             Map<String, String> errors = new HashMap<>();
-            errors.put("msg",r.getData("msg",new TypeReference<String>(){}));
+            errors.put("msg",loginResult.getData("msg",new TypeReference<String>(){}));
             redirectAttributes.addFlashAttribute("errors",errors);
             return "redirect:http://auth.gulimall.com/login.html";
         }

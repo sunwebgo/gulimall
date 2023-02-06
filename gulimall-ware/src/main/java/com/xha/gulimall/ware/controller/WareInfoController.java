@@ -1,5 +1,6 @@
 package com.xha.gulimall.ware.controller;
 
+import com.xha.gulimall.common.to.ReceiveAddressTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.entity.WareInfoEntity;
@@ -7,6 +8,7 @@ import com.xha.gulimall.ware.service.WareInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -23,6 +25,12 @@ import java.util.Map;
 public class WareInfoController {
     @Resource
     private WareInfoService wareInfoService;
+
+    @GetMapping("/fare")
+    public R getUserInfo(@RequestParam("addrId") Long addrId){
+        ReceiveAddressTO userInfo = wareInfoService.getUserInfo(addrId);
+        return R.ok().setData(userInfo);
+    }
 
 
     /**

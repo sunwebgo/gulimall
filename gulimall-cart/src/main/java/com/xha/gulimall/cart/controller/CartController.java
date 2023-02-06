@@ -3,14 +3,17 @@ package com.xha.gulimall.cart.controller;
 import com.xha.gulimall.cart.service.CartService;
 import com.xha.gulimall.cart.vo.CartInfoVO;
 import com.xha.gulimall.cart.vo.CartVO;
+import com.xha.gulimall.common.to.CartInfoTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -101,5 +104,17 @@ public class CartController {
     public String deleteProduct(@RequestParam("skuId") Long skuId){
         cartService.deleteProduct(skuId);
         return "redirect:http://cart.gulimall.com/cart.html";
+    }
+
+
+    /**
+     * 获取用户购物车条目
+     *
+     * @return {@link List}<{@link CartInfoTO}>
+     */
+    @ResponseBody
+    @GetMapping("/userCartItems")
+    public List<CartInfoTO> getUserCartItems(){
+        return cartService.getUserCartItems();
     }
 }

@@ -1,8 +1,6 @@
-package com.xha.gulimall.cart.vo;
+package com.xha.gulimall.common.to;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
@@ -16,7 +14,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class CartInfoVO {
+public class CartInfoTO {
     private Long skuId;
 
     /**

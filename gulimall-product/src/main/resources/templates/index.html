@@ -103,13 +103,12 @@
                     <a th:if="${session.loginUser == null}" class="li_2"
                        href="http://auth.gulimall.com/register.html">注册</a>
                 </li>
-                <span>|</span>
-<!--                <li>-->
-<!--                    <a th:if="${session.loginUser != null}" class="li_2" id="exit" style="cursor: pointer">退出</a>-->
-<!--                </li>-->
-<!--                <span>|</span>-->
                 <li>
-                    <a href="/static/#">我的订单</a>
+                    <a th:if="${session.loginUser != null}"  class="li_2" id="exit" style="cursor: pointer">退出</a>
+                </li>
+                <span>|</span>
+                <li>
+                    <a href="http://order.gulimall.com/list.html">我的订单</a>
                 </li>
 
 
@@ -621,7 +620,7 @@
         window.location.href = "http://search.gulimall.com/list.html?keyword=" + keyword;
     }
     $("#exit").click(function () {
-        alert("lalala")
+        window.location.href = "http://auth.gulimall.com/exit";
         return false;
     })
 

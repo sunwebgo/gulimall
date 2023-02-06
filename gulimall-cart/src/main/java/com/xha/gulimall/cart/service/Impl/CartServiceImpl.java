@@ -9,6 +9,7 @@ import com.xha.gulimall.cart.to.UserInfoTO;
 import com.xha.gulimall.cart.vo.CartInfoVO;
 import com.xha.gulimall.cart.vo.CartVO;
 import com.xha.gulimall.common.constants.CacheConstants;
+import com.xha.gulimall.common.to.CartInfoTO;
 import com.xha.gulimall.common.to.SkuInfoTO;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -181,7 +182,6 @@ public class CartServiceImpl implements CartService {
                     for (CartInfoVO cartInfoVO : temporaryCartList) {
                         addToCart(cartInfoVO.getSkuId().toString(), cartInfoVO.getCount());
                     }
-
                     cartInfoList.addAll(temporaryCartList);
 //          5.2得到商品总数量
                     Integer productNums = getProductTotalNum(cartInfoList);
@@ -224,6 +224,7 @@ public class CartServiceImpl implements CartService {
             List<Object> temporaryUserCart = getBoundHashOps().values();
             if (!CollectionUtils.isEmpty(temporaryUserCart)) {
                 List<CartInfoVO> temporaryUserCartList = typeSwitch(temporaryUserCart);
+                temporaryUserCartList = filterCartListByCheck(temporaryUserCartList);
 //          等到商品总数量
                 Integer productNums = getProductTotalNum(temporaryUserCartList);
 //          得到商品总价格
@@ -238,6 +239,19 @@ public class CartServiceImpl implements CartService {
         return cartVO;
     }
 
+    /**
+     * 通过检查过滤购物车列表
+     *
+     * @param cartList 临时购物车列表
+     * @return {@link List}<{@link CartInfoVO}>
+     */
+    private List<CartInfoVO> filterCartListByCheck(List<CartInfoVO> cartList) {
+        cartList = cartList
+                .stream()
+                .filter(cartInfoVO -> cartInfoVO.getCheck() == true)
+                .collect(Collectors.toList());
+        return cartList;
+    }
 
 
     /**
@@ -259,16 +273,18 @@ public class CartServiceImpl implements CartService {
     /**
      * 得到产品总价格
      *
-     * @param temporaryUserCartList 临时用户购物车列表
+     * @param cartList 临时用户购物车列表
      * @return {@link BigDecimal}
      */
-    private BigDecimal getProductTotalPrice(List<CartInfoVO> temporaryUserCartList) {
-        //                1.2.3获取到商品总价格列表
-        List<BigDecimal> productPriceList = temporaryUserCartList.stream().map(userCart -> {
+    private BigDecimal getProductTotalPrice(List<CartInfoVO> cartList) {
+//        1.过滤选中状态
+        cartList = filterCartListByCheck(cartList);
+//        2.获取到商品总价格列表
+        List<BigDecimal> productPriceList = cartList.stream().map(userCart -> {
             return userCart.getTotalPrice();
         }).collect(Collectors.toList());
 
-//                1.2.4对商品价格列表求和
+//        3.对商品价格列表求和
         BigDecimal totalPrices = new BigDecimal(0);
         for (BigDecimal productPrice : productPriceList) {
             totalPrices = totalPrices.add(productPrice);
@@ -279,16 +295,18 @@ public class CartServiceImpl implements CartService {
     /**
      * 得到商品总数量
      *
-     * @param temporaryUserCartList 临时用户购物车列表
+     * @param cartList 临时用户购物车列表
      * @return {@link Integer}
      */
-    private Integer getProductTotalNum(List<CartInfoVO> temporaryUserCartList) {
-        //                1.2.1获取到商品数量列表
-        List<Integer> productNumList = temporaryUserCartList.stream().map(userCart -> {
+    private Integer getProductTotalNum(List<CartInfoVO> cartList) {
+//        1.过滤选中状态
+        cartList = filterCartListByCheck(cartList);
+//        2.获取到商品数量列表
+        List<Integer> productNumList = cartList.stream().map(userCart -> {
             return userCart.getCount();
         }).collect(Collectors.toList());
 
-//                1.2.2对商品列表求和
+//        3.对商品列表求和
         Integer productNums = 0;
         for (Integer productNum : productNumList) {
             productNums += productNum;
@@ -308,7 +326,7 @@ public class CartServiceImpl implements CartService {
         CartInfoVO cartInfo = getCartItem(skuId.toString());
         cartInfo.setCheck(check == 1);
 //        2.更新缓存
-        getBoundHashOps().put(skuId.toString(),JSONUtil.toJsonStr(cartInfo));
+        getBoundHashOps().put(skuId.toString(), JSONUtil.toJsonStr(cartInfo));
     }
 
     /**
@@ -326,7 +344,7 @@ public class CartServiceImpl implements CartService {
         cartInfo.setTotalPrice(cartInfo.getPrice().multiply(BigDecimal.valueOf(num)));
 
 //        2.更新缓存
-        getBoundHashOps().put(skuId.toString(),JSONUtil.toJsonStr(cartInfo));
+        getBoundHashOps().put(skuId.toString(), JSONUtil.toJsonStr(cartInfo));
     }
 
     /**
@@ -337,6 +355,42 @@ public class CartServiceImpl implements CartService {
     @Override
     public void deleteProduct(Long skuId) {
         getBoundHashOps().delete(skuId.toString());
+    }
+
+    /**
+     * 获取用户购物车条目
+     *
+     * @return {@link List}<{@link CartInfoTO}>
+     */
+    @Override
+    public List<CartInfoTO> getUserCartItems() {
+//        1.获取到当前登录用户的id
+        Long userId = CartInterceptor.threadLocal.get().getUserId();
+        List<CartInfoTO> cartInfoTOList = null;
+        if (Objects.isNull(userId)) {
+            return null;
+        } else {
+//        2.获取到当前用户的购物车商品列表
+            List<Object> cartItemList = stringRedisTemplate.boundHashOps(CacheConstants.CART_CACHE + userId).values();
+
+            cartInfoTOList = cartItemList.stream().map(cartItem -> {
+                return JSONUtil.toBean(JSONUtil.toJsonStr(cartItem), CartInfoTO.class);
+            }).collect(Collectors.toList());
+
+//            2.1过滤未选中的商品
+            cartInfoTOList = cartInfoTOList
+                    .stream()
+                    .filter(cartInfoTO -> cartInfoTO.getCheck() == true)
+                    .map(cartInfoTO -> {
+                        System.out.println("当前的skuID信息：" + cartInfoTO.getSkuId());
+                        String dataPrice = productFeign.getSkuPrice(cartInfoTO.getSkuId()).getData(new TypeReference<String>() {
+                        });
+                        cartInfoTO.setPrice(new BigDecimal(dataPrice));
+                        cartInfoTO.setTotalPrice(cartInfoTO.getPrice().multiply(BigDecimal.valueOf(cartInfoTO.getCount())));
+                        return cartInfoTO;
+                    }).collect(Collectors.toList());
+        }
+        return cartInfoTOList;
     }
 
 }

@@ -138,11 +138,11 @@ public class MemberController {
      */
     @PostMapping("/oauth/gitee/login")
     public R userOAuthGiteeLogin(@RequestBody GiteeResponseTO giteeResponseTO) {
-        MemberEntity memberEntity = memberService.userOAuthGiteeLogin(giteeResponseTO);
-        if (Objects.isNull(memberEntity)) {
+        MemberEntity member = memberService.userOAuthGiteeLogin(giteeResponseTO);
+        if (Objects.isNull(member)) {
             return R.error(HttpCode.OAUTH_LOGIN_EXCEPTION.getCode(),HttpCode.OAUTH_LOGIN_EXCEPTION.getMessage());
         }
-        return R.ok().setData(memberEntity);
+        return R.ok().setData(member);
     }
 
 }
