@@ -3,6 +3,7 @@ package com.xha.gulimall.order.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
  */
 @Data
 @TableName("oms_order_item")
+@Accessors(chain = true)
 public class OrderItemEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,12 +26,9 @@ public class OrderItemEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
+
 	/**
-	 * order_id
-	 */
-	private Long orderId;
-	/**
-	 * order_sn
+	 * 订单号
 	 */
 	private String orderSn;
 	/**

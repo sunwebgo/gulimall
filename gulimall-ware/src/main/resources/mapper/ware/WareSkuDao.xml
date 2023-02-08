@@ -14,4 +14,37 @@
     </resultMap>
 
 
+<!--    SELECT-->
+<!--    ware_id-->
+<!--    FROM-->
+<!--    wms_ware_sku-->
+<!--    WHERE-->
+<!--    sku_id = 1851871421-->
+<!--    AND stock - stock_locked > 0-->
+
+    <select id="wareListToHasStock" resultType="java.lang.Long">
+        SELECT
+            ware_id
+        FROM
+            wms_ware_sku
+        WHERE
+            sku_id = #{skuId}
+          AND stock - stock_locked > #{count}
+    </select>
+
+    <!--    UPDATE wms_ware_sku-->
+    <!--    SET stock_locked = stock_locked - 1-->
+    <!--    WHERE-->
+    <!--    sku_id = 1-->
+    <!--    AND ware_id = 1-->
+    <!--    AND stock - stock_locked > 1-->
+    <update id="lockWare">
+        UPDATE wms_ware_sku
+        SET stock_locked = stock_locked + #{count}
+        WHERE
+            sku_id = #{skuId}
+          AND ware_id = #{wareId}
+          AND stock - stock_locked > #{count}
+    </update>
+
 </mapper>

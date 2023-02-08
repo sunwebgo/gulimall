@@ -2,18 +2,24 @@ package com.xha.gulimall.ware.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.to.SkuStockTO;
+import com.xha.gulimall.common.to.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.dao.WareSkuDao;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
+import com.xha.gulimall.ware.exption.UnEnoughStockException;
 import com.xha.gulimall.ware.feign.ProductFeign;
+import com.xha.gulimall.ware.pojo.SkuWareIdList;
 import com.xha.gulimall.ware.service.WareSkuService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -113,6 +119,12 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         return R.ok();
     }
 
+    /**
+     * 是否有库存
+     *
+     * @param skuIds sku id
+     * @return {@link List}<{@link SkuStockTO}>
+     */
     @Override
     public List<SkuStockTO> hashStock(List<Long> skuIds) {
         List<SkuStockTO> skuStockTOList = skuIds.stream().map(skuId -> {
@@ -134,5 +146,36 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             }
         }).collect(Collectors.toList());
         return skuStockTOList;
+    }
+
+    /**
+     * 锁定库存
+     *
+     * @param wareSkuLockTO 器皿sku锁
+     * @return {@link R}
+     */
+    @Transactional
+    @Override
+    public void wareSkuLock(WareSkuLockTO wareSkuLockTO) {
+//        1.获取到订单项中的skuId查询哪些仓库有库存
+        List<SkuWareIdList> skuWareIdLists = wareSkuLockTO.getOrderItemTOS().stream().map(orderItemTO -> {
+            SkuWareIdList skuWareIdList = new SkuWareIdList();
+            Long skuId = orderItemTO.getSkuId();
+            Integer count = orderItemTO.getCount();
+            List<Long> wareIds = wareSkuDao.wareListToHasStock(skuId,count);
+            skuWareIdList.setSkuId(skuId)
+                    .setCount(orderItemTO.getCount())
+                    .setWareId(wareIds);
+            return skuWareIdList;
+        }).collect(Collectors.toList());
+
+        for (SkuWareIdList skuWareId : skuWareIdLists) {
+//        2.当前sku没有足够的库存
+            if (CollectionUtils.isEmpty(skuWareId.getWareId())){
+                throw new UnEnoughStockException(skuWareId.getSkuId());
+            }
+//        3.锁定库存
+            wareSkuDao.lockWare(skuWareId.getSkuId(), skuWareId.getWareId().get(0), skuWareId.getCount());
+        }
     }
 }

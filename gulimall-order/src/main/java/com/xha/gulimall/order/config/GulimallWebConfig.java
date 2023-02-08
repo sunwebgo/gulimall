@@ -37,6 +37,6 @@ public class GulimallWebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        登录拦截器
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/confirm.html");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
     }
 }

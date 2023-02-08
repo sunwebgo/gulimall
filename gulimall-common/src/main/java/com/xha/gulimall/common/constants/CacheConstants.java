@@ -15,4 +15,6 @@ public class CacheConstants {
      * 购物车缓存key
      */
     public static final String CART_CACHE = "cart:";
+
+    public static final String USER_ORDER_TOKEN_CACHE = "order:token:";
 }

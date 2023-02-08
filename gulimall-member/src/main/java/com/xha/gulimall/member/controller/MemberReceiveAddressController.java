@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.xha.gulimall.common.to.ReceiveAddressTO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.xha.gulimall.member.entity.MemberReceiveAddressEntity;
@@ -52,14 +53,15 @@ public class MemberReceiveAddressController {
 
 
     /**
-     * 信息
+     * 根据主键id获取到一条收货信息
      */
     @RequestMapping("/info/{id}")
 //    @RequiresPermissions("member:memberreceiveaddress:info")
-    public R info(@PathVariable("id") Long id){
-		MemberReceiveAddressEntity memberReceiveAddress = memberReceiveAddressService.getById(id);
-
-        return R.ok().put("memberReceiveAddress", memberReceiveAddress);
+    public ReceiveAddressTO getReceiveAddress(@PathVariable("id") Long id){
+        ReceiveAddressTO receiveAddressTO = new ReceiveAddressTO();
+        MemberReceiveAddressEntity memberReceiveAddress = memberReceiveAddressService.getById(id);
+        BeanUtils.copyProperties(memberReceiveAddress,receiveAddressTO);
+        return receiveAddressTO;
     }
 
     /**

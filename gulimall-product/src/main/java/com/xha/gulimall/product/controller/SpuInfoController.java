@@ -1,5 +1,6 @@
 package com.xha.gulimall.product.controller;
 
+import com.xha.gulimall.common.to.SpuInfoTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;
@@ -92,6 +93,17 @@ public class SpuInfoController {
     @PostMapping("/up/{spuId}")
     public R upProduct(@PathVariable("spuId") Long spuId){
        return spuInfoService.upProduct(spuId);
+    }
+
+    /**
+     * 根据skuId得到spu信息
+     *
+     * @param skuId sku id
+     * @return {@link SpuInfoEntity}
+     */
+    @GetMapping("/{skuId}")
+    public SpuInfoTO getSpuInfo(@PathVariable("skuId") Long skuId){
+        return spuInfoService.getSpuInfo(skuId);
     }
 
 

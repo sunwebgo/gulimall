@@ -1,7 +1,9 @@
 package com.xha.gulimall.ware.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.xha.gulimall.common.enums.HttpCode;
 import com.xha.gulimall.common.to.SkuStockTO;
+import com.xha.gulimall.common.to.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
@@ -28,6 +30,22 @@ import java.util.stream.Collectors;
 public class WareSkuController {
     @Resource
     private WareSkuService wareSkuService;
+
+    /**
+     * 锁定库存
+     *
+     * @param wareSkuLockTO 器皿sku锁
+     * @return {@link R}
+     */
+    @PostMapping("/lock/sku")
+    public R wareSkuLock(@RequestBody WareSkuLockTO wareSkuLockTO){
+        try {
+            wareSkuService.wareSkuLock(wareSkuLockTO);
+            return R.ok();
+        } catch (Exception e) {
+            return R.error(HttpCode.UNENOUGH_STOCK_EXCEPTION.getCode(),HttpCode.UNENOUGH_STOCK_EXCEPTION.getMessage());
+        }
+    }
 
 
     /**

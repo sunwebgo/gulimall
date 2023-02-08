@@ -1,6 +1,5 @@
 package com.xha.gulimall.ware.service.impl;
 
-import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Objects;
 
@@ -50,13 +48,13 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
         String key = (String) params.get("key");
 
         LambdaQueryWrapper<WareInfoEntity> queryWrapper = new LambdaQueryWrapper<>();
-        if (!StringUtils.isEmpty(key)){
+        if (!StringUtils.isEmpty(key)) {
             queryWrapper
-                    .like(WareInfoEntity::getName,key)
+                    .like(WareInfoEntity::getName, key)
                     .or()
-                    .like(WareInfoEntity::getAddress,key)
+                    .like(WareInfoEntity::getAddress, key)
                     .or()
-                    .eq(WareInfoEntity::getAreacode,key);
+                    .eq(WareInfoEntity::getAreacode, key);
         }
 
         IPage<WareInfoEntity> page = this.page(
@@ -73,13 +71,13 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
      */
     @Override
     public ReceiveAddressTO getUserInfo(Long addrId) {
-        R info = memberFeign.info(addrId);
-        ReceiveAddressTO memberReceiveAddress = info.getData("memberReceiveAddress", new TypeReference<ReceiveAddressTO>() {
-        });
-        if (!Objects.isNull(memberReceiveAddress)){
-            return memberReceiveAddress;
+//        1.调用远程服务,根据addrId查询当前一条收货人信息
+        ReceiveAddressTO receiveAddress = memberFeign.getReceiveAddress(addrId);
+        if (!Objects.isNull(receiveAddress)) {
+            return receiveAddress;
+        } else {
+            return null;
         }
-        return null;
     }
 
 }

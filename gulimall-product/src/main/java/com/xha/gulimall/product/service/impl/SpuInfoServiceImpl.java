@@ -10,6 +10,7 @@ import com.xha.gulimall.common.enums.ProductEnums;
 import com.xha.gulimall.common.to.SkuReductionTO;
 import com.xha.gulimall.common.to.SkuStockTO;
 import com.xha.gulimall.common.to.SpuBoundTO;
+import com.xha.gulimall.common.to.SpuInfoTO;
 import com.xha.gulimall.common.to.es.AttrES;
 import com.xha.gulimall.common.to.es.SkuInfoES;
 import com.xha.gulimall.common.utils.PageUtils;
@@ -361,5 +362,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 //        13.更改spu上架状态
         updateById(spu);
         return R.ok().put("msg", "es存储数据成功");
+    }
+
+    @Override
+    public SpuInfoTO getSpuInfo(Long skuId) {
+        SpuInfoTO spuInfoTO = new SpuInfoTO();
+//        1.根据skuId查询spu信息
+        SpuInfoEntity spuInfoEntity = getById(skuInfoService.getById(skuId).getSpuId());
+//        2.获取到spu的品牌信息
+        String brandName = brandService.getById(spuInfoEntity.getBrandId()).getName();
+        spuInfoTO.setSpuId(spuInfoEntity.getId())
+                .setSpuName(spuInfoEntity.getSpuName())
+                .setSpuBrand(brandName);
+        return spuInfoTO;
     }
 }

@@ -382,7 +382,6 @@ public class CartServiceImpl implements CartService {
                     .stream()
                     .filter(cartInfoTO -> cartInfoTO.getCheck() == true)
                     .map(cartInfoTO -> {
-                        System.out.println("当前的skuID信息：" + cartInfoTO.getSkuId());
                         String dataPrice = productFeign.getSkuPrice(cartInfoTO.getSkuId()).getData(new TypeReference<String>() {
                         });
                         cartInfoTO.setPrice(new BigDecimal(dataPrice));

@@ -118,14 +118,6 @@
                         </ol>
 
                     </div>
-                    <div>
-                        <h4><a href="/static/order/confirm/">我的足迹</a><a href="/static/order/confirm/">更多 ></a></h4>
-                        <a href="/static/order/confirm/"><img src="/static/order/confirm/image/59ae02fcN529cc4a1.jpg"/></a>
-                        <a href="/static/order/confirm/"><img src="/static/order/confirm/image/59ce706fN6f3f2a4a.jpg"/></a>
-                        <a href="/static/order/confirm/"><img src="/static/order/confirm/image/57b191f2N15993cbb.jpg"/></a>
-                        <a href="/static/order/confirm/"><img src="/static/order/confirm/image/58ff269fN7b7e087b.jpg"/></a>
-
-                    </div>
                 </div>
 
             </li>
@@ -516,9 +508,8 @@
     <!--提交数据 从隐藏表单域中提取  还回去购物车 查询选中的商品一同提交-->
     <form action="http://order.gulimall.com/submitOrder" method="post">
         <input id="addIdInput" type="hidden" name="addrId"/>
-        <input id="payPriceInput" type="hidden" name="payPrice"/>
-        <input type="hidden" name="orderToken" th:value="${orderConfirmData.orderToken}"/>
-        <button class="tijiao" type="submit">提交订单</button>
+        <input name="orderToken" type="hidden" th:value="${orderConfirmData.orderToken}"/>
+        <button class="tijiao" style="cursor: pointer" type="submit">提交订单</button>
     </form>
 </div>
 </div>
@@ -774,18 +765,10 @@
     })
 
     function getFare(addrId) {
+        console.log(addrId)
         //给表单回填选择的地址
         $("#addIdInput").val(addrId);
         $.get("http://gulimall.com/api/ware/wareinfo/fare?addrId=" + addrId, function (data) {
-            console.log(data)
-            console.log(data.data.name)
-            // $("#fareEle").text(data.data.fare);
-            // var total = [[${orderConfirmData.totalPrice}]];
-            // // 设置运费
-            // let number = total * 1 + data.data.fare * 1;
-            // $("#payPriceEle").text(number)
-            // // 应付总额
-            // $("#payPriceInput").val(number)
             // 设置收货人
             $("#receiveAddress").text(data.data.detailAddress)
             $("#receiver").text(data.data.name);

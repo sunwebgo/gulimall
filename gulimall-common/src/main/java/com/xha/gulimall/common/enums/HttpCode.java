@@ -20,6 +20,7 @@ import lombok.Getter;
  * * 14: 物流
  * * 15: 用户
  * * 16: 数据
+ * * 17: 库存
  */
 
 @Getter
@@ -35,7 +36,8 @@ public enum HttpCode {
     PASSWORD_EXCEPTION(15004, "密码错误"),
     LOGIN_EXCEPTION(15005, "登录异常"),
     OAUTH_LOGIN_EXCEPTION(15006, "授权登录异常"),
-    DATA_EXCEPTION(16001,"数据不能为空");
+    DATA_EXCEPTION(16001,"数据不能为空"),
+    UNENOUGH_STOCK_EXCEPTION(17001,"库存不足");
 
     private int code;
     private String message;

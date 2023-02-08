@@ -54,7 +54,6 @@ public class WareInfoController {
 //    @RequiresPermissions("ware:wareinfo:info")
     public R info(@PathVariable("id") Long id){
 		WareInfoEntity wareInfo = wareInfoService.getById(id);
-
         return R.ok().put("wareInfo", wareInfo);
     }
 

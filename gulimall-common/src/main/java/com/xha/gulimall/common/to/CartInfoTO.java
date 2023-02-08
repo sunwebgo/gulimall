@@ -38,7 +38,7 @@ public class CartInfoTO {
     private List<String> skuAttr;
 
     /**
-     * 价格
+     * 单价
      */
     private BigDecimal price;
 

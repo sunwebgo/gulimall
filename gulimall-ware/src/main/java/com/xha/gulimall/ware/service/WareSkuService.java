@@ -2,6 +2,7 @@ package com.xha.gulimall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xha.gulimall.common.to.SkuStockTO;
+import com.xha.gulimall.common.to.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
@@ -25,5 +26,7 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     R addStock(Long skuId, Long wareId, Integer skuNum);
 
     List<SkuStockTO> hashStock(List<Long> skuIds);
+
+    void wareSkuLock(WareSkuLockTO wareSkuLockTO);
 }
 

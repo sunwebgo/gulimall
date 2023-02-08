@@ -9,7 +9,7 @@ import lombok.Data;
 
 /**
  * 优惠券领取历史记录
- * 
+ *
  * @author XuHuaianag
  * @email 2533694604@qq.com
  * @date 2022-12-29 16:43:17
@@ -59,6 +59,6 @@ public class CouponHistoryEntity implements Serializable {
 	/**
 	 * 订单号
 	 */
-	private Long orderSn;
+	private String orderSn;
 
 }
