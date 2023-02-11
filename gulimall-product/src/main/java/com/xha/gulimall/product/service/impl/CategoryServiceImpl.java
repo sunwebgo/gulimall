@@ -14,6 +14,7 @@ import com.xha.gulimall.product.entity.CategoryEntity;
 import com.xha.gulimall.product.service.CategoryBrandRelationService;
 import com.xha.gulimall.product.service.CategoryService;
 import com.xha.gulimall.product.vo.Catelog2VO;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -156,7 +157,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      *
      * @param category 类别
      */
-    @Transactional
+    @GlobalTransactional
     @Override
     public void updateDetails(CategoryEntity category) {
         updateById(category);

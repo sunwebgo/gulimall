@@ -1,9 +1,8 @@
 package com.xha.gulimall.ware.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xha.gulimall.common.enums.HttpCode;
-import com.xha.gulimall.common.to.SkuStockTO;
-import com.xha.gulimall.common.to.WareSkuLockTO;
+import com.xha.gulimall.common.to.product.SkuStockTO;
+import com.xha.gulimall.common.to.ware.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
@@ -14,8 +13,6 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**

@@ -15,6 +15,7 @@ import com.xha.gulimall.product.entity.*;
 import com.xha.gulimall.product.service.AttrAttrgroupRelationService;
 import com.xha.gulimall.product.service.AttrService;
 import com.xha.gulimall.product.vo.AttrVO;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -140,7 +141,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return R.ok();
     }
 
-    @Transactional
+    @GlobalTransactional
     @Override
     public void saveAttr(AttrDTO attr) {
         AttrEntity attrEntity = new AttrEntity();

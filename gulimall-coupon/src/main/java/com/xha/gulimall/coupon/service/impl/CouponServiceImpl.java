@@ -20,7 +20,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, CouponEntity> impl
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CouponEntity> page = this.page(
                 new Query<CouponEntity>().getPage(params),
-                new QueryWrapper<CouponEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);

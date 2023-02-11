@@ -1,5 +1,6 @@
-package com.xha.gulimall.common.to;
+package com.xha.gulimall.common.to.product;
 
+import com.xha.gulimall.common.to.member.MemberPrice;
 import lombok.Data;
 
 import java.math.BigDecimal;

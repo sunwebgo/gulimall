@@ -1,14 +1,22 @@
 package com.xha.gulimall.order.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.CacheConstants;
-import com.xha.gulimall.common.to.*;
+import com.xha.gulimall.common.to.cart.CartInfoTO;
+import com.xha.gulimall.common.to.member.MemberTO;
+import com.xha.gulimall.common.to.member.ReceiveAddressTO;
+import com.xha.gulimall.common.to.order.OrderItemTO;
+import com.xha.gulimall.common.to.order.OrderTO;
+import com.xha.gulimall.common.to.product.SpuInfoTO;
+import com.xha.gulimall.common.to.ware.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.common.constants.rabbitmq.order.OrderRmConstants;
 import com.xha.gulimall.order.dao.OrderDao;
 import com.xha.gulimall.order.dto.OrderSubmitDTO;
 import com.xha.gulimall.order.entity.OrderEntity;
@@ -25,6 +33,7 @@ import com.xha.gulimall.order.vo.CreateOrderVO;
 import com.xha.gulimall.order.vo.OrderConfirmVO;
 import com.xha.gulimall.order.vo.OrderItemVO;
 import com.xha.gulimall.order.vo.SubmitOrderResponseVO;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -39,6 +48,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -69,6 +79,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Resource
     private WareFeign wareFeign;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @Resource
+    private OrderDao orderDao;
 
     private ThreadLocal<OrderSubmitDTO> threadLocal = new ThreadLocal<>();
 
@@ -169,7 +185,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         Long executeResult = stringRedisTemplate.execute(
                 new DefaultRedisScript<Long>(luaScript, Long.class),
                 Arrays.asList(CacheConstants.USER_ORDER_TOKEN_CACHE + memberTO.getId()),
-                        orderToken);
+                orderToken);
         if (executeResult == 0L) {
             submitOrderResponseVO.setCode(0);
 //            2.1令牌验证失败
@@ -197,8 +213,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                     .setOrderItemTOS(orderItemTOList);
 //            4.2调用库存服务,锁定库存
             R lockResult = wareFeign.wareSkuLock(wareSkuLockTO);
-            if (lockResult.getCode() == 0){
-//            4.3锁定成功
+            if (lockResult.getCode() == 0) {
+//          5.订单创建成功，发送消息到rabbitmq的延时队列
+                rabbitTemplate.convertAndSend(
+                        OrderRmConstants.ORDER_EVENT_EXCHANGE,
+                        OrderRmConstants.ORDER_CREATE_ORDER_BINDING,
+                        order);
+
                 submitOrderResponseVO.setOrder(order);
                 return submitOrderResponseVO;
             }
@@ -297,6 +318,48 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             }).collect(Collectors.toList());
         }
         return orderItemEntityList;
+    }
+
+    /**
+     * 通过id获取订单
+     *
+     * @param orderSn 订单sn
+     * @return {@link OrderTO}
+     */
+    @Override
+    public OrderTO getOrderById(String orderSn) {
+        LambdaQueryWrapper<OrderEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderEntity::getOrderSn, orderSn);
+        OrderEntity order = getOne(queryWrapper);
+        if (Objects.isNull(order)) {
+            return null;
+        }
+        OrderTO orderTO = new OrderTO();
+        BeanUtils.copyProperties(order, orderTO);
+        return orderTO;
+    }
+
+    /**
+     * 关闭订单
+     *
+     * @param orderEntity 订单实体
+     */
+    @Override
+    public void closeOrder(OrderEntity orderEntity) {
+//        1.查询当前订单的状态
+        OrderEntity order = orderDao.selectById(orderEntity.getId());
+//        2.如果当前的订单状态为待待付款
+        if (order.getStatus() == OrderStatusEnum.CREATE_NEW.getCode()){
+            System.out.println("当前订单未支付，超时关闭订单");
+//           2.1关闭订单
+            order.setStatus(OrderStatusEnum.CANCEL.getCode());
+            orderDao.updateById(order);
+            OrderTO orderTO = new OrderTO();
+            BeanUtils.copyProperties(order,orderTO);
+            rabbitTemplate.convertAndSend(OrderRmConstants.ORDER_EVENT_EXCHANGE,
+                    OrderRmConstants.ORDER_RELEASE_OTHER_BINDING,
+                    orderTO);
+        }
     }
 
 

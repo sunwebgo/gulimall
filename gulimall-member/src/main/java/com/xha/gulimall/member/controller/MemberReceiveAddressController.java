@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.xha.gulimall.common.to.ReceiveAddressTO;
+import com.xha.gulimall.common.to.member.ReceiveAddressTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 

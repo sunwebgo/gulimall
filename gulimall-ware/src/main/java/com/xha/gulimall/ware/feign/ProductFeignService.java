@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
 @FeignClient("gulimall-product")
-public interface ProductFeign {
+public interface ProductFeignService {
 
     @RequestMapping("/product/skuinfo/getskuname/{skuId}")
     public String getSkuName(@PathVariable("skuId") Long skuId);

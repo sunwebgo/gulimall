@@ -1,11 +1,10 @@
 package com.xha.gulimall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xha.gulimall.common.to.ReceiveAddressTO;
+import com.xha.gulimall.common.to.member.ReceiveAddressTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.ware.entity.WareInfoEntity;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 /**

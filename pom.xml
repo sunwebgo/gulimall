@@ -58,6 +58,7 @@
         <httpclient-version>4.5.13</httpclient-version>
         <spring-session-version>2.3.3.RELEASE</spring-session-version>
         <amqp-version>2.3.12.RELEASE</amqp-version>
+        <seata-all-version>1.4.2</seata-all-version>
     </properties>
 
     <dependencyManagement>

@@ -92,4 +92,3 @@ spring:
           predicates:
             - Host=order.gulimall.com
 
-

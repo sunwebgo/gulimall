@@ -20,7 +20,7 @@ public class HomeAdvServiceImpl extends ServiceImpl<HomeAdvDao, HomeAdvEntity> i
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<HomeAdvEntity> page = this.page(
                 new Query<HomeAdvEntity>().getPage(params),
-                new QueryWrapper<HomeAdvEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);

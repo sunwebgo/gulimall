@@ -1,7 +1,7 @@
 package com.xha.gulimall.product.feign;
 
-import com.xha.gulimall.common.to.SkuReductionTO;
-import com.xha.gulimall.common.to.SpuBoundTO;
+import com.xha.gulimall.common.to.product.SkuReductionTO;
+import com.xha.gulimall.common.to.product.SpuBoundTO;
 import com.xha.gulimall.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;

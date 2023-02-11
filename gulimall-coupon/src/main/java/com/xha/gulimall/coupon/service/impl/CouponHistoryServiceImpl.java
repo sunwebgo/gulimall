@@ -20,7 +20,7 @@ public class CouponHistoryServiceImpl extends ServiceImpl<CouponHistoryDao, Coup
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CouponHistoryEntity> page = this.page(
                 new Query<CouponHistoryEntity>().getPage(params),
-                new QueryWrapper<CouponHistoryEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);

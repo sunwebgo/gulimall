@@ -1,11 +1,11 @@
 package com.xha.gulimall.ware;
 
-import com.xha.gulimall.common.to.SkuStockTO;
+import com.xha.gulimall.common.to.product.SkuStockTO;
 import com.xha.gulimall.ware.entity.PurchaseEntity;
 import com.xha.gulimall.ware.service.PurchaseService;
 import com.xha.gulimall.ware.service.WareSkuService;
 import org.junit.jupiter.api.Test;
-import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -40,6 +40,14 @@ class GulimallWareApplicationTests {
         idList.add(801204540L);
         List<SkuStockTO> skuStockTOS = wareSkuService.hashStock(idList);
         System.out.println("结果是：" + skuStockTOS);
+    }
+
+    /**
+     * 接收消息
+     */
+    @RabbitListener(queues = {""})
+    public void receiveMessage(Object message){
+        System.out.println("监听到队列中的消息是：" + message);
     }
 
 }

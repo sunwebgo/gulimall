@@ -1,4 +1,4 @@
-package com.xha.gulimall.common.to;
+package com.xha.gulimall.common.to.product;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

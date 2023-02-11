@@ -1,7 +1,7 @@
 package com.xha.gulimall.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xha.gulimall.common.to.ReceiveAddressTO;
+import com.xha.gulimall.common.to.member.ReceiveAddressTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.member.entity.MemberReceiveAddressEntity;
 

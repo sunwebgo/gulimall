@@ -1,8 +1,8 @@
 package com.xha.gulimall.auth.feign;
 
-import com.xha.gulimall.common.to.GiteeResponseTO;
-import com.xha.gulimall.common.to.UserLoginTO;
-import com.xha.gulimall.common.to.UserRegisterTO;
+import com.xha.gulimall.common.to.member.GiteeResponseTO;
+import com.xha.gulimall.common.to.member.UserLoginTO;
+import com.xha.gulimall.common.to.member.UserRegisterTO;
 import com.xha.gulimall.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;

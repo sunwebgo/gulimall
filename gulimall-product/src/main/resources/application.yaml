@@ -18,6 +18,9 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    alibaba:
+      seata:
+        tx-service-group: SEATA_GROUP
   thymeleaf:
     #    关闭thymeleaf缓存
     cache: false
@@ -59,7 +62,8 @@ mybatis-plus:
 #打印日志
 logging:
   level:
-    com.xha.gulimall: debug
+    com.xha: debug
+
 
 #线程池配置
 gulimall:

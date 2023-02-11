@@ -42,14 +42,14 @@ public class OrderWebController {
      * @return {@link String}
      */
     @PostMapping("/submitOrder")
-    public String submitOrder(OrderSubmitDTO orderSubmitDTO, Model model, RedirectAttributes redirectAttributes){
+    public String submitOrder(OrderSubmitDTO orderSubmitDTO, Model model, RedirectAttributes redirectAttributes) {
         SubmitOrderResponseVO submitOrderResponseVO = orderService.submitOrder(orderSubmitDTO);
-        if (!Objects.isNull(submitOrderResponseVO.getOrder())){
-            model.addAttribute("submitOrderResp",submitOrderResponseVO);
+        if (!Objects.isNull(submitOrderResponseVO.getOrder())) {
+            model.addAttribute("submitOrderResp", submitOrderResponseVO);
             return "pay";
 //           下单成功来到支付页面
-        }else{
-            redirectAttributes.addFlashAttribute("msg","下单失败");
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "下单失败");
             return "redirect:http://order.gulimall.com/confirm.html";
         }
     }

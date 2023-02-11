@@ -2,7 +2,7 @@ package com.xha.gulimall.cart.service;
 
 import com.xha.gulimall.cart.vo.CartInfoVO;
 import com.xha.gulimall.cart.vo.CartVO;
-import com.xha.gulimall.common.to.CartInfoTO;
+import com.xha.gulimall.common.to.cart.CartInfoTO;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

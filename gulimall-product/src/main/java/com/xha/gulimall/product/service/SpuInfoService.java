@@ -1,7 +1,7 @@
 package com.xha.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xha.gulimall.common.to.SpuInfoTO;
+import com.xha.gulimall.common.to.product.SpuInfoTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;

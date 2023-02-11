@@ -1,9 +1,8 @@
 package com.xha.gulimall.product.feign;
 
-import com.xha.gulimall.common.to.SkuStockTO;
+import com.xha.gulimall.common.to.product.SkuStockTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

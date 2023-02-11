@@ -21,6 +21,12 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    alibaba:
+      seata:
+        tx-service-group: SEATA_GROUP
+ #   alibaba:
+ #     seata:
+ #       tx-service-group: SEATA_GROUP
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.26.160:3306/gulimall_ums?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
@@ -47,7 +53,8 @@ mybatis-plus:
       id-type: auto
 logging:
   level:
-    com.xha.gulimall: debug
+    com.xha: debug
+
 
 
 #线程池配置

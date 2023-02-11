@@ -1,7 +1,6 @@
 package com.xha.gulimall.order.vo;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.xha.gulimall.common.to.ReceiveAddressTO;
+import com.xha.gulimall.common.to.member.ReceiveAddressTO;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,7 +1,6 @@
 package com.xha.gulimall.order.feign;
 
-import com.xha.gulimall.common.to.ReceiveAddressTO;
-import com.xha.gulimall.common.utils.R;
+import com.xha.gulimall.common.to.member.ReceiveAddressTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

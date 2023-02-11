@@ -15,6 +15,18 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    alibaba:
+      seata:
+        tx-service-group: SEATA_GROUP
+  rabbitmq:
+    port: 5672
+    host: 192.168.26.160
+    username: guest
+    password: guest
+    listener:
+      simple:
+#        手动Ack
+        acknowledge-mode: manual
 
 # mybatis-plus配置
 mybatis-plus:
@@ -28,3 +40,5 @@ mybatis-plus:
 logging:
   level:
     com.xha: debug
+
+

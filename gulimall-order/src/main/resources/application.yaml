@@ -18,6 +18,9 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    alibaba:
+      seata:
+        tx-service-group: SEATA_GROUP
   rabbitmq:
     host: 192.168.26.160
     port: 5672
@@ -70,4 +73,9 @@ gulimall:
     core-size: 20
     max-size: 200
     keep-alive-time: 10
+#打印日志
+logging:
+  level:
+    com.xha: debug
+
 

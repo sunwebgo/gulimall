@@ -3,7 +3,7 @@ package com.xha.gulimall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.xha.gulimall.common.to.SkuReductionTO;
+import com.xha.gulimall.common.to.product.SkuReductionTO;
 import org.springframework.web.bind.annotation.*;
 
 import com.xha.gulimall.coupon.entity.SkuFullReductionEntity;

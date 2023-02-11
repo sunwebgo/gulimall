@@ -5,23 +5,19 @@ import com.xha.gulimall.auth.constants.CacheConstants;
 import com.xha.gulimall.auth.dto.UserRegisterDTO;
 import com.xha.gulimall.auth.feign.MemberFeign;
 import com.xha.gulimall.auth.service.RegisterService;
-import com.xha.gulimall.common.to.UserRegisterTO;
+import com.xha.gulimall.common.to.member.UserRegisterTO;
 import com.xha.gulimall.common.utils.R;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class RegisterController {

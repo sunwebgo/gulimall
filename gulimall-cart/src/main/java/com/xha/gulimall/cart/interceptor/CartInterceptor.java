@@ -5,9 +5,8 @@ import cn.hutool.json.JSONUtil;
 import com.xha.gulimall.cart.to.UserInfoTO;
 import com.xha.gulimall.common.constants.CommonConstants;
 import com.xha.gulimall.cart.constants.CookieConstants;
-import com.xha.gulimall.common.to.MemberTO;
+import com.xha.gulimall.common.to.member.MemberTO;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

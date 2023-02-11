@@ -1,4 +1,4 @@
-package com.xha.gulimall.common.to;
+package com.xha.gulimall.common.to.member;
 
 import lombok.Data;
 

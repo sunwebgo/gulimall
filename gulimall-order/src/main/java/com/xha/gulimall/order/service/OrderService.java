@@ -1,6 +1,7 @@
 package com.xha.gulimall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xha.gulimall.common.to.order.OrderTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.order.dto.OrderSubmitDTO;
 import com.xha.gulimall.order.entity.OrderEntity;
@@ -24,5 +25,9 @@ public interface OrderService extends IService<OrderEntity> {
     OrderConfirmVO confirmOrder() throws ExecutionException, InterruptedException;
 
     SubmitOrderResponseVO submitOrder(OrderSubmitDTO orderSubmitDTO);
+
+    OrderTO getOrderById(String orderSn);
+
+    void closeOrder(OrderEntity orderEntity);
 }
 

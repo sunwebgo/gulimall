@@ -1,12 +1,17 @@
 package com.xha.gulimall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xha.gulimall.common.to.SkuStockTO;
-import com.xha.gulimall.common.to.WareSkuLockTO;
+import com.rabbitmq.client.Channel;
+import com.xha.gulimall.common.to.order.OrderTO;
+import com.xha.gulimall.common.to.product.SkuStockTO;
+import com.xha.gulimall.common.to.ware.WareSkuLockTO;
+import com.xha.gulimall.common.to.rabbitmq.StockLockedTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.ware.entity.WareSkuEntity;
+import org.springframework.amqp.core.Message;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +33,10 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     List<SkuStockTO> hashStock(List<Long> skuIds);
 
     void wareSkuLock(WareSkuLockTO wareSkuLockTO);
+
+
+    void unlockedStock(StockLockedTO stockLockedTO);
+
+    void unlockedStock(OrderTO orderTO);
 }
 

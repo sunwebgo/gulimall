@@ -11,6 +11,7 @@ import com.xha.gulimall.product.dao.BrandDao;
 import com.xha.gulimall.product.entity.BrandEntity;
 import com.xha.gulimall.product.service.BrandService;
 import com.xha.gulimall.product.service.CategoryBrandRelationService;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         return new PageUtils(page);
     }
 
-    @Transactional
+    @GlobalTransactional
     @Override
     public R updateDetails(BrandEntity brand) {
 //        1.判断数据库中是否存在当前品牌

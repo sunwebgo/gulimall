@@ -1,6 +1,6 @@
 package com.xha.gulimall.order.feign;
 
-import com.xha.gulimall.common.to.CartInfoTO;
+import com.xha.gulimall.common.to.cart.CartInfoTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

@@ -3,6 +3,7 @@ package com.xha.gulimall.ware.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @date 2022-12-29 16:47:49
  */
 @Data
+@Accessors(chain = true)
 @TableName("wms_ware_order_task_detail")
 public class WareOrderTaskDetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,10 +30,6 @@ public class WareOrderTaskDetailEntity implements Serializable {
 	 */
 	private Long skuId;
 	/**
-	 * sku_name
-	 */
-	private String skuName;
-	/**
 	 * 购买个数
 	 */
 	private Integer skuNum;
@@ -39,5 +37,15 @@ public class WareOrderTaskDetailEntity implements Serializable {
 	 * 工作单id
 	 */
 	private Long taskId;
+
+	/**
+	 * 仓库ID
+	 */
+	private Long wareId;
+
+	/**
+	 * 锁定状态
+	 */
+	private Integer lockStatus;
 
 }

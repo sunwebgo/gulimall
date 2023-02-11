@@ -10,6 +10,9 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    alibaba:
+      seata:
+        tx-service-group: SEATA_GROUP
   thymeleaf:
     #    关闭thymeleaf缓存
     cache: false
@@ -24,4 +27,9 @@ spring:
 
   session:
     store-type: redis
+
+#打印日志
+logging:
+  level:
+    com.xha: debug
 

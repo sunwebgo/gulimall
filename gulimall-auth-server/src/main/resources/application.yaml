@@ -12,6 +12,12 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    alibaba:
+      seata:
+        tx-service-group: SEATA_GROUP
+ #   alibaba:
+ #     seata:
+ #       tx-service-group: SEATA_GROUP
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
@@ -37,7 +43,8 @@ spring:
 
 logging:
   level:
-    com.xha.gulimall: debug
+    com.xha: debug
+
 
 feign:
   client:

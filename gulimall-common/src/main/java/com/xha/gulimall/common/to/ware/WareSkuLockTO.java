@@ -1,5 +1,6 @@
-package com.xha.gulimall.common.to;
+package com.xha.gulimall.common.to.ware;
 
+import com.xha.gulimall.common.to.order.OrderItemTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

@@ -1,5 +1,7 @@
 package com.xha.gulimall.order;
 
+
+import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @SpringBootApplication
 @EnableRabbit
 @EnableRedisHttpSession
+// 开启seata
+@EnableAutoDataSourceProxy
 public class GulimallOrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(GulimallOrderApplication.class, args);

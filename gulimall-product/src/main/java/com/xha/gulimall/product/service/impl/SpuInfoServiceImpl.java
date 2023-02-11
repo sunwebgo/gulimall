@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.NumberConstants;
 import com.xha.gulimall.common.enums.ProductEnums;
-import com.xha.gulimall.common.to.SkuReductionTO;
-import com.xha.gulimall.common.to.SkuStockTO;
-import com.xha.gulimall.common.to.SpuBoundTO;
-import com.xha.gulimall.common.to.SpuInfoTO;
+import com.xha.gulimall.common.to.product.SkuReductionTO;
+import com.xha.gulimall.common.to.product.SkuStockTO;
+import com.xha.gulimall.common.to.product.SpuBoundTO;
+import com.xha.gulimall.common.to.product.SpuInfoTO;
 import com.xha.gulimall.common.to.es.AttrES;
 import com.xha.gulimall.common.to.es.SkuInfoES;
 import com.xha.gulimall.common.utils.PageUtils;
@@ -24,9 +24,9 @@ import com.xha.gulimall.product.feign.CouponFeignService;
 import com.xha.gulimall.product.feign.SearchFeignService;
 import com.xha.gulimall.product.feign.WareFeignService;
 import com.xha.gulimall.product.service.*;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -96,7 +96,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
      * @param spuSaveDTO spu拯救dto
      * @return {@link R}
      */
-    @Transactional
+    @GlobalTransactional
     @Override
     public R saveSpuInfo(SpuSaveDTO spuSaveDTO) {
 //        1.保存spu的基本信息 pms_spu_info

@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+/**
+ * RabbitMQ的消息序列化和反序列化配置、消息回调配置
+ *
+ * @author Xu Huaiang
+ * @date 2023/02/10
+ */
 @Configuration
 public class RabbitMQMessageConfig {
 

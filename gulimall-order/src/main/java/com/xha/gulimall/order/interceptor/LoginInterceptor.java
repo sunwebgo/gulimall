@@ -1,13 +1,13 @@
 package com.xha.gulimall.order.interceptor;
 
+import cn.hutool.core.text.AntPathMatcher;
 import com.xha.gulimall.common.constants.CommonConstants;
-import com.xha.gulimall.common.to.MemberTO;
+import com.xha.gulimall.common.to.member.MemberTO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 @Component
@@ -17,6 +17,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String requestURI = request.getRequestURI();
+        boolean match = new AntPathMatcher().match("/order/order/getOrderById/**", requestURI);
+        if (match){
+            return true;
+        }
+
 //        1.获取到当前登录的用户
         Object loginUser = request.getSession().getAttribute(CommonConstants.LOGIN_USER);
         if (Objects.isNull(loginUser)) {

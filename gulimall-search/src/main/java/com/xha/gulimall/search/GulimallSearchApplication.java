@@ -1,5 +1,7 @@
 package com.xha.gulimall.search;
 
+
+import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -10,6 +12,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableRedisHttpSession
+// 开启seata
+@EnableAutoDataSourceProxy
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class GulimallSearchApplication {
     public static void main(String[] args) {

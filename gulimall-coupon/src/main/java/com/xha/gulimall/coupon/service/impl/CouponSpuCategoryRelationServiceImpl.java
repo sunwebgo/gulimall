@@ -20,7 +20,7 @@ public class CouponSpuCategoryRelationServiceImpl extends ServiceImpl<CouponSpuC
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CouponSpuCategoryRelationEntity> page = this.page(
                 new Query<CouponSpuCategoryRelationEntity>().getPage(params),
-                new QueryWrapper<CouponSpuCategoryRelationEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);
