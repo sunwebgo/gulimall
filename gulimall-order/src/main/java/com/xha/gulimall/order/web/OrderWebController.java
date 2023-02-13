@@ -1,5 +1,8 @@
 package com.xha.gulimall.order.web;
 
+import cn.hutool.json.JSONUtil;
+import com.xha.gulimall.common.utils.PageUtils;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.order.dto.OrderSubmitDTO;
 import com.xha.gulimall.order.service.OrderService;
 import com.xha.gulimall.order.vo.OrderConfirmVO;
@@ -8,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -53,4 +59,24 @@ public class OrderWebController {
             return "redirect:http://order.gulimall.com/confirm.html";
         }
     }
+
+
+    /**
+     * 查询到当前用户的订单列表
+     *
+     * @param pageNum 页面num
+     * @param model   模型
+     * @return {@link String}
+     */
+    @GetMapping("/orderlist.html")
+    public String getOrderListByUser(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, Model model) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("page", pageNum.toString());
+        PageUtils page = orderService.getOrderList(params);
+        R result = R.ok().put("page", page);
+        model.addAttribute("orders", result);
+        return "orderlist";
+    }
+
+
 }

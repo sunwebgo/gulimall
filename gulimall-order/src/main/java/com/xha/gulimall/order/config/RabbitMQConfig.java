@@ -26,7 +26,7 @@ public class RabbitMQConfig {
         Map<String, Object> arguments = new HashMap<>();
         arguments.put(OrderRmConstants.X_DEAD_LETTER_EXCHANGE, OrderRmConstants.ORDER_EVENT_EXCHANGE);
         arguments.put(OrderRmConstants.X_DEAD_LETTER_ROUTING_KEY, OrderRmConstants.ORDER_RELEASE_ORDER_BINDING);
-        arguments.put(OrderRmConstants.X_MESSAGE_TTL, 6000);
+        arguments.put(OrderRmConstants.X_MESSAGE_TTL, 60000);
         return new Queue(OrderRmConstants.ORDER_DELAY_QUEUE,
                 true,
                 false,

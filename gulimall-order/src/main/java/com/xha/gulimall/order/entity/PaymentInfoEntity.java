@@ -3,6 +3,7 @@ package com.xha.gulimall.order.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.Date;
  */
 @Data
 @TableName("oms_payment_info")
+@Accessors(chain = true)
 public class PaymentInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 

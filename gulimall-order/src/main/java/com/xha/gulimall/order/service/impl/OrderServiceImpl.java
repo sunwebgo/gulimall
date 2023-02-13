@@ -3,9 +3,11 @@ package com.xha.gulimall.order.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.CacheConstants;
+import com.xha.gulimall.common.constants.rabbitmq.order.OrderRmConstants;
 import com.xha.gulimall.common.to.cart.CartInfoTO;
 import com.xha.gulimall.common.to.member.MemberTO;
 import com.xha.gulimall.common.to.member.ReceiveAddressTO;
@@ -16,11 +18,12 @@ import com.xha.gulimall.common.to.ware.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
 import com.xha.gulimall.common.utils.R;
-import com.xha.gulimall.common.constants.rabbitmq.order.OrderRmConstants;
 import com.xha.gulimall.order.dao.OrderDao;
+import com.xha.gulimall.order.dao.OrderItemDao;
 import com.xha.gulimall.order.dto.OrderSubmitDTO;
 import com.xha.gulimall.order.entity.OrderEntity;
 import com.xha.gulimall.order.entity.OrderItemEntity;
+import com.xha.gulimall.order.entity.PaymentInfoEntity;
 import com.xha.gulimall.order.enums.OrderStatusEnum;
 import com.xha.gulimall.order.feign.CartFeign;
 import com.xha.gulimall.order.feign.MemberFeign;
@@ -29,10 +32,8 @@ import com.xha.gulimall.order.feign.WareFeign;
 import com.xha.gulimall.order.interceptor.LoginInterceptor;
 import com.xha.gulimall.order.service.OrderItemService;
 import com.xha.gulimall.order.service.OrderService;
-import com.xha.gulimall.order.vo.CreateOrderVO;
-import com.xha.gulimall.order.vo.OrderConfirmVO;
-import com.xha.gulimall.order.vo.OrderItemVO;
-import com.xha.gulimall.order.vo.SubmitOrderResponseVO;
+import com.xha.gulimall.order.service.PaymentInfoService;
+import com.xha.gulimall.order.vo.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -85,6 +86,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Resource
     private OrderDao orderDao;
+
+    @Resource
+    private OrderItemDao orderItemDao;
+
+    @Resource
+    private PaymentInfoService paymentInfoService;
+
+    @Resource
+    private OrderService orderService;
 
     private ThreadLocal<OrderSubmitDTO> threadLocal = new ThreadLocal<>();
 
@@ -348,19 +358,88 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public void closeOrder(OrderEntity orderEntity) {
 //        1.查询当前订单的状态
         OrderEntity order = orderDao.selectById(orderEntity.getId());
-//        2.如果当前的订单状态为待待付款
-        if (order.getStatus() == OrderStatusEnum.CREATE_NEW.getCode()){
+//        2.如果当前的订单状态为待付款
+        if (order.getStatus() == OrderStatusEnum.CREATE_NEW.getCode()) {
             System.out.println("当前订单未支付，超时关闭订单");
 //           2.1关闭订单
             order.setStatus(OrderStatusEnum.CANCEL.getCode());
             orderDao.updateById(order);
             OrderTO orderTO = new OrderTO();
-            BeanUtils.copyProperties(order,orderTO);
+            BeanUtils.copyProperties(order, orderTO);
             rabbitTemplate.convertAndSend(OrderRmConstants.ORDER_EVENT_EXCHANGE,
                     OrderRmConstants.ORDER_RELEASE_OTHER_BINDING,
                     orderTO);
         }
     }
 
+    /**
+     * 查询到当前用户的订单列表
+     *
+     * @param params 参数个数
+     * @return {@link PageUtils}
+     */
+    @Override
+    public PageUtils getOrderList(Map<String, Object> params) {
+//        1.获取到当前登录用户
+        MemberTO memberTO = LoginInterceptor.threadLoginUser.get();
+//        2.查询当前用户的所有订单
+        IPage<OrderEntity> page = this.page(
+                new Query<OrderEntity>().getPage(params),
+                new LambdaQueryWrapper<OrderEntity>()
+                        .eq(OrderEntity::getMemberId, memberTO.getId())
+                        .orderByDesc(OrderEntity::getId)
+        );
+//        3.查询对应订单的订单项
+        List<OrderItemEntity> orderItemList = orderItemDao.selectList(null);
 
+        List<OrderEntity> orderEntityList = page.getRecords().stream().map(order -> {
+            order.setOrderItemEntities(getOrderItem(orderItemList, order));
+            return order;
+        }).collect(Collectors.toList());
+
+        page.setRecords(orderEntityList);
+
+        return new PageUtils(page);
+    }
+
+    /**
+     * 得到订单项目列表
+     *
+     * @param orderItemList 订单项目列表
+     * @param order         订单
+     * @return {@link List}<{@link OrderItemEntity}>
+     */
+    public List<OrderItemEntity> getOrderItem(List<OrderItemEntity> orderItemList, OrderEntity order) {
+        List<OrderItemEntity> orderItemEntityList = orderItemList.stream()
+                .filter(orderItem -> orderItem.getOrderSn().equals(order.getOrderSn()))
+                .collect(Collectors.toList());
+        return orderItemEntityList;
+    }
+
+
+    /**
+     * 处理支付宝支付异步通知响应
+     *
+     * @param aliPayAsyncNotifyVO 请求
+     * @return {@link String}
+     */
+    @Override
+    public String handleAliPayAsyncNotifyResponse(AliPayAsyncNotifyVO aliPayAsyncNotifyVO) {
+//        1.保存交易流水
+        PaymentInfoEntity paymentInfoEntity = new PaymentInfoEntity();
+        paymentInfoEntity.setOrderSn(aliPayAsyncNotifyVO.getOut_trade_no())
+                .setAlipayTradeNo(aliPayAsyncNotifyVO.getTrade_no())
+                .setPaymentStatus(aliPayAsyncNotifyVO.getTrade_status())
+                .setCallbackTime(aliPayAsyncNotifyVO.getNotify_time());
+        paymentInfoService.save(paymentInfoEntity);
+        if (aliPayAsyncNotifyVO.getTrade_status().equals("TRADE_SUCCESS") ||
+                aliPayAsyncNotifyVO.getTrade_status().equals("TRADE_FINISHED")) {
+//        2.支付成功，修改订单状态
+            LambdaUpdateWrapper<OrderEntity> updateWrapper = new LambdaUpdateWrapper<>();
+            updateWrapper.eq(OrderEntity::getOrderSn, aliPayAsyncNotifyVO.getOut_trade_no())
+                    .set(OrderEntity::getStatus, OrderStatusEnum.PAYED.getCode());
+            orderService.update(updateWrapper);
+        }
+        return "success";
+    }
 }

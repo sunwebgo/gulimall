@@ -24,9 +24,8 @@ public class GulimallWebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/confirm.html").setViewName("confirm");
         registry.addViewController("/detail.html").setViewName("detail");
-        registry.addViewController("/list.html").setViewName("list");
+        registry.addViewController("/orderlist.html").setViewName("orderlist");
         registry.addViewController("/pay.html").setViewName("pay");
-
     }
 
     /**
@@ -37,6 +36,8 @@ public class GulimallWebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        登录拦截器
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(loginInterceptor)
+                .excludePathPatterns("/payed/notify")
+                .addPathPatterns("/**");
     }
 }

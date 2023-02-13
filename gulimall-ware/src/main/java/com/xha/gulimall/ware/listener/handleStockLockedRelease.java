@@ -43,7 +43,7 @@ public class handleStockLockedRelease {
     public void handleStockLockedRelease(StockLockedTO stockLockedTO, Message message, Channel channel) throws IOException {
 
         try {
-            wareSkuService. unlockedStock(stockLockedTO);
+            wareSkuService.unlockedStock(stockLockedTO);
             //                释放库存后手动Ack
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class handleStockLockedRelease {
     public void handleOrderClose(OrderTO orderTO, Message message, Channel channel) throws IOException {
 
         try {
-            wareSkuService. unlockedStock(orderTO);
+            wareSkuService.unlockedStock(orderTO);
             //                释放库存后手动Ack
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {

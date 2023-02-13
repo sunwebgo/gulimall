@@ -5,6 +5,7 @@ import com.xha.gulimall.common.to.order.OrderTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.order.dto.OrderSubmitDTO;
 import com.xha.gulimall.order.entity.OrderEntity;
+import com.xha.gulimall.order.vo.AliPayAsyncNotifyVO;
 import com.xha.gulimall.order.vo.OrderConfirmVO;
 import com.xha.gulimall.order.vo.SubmitOrderResponseVO;
 
@@ -29,5 +30,9 @@ public interface OrderService extends IService<OrderEntity> {
     OrderTO getOrderById(String orderSn);
 
     void closeOrder(OrderEntity orderEntity);
+
+    PageUtils getOrderList(Map<String, Object> params);
+
+    String handleAliPayAsyncNotifyResponse(AliPayAsyncNotifyVO request);
 }
 

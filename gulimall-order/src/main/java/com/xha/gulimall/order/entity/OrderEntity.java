@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单
@@ -200,5 +201,8 @@ public class OrderEntity implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@TableField(fill = FieldFill.UPDATE)
 	private Date modifyTime;
+
+	@TableField(exist = false)
+	private List<OrderItemEntity> orderItemEntities;
 
 }
