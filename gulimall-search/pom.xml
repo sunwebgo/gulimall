@@ -9,7 +9,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.xha</groupId>
     <artifactId>gulimall-search</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gulimall-search</name>

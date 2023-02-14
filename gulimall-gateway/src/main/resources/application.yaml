@@ -12,8 +12,9 @@ spring:
     gateway:
       routes:
 
+        #   根据Path断言，并过滤重写路径
         #          路由到gulimall-member模块
-        #          http://localhost:88/api/member/** -> http://localhost:10000/member/**
+        #          http://localhost:88/api/member/** -> http://localhost:8000/member/**
         - id: member_route
           uri: lb://gulimall-member
           predicates:
@@ -32,7 +33,7 @@ spring:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
 
         #          路由到gulimall-ware模块
-        #          http://localhost:88/api/ware/** -> http://localhost:10000/ware/**
+        #          http://localhost:88/api/ware/** -> http://localhost:11000/ware/**
         - id: ware_route
           uri: lb://gulimall-ware
           predicates:
@@ -47,8 +48,16 @@ spring:
           predicates:
             - Path=/api/thirdserver/**
           filters:
-            - RewritePath=/api/thirdserver/?(?<segment>.*), /$\{segment}
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
 
+        #           路由到gulimall-coupon模块
+        #           http://localhost:88/api/coupon -> http://localhost:7000/coupon/**
+        - id: coupon_route
+          uri: lb://gulimall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
 
         #           路由到renren-fast模块
         #           http://localhost:88/api/** -> http://localhost:8080/renren-fast/**
@@ -58,6 +67,9 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/?(?<segment>.*), /renren-fast/$\{segment}
+
+
+        #   根据Host断言
 
         #        根据Host（gulimall.com）路由到gulimall-product
         - id: gulimall_host_route
@@ -95,3 +107,4 @@ spring:
           uri: lb://gulimall-member
           predicates:
             - Host=member.gulimall.com
+
