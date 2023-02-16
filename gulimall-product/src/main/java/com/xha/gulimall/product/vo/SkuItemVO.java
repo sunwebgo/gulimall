@@ -1,5 +1,6 @@
 package com.xha.gulimall.product.vo;
 
+import com.xha.gulimall.common.to.coupon.SeckillSkuRelationTO;
 import com.xha.gulimall.product.entity.SkuImagesEntity;
 import com.xha.gulimall.product.entity.SkuInfoEntity;
 import com.xha.gulimall.product.entity.SpuInfoDescEntity;
@@ -39,4 +40,9 @@ public class SkuItemVO {
      * 5.获取到spu的介绍信息
      */
     private List<SpuItemAttrGroupVO> groupVos;
+
+    /**
+     * sku的秒杀信息
+     */
+    private SeckillSkuRelationTO seckillSkuRelationTO;
 }

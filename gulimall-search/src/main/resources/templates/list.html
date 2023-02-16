@@ -2027,7 +2027,6 @@
     <!--仅显示有货-->
     $("#showHasStock").click(function () {
         let checked = $(this).prop("checked");
-        console.log(checked);
         location.href = replaceParamVal(location.href, "hasStock", checked ? 1 : 0, false)
     })
 
@@ -2079,7 +2078,6 @@
     $(".page_a").click(function () {
         var pn = $(this).attr("pn");
         location.href = replaceParamVal(location.href, "pageNum", pn, false);
-        console.log(replaceParamVal(location.href, "pageNum", pn, false))
     })
     // 替换网址相关函数
     // 搜索框

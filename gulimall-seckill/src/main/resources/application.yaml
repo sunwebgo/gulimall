@@ -11,3 +11,22 @@ spring:
   redis:
     host: 192.168.26.160
     port: 6379
+
+#    spring-session类型
+  session:
+    store-type: redis
+  rabbitmq:
+    host: 192.168.26.160
+    port: 5672
+    username: guest
+    password: guest
+  thymeleaf:
+    #    关闭thymeleaf缓存
+    cache: false
+    #    页面位置
+    prefix: classpath:/templates/
+  #    指定静态资源位置
+  resources:
+    static-locations: classpath:/static/
+
+

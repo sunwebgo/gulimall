@@ -17,4 +17,16 @@ public class CacheConstants {
     public static final String CART_CACHE = "cart:";
 
     public static final String USER_ORDER_TOKEN_CACHE = "order:token:";
+
+    /**
+     * 秒杀活动key
+     */
+    public static final String SECKILL_SESSION_CACHE = "seckill:session:";
+
+    /**
+     * 秒杀sku信息缓存
+     */
+    public static final String SECKILL_SKU_CACHE = "seckill:sku";
+
+    public static final String UNIQUE_ORDER_CACHE = "unique_order:";
 }

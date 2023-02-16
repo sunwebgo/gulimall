@@ -1,6 +1,7 @@
 package com.xha.gulimall.order.config;
 
 import com.xha.gulimall.common.constants.rabbitmq.order.OrderRmConstants;
+import com.xha.gulimall.common.constants.rabbitmq.seckill.SeckillRmConstants;
 import com.xha.gulimall.common.constants.rabbitmq.ware.WareRmConstants;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
@@ -78,6 +79,24 @@ public class RabbitMQConfig {
                 Binding.DestinationType.QUEUE,
                 OrderRmConstants.ORDER_EVENT_EXCHANGE,
                 OrderRmConstants.ORDER_RELEASE_OTHER_BINDING,
+                null);
+    }
+
+    @Bean
+    public Queue orderSeckillOrderQueue() {
+        return new Queue(SeckillRmConstants.ORDER_SECKILL_ORDER_QUEUE,
+                true,
+                false,
+                false);
+    }
+
+
+    @Bean
+    public Binding orderSeckillOrderBinding() {
+        return new Binding(SeckillRmConstants.ORDER_SECKILL_ORDER_QUEUE,
+                Binding.DestinationType.QUEUE,
+                OrderRmConstants.ORDER_EVENT_EXCHANGE,
+                SeckillRmConstants.ORDER_SECKILL_ORDER_BINDING,
                 null);
     }
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.CacheConstants;
 import com.xha.gulimall.common.constants.rabbitmq.order.OrderRmConstants;
@@ -14,6 +15,7 @@ import com.xha.gulimall.common.to.member.ReceiveAddressTO;
 import com.xha.gulimall.common.to.order.OrderItemTO;
 import com.xha.gulimall.common.to.order.OrderTO;
 import com.xha.gulimall.common.to.product.SpuInfoTO;
+import com.xha.gulimall.common.to.seckill.SeskillOrderTO;
 import com.xha.gulimall.common.to.ware.WareSkuLockTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
@@ -272,11 +274,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     /**
      * 构建订单
      *
-     * @return {@link OrderEntity}
      */
     private OrderEntity buildOrder(OrderEntity orderEntity) {
 //        1.构建订单
-        String orderSn = IdUtil.simpleUUID();
+        String orderSn = IdWorker.getTimeId();
         orderEntity.setOrderSn(orderSn);
 
 //          2.1从ThreadLocal中获取到当前的收货地id
@@ -441,5 +442,27 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             orderService.update(updateWrapper);
         }
         return "success";
+    }
+
+    /**
+     * 创建秒杀订单
+     *
+     */
+    @Override
+    public void createSeckillOrder(SeskillOrderTO seckillOrderTO) {
+//        1.构建订单
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setMemberId(seckillOrderTO.getMemberId())
+                .setOrderSn(seckillOrderTO.getOrderSn())
+                .setStatus(OrderStatusEnum.CREATE_NEW.getCode())
+                .setPayAmount(seckillOrderTO.getSeckillPrice());
+        save(orderEntity);
+//        2.构建订单项
+        OrderItemEntity orderItemEntity = new OrderItemEntity();
+        orderItemEntity.setOrderSn(seckillOrderTO.getOrderSn())
+                .setSkuId(seckillOrderTO.getSkuId())
+                .setSkuQuantity(seckillOrderTO.getNum())
+                .setSkuPrice(seckillOrderTO.getSeckillPrice());
+        orderItemService.save(orderItemEntity);
     }
 }

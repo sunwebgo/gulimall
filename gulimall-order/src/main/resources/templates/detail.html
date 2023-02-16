@@ -1041,7 +1041,6 @@
             $(".r1 span").mouseover(function () {
 
                 var index = $(this).index(); //获取被按下按钮的索引值，需要注意index是从0开始的
-                console.log(datile)
                 $(this).css('background', 'red').siblings().css('background', 'white')
                 $(this).css('color', 'white').siblings().css('color', 'black')
                 $(".xuanxiangka .ul1>li").eq(datile).css('display', 'block').siblings().css('display', 'none');

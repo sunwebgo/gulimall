@@ -17,7 +17,7 @@ public class ItemController {
     private SkuInfoService skuInfoService;
 
     /**
-     * 得到sku的信息
+     * 得到sku的详细信息
      *
      * @param skuId sku id
      * @return {@link String}

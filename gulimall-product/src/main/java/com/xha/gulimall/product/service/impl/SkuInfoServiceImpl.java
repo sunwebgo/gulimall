@@ -1,20 +1,26 @@
 package com.xha.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xha.gulimall.common.constants.NumberConstants;
+import com.xha.gulimall.common.to.coupon.SeckillSkuRelationTO;
+import com.xha.gulimall.common.to.product.SkuInfoTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.Query;
+import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dao.SkuInfoDao;
 import com.xha.gulimall.product.entity.SkuImagesEntity;
 import com.xha.gulimall.product.entity.SkuInfoEntity;
 import com.xha.gulimall.product.entity.SpuInfoDescEntity;
+import com.xha.gulimall.product.feign.SeckillFeignService;
 import com.xha.gulimall.product.service.*;
 import com.xha.gulimall.product.vo.SkuItemSaleAttrVO;
 import com.xha.gulimall.product.vo.SkuItemVO;
 import com.xha.gulimall.product.vo.SpuItemAttrGroupVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +31,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 
 @Service("skuInfoService")
@@ -48,6 +55,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
     @Resource
     private ThreadPoolExecutor threadPoolExecutor;
+
+    @Resource
+    private SeckillFeignService seckillFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -141,13 +151,13 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             return skuInfo;
         }, threadPoolExecutor);
 
-//        2.以下三个任务都依赖于infoFuture的执行结果
+//        2.以下几个任务都依赖于infoFuture的执行结果
 
 //        3.获取spu的介绍
         CompletableFuture<Void> descFuture = infoFuture.thenAcceptAsync((result) -> {
             SpuInfoDescEntity spuInfoDescEntity = spuInfoDescService.getById(result.getSpuId());
             skuItemVO.setDesp(spuInfoDescEntity);
-            }, threadPoolExecutor);
+        }, threadPoolExecutor);
 
 //        4.获取spu的基本属性信息
         CompletableFuture<Void> baseAttrFuture = infoFuture.thenAcceptAsync((result) -> {
@@ -170,10 +180,39 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             skuItemVO.setImages(skuImageInfo);
         });
 
+//        7.查询当前sku是否有秒杀活动
+        CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
+            R seckillInfo = seckillFeignService.getSeckillInfoBySkuId(skuId);
+            if (seckillInfo.getCode() == 0) {
+                SeckillSkuRelationTO seckillSkuRelationTO = seckillInfo.getData(new TypeReference<SeckillSkuRelationTO>() {
+                });
+                skuItemVO.setSeckillSkuRelationTO(seckillSkuRelationTO);
+            }
+        },threadPoolExecutor);
+
+
 //        等待所有任务完成
         CompletableFuture
-                .allOf(descFuture,baseAttrFuture,saleAttrFuture,imageFuture)
+                .allOf(descFuture, baseAttrFuture, saleAttrFuture, imageFuture, seckillFuture)
                 .get();
         return skuItemVO;
+    }
+
+    /**
+     * 得到所有sku信息列表
+     *
+     * @return {@link List}<{@link SkuInfoEntity}>
+     */
+    @Override
+    public List<SkuInfoTO> getAllSkuInfoList() {
+        List<SkuInfoEntity> skuInfoEntityList = skuInfoDao.selectList(null);
+        List<SkuInfoTO> skuInfoTOList = skuInfoEntityList.stream()
+                .map(skuInfoEntity -> {
+                    SkuInfoTO skuInfoTO = new SkuInfoTO();
+                    BeanUtils.copyProperties(skuInfoEntity, skuInfoTO);
+                    return skuInfoTO;
+                })
+                .collect(Collectors.toList());
+        return skuInfoTOList;
     }
 }

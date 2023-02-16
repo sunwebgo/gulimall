@@ -2,6 +2,7 @@ package com.xha.gulimall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xha.gulimall.common.to.order.OrderTO;
+import com.xha.gulimall.common.to.seckill.SeskillOrderTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.order.dto.OrderSubmitDTO;
 import com.xha.gulimall.order.entity.OrderEntity;
@@ -34,5 +35,7 @@ public interface OrderService extends IService<OrderEntity> {
     PageUtils getOrderList(Map<String, Object> params);
 
     String handleAliPayAsyncNotifyResponse(AliPayAsyncNotifyVO request);
+
+    void createSeckillOrder(SeskillOrderTO seskillOrderTO);
 }
 

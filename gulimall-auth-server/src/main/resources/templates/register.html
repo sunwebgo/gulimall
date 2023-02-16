@@ -158,7 +158,6 @@
             var phone = $("#phone").val();
             $.post("/sms/sendcaptcha?phone=" + phone, function (data) {
                 if (data.code != 0) {
-                    console.log(data)
                     alert(data.msg);
                 }
             })

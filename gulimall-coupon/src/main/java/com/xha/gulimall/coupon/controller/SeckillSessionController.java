@@ -1,13 +1,11 @@
 package com.xha.gulimall.coupon.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.xha.gulimall.common.to.coupon.SeckillSessionTO;
+import org.springframework.web.bind.annotation.*;
 
 import com.xha.gulimall.coupon.entity.SeckillSessionEntity;
 import com.xha.gulimall.coupon.service.SeckillSessionService;
@@ -28,6 +26,16 @@ import javax.annotation.Resource;
 public class SeckillSessionController {
     @Resource
     private SeckillSessionService seckillSessionService;
+
+    /**
+     * 查询秒杀场次
+     *
+     * @return {@link List}<{@link SeckillSessionTO}>
+     */
+    @PostMapping("/getSeckillSession")
+    public List<SeckillSessionTO> getSeckillSession(){
+        return seckillSessionService.getSeckillSession();
+    }
 
     /**
      * 列表

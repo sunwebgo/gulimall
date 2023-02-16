@@ -656,15 +656,12 @@
 
     //封装总价钱函数
     function sumSumPrice() {
-        console.log("计算总价");
         var zzj = 0;
         $(".check").each(function () {
 
 
             if ($(this).prop("checked")) {
-                console.log("check!!" + $(this).parents("ol").find(".zj").html());
                 var zj = $(this).parents("ol").find(".zj").html().substring(1);
-                console.log(" 价格：" + zj);
                 zzj = zzj + parseFloat(zj);
             }
             $(".fnt").html("￥" + zzj + ".00")
@@ -697,7 +694,6 @@
     $(".One_ShopCon ul li>div:nth-child(2) ol li:nth-child(3) p:nth-child(2)").click(function () {
         $(this).parent().children(".nmbd").slideToggle(300);
         var dis = $(this).parent().children(".nmbd").css("display");
-        console.log(dis);
         // if(dis=="block"){
         // 	$(".hahaha").css("transform","rotateX(-180deg)")
         // }else{

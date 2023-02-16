@@ -5,12 +5,13 @@ import com.xha.gulimall.order.entity.OrderEntity;
 import com.xha.gulimall.order.service.OrderService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 
-@Service
+@Component
 public class OrderCloseListener {
 
     @Resource

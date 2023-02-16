@@ -1,6 +1,7 @@
 package com.xha.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xha.gulimall.common.to.product.SkuInfoTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;
@@ -28,5 +29,8 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     List<SkuInfoEntity> getSkuInfo(Long spuId);
 
     SkuItemVO getSkuItemInfo(Long skuId) throws ExecutionException, InterruptedException;
+
+    List<SkuInfoTO> getAllSkuInfoList();
+
 }
 

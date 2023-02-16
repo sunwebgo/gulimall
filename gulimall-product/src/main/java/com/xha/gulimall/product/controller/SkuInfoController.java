@@ -1,5 +1,6 @@
 package com.xha.gulimall.product.controller;
 
+import com.xha.gulimall.common.to.product.SkuInfoTO;
 import com.xha.gulimall.common.utils.PageUtils;
 import com.xha.gulimall.common.utils.R;
 import com.xha.gulimall.product.dto.spusavedto.SpuSaveDTO;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -106,6 +108,16 @@ public class SkuInfoController {
         skuInfoService.removeByIds(Arrays.asList(skuIds));
 
         return R.ok();
+    }
+
+    /**
+     * 得到所有sku信息列表
+     *
+     * @return {@link List}<{@link SkuInfoTO}>
+     */
+    @GetMapping("/getAllSkuInfoList")
+    public List<SkuInfoTO> getAllSkuInfoList(){
+        return skuInfoService.getAllSkuInfoList();
     }
 
 }
