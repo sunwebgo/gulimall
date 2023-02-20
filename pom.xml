@@ -60,6 +60,8 @@
         <spring-session-version>2.3.3.RELEASE</spring-session-version>
         <amqp-version>2.3.12.RELEASE</amqp-version>
         <seata-all-version>1.4.2</seata-all-version>
+        <actuator-version>2.3.12.RELEASE</actuator-version>
+        <sentinel-version>2.1.0.RELEASE</sentinel-version>
     </properties>
 
     <dependencyManagement>
@@ -192,6 +194,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${amqp-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${actuator-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                <version>${sentinel-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
