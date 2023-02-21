@@ -13,6 +13,7 @@ feign:
         # 指的是建立连接后从服务器读取可用资源所用的时间
         ReadTimeOut: 100000
 
+
 spring:
   application:
     name: gulimall-cart
@@ -21,6 +22,12 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.26.160:8848
+    sentinel:
+      transport:
+        #配置Sentinel dashboard地址
+        dashboard: 192.168.26.160:8858
+        #sentinel监控服务，默认8719端口，假如被占用会自动从8719开始依次+1扫描,直至找到未被占用的端口
+        port: 8719
     alibaba:
       seata:
         tx-service-group: SEATA_GROUP
@@ -44,6 +51,18 @@ spring:
     static-locations: classpath:/static/
   session:
     store-type: redis
+  #    zipkin
+  zipkin:
+    base-url: http://192.168.26.160:9411/
+    #    关闭zipkin的服务发现
+    discovery-client-enabled: false
+    #    以http的方式传输数据
+    sender:
+      type: web
+  #      sleuth采样器
+  sleuth:
+    sampler:
+      probability: 1
 
 
 mybatis-plus:
@@ -64,4 +83,9 @@ gulimall:
     max-size: 200
     keep-alive-time: 10
 
-
+# 开启sentinel对endpoint的支持
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

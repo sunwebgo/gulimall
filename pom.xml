@@ -62,6 +62,7 @@
         <seata-all-version>1.4.2</seata-all-version>
         <actuator-version>2.3.12.RELEASE</actuator-version>
         <sentinel-version>2.1.0.RELEASE</sentinel-version>
+        <zipkin-version>2.2.8.RELEASE</zipkin-version>
     </properties>
 
     <dependencyManagement>
@@ -204,6 +205,12 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 <version>${sentinel-version}</version>
+            </dependency>
+            <!--包含了sleuth+zipkin-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zipkin</artifactId>
+                <version>${zipkin-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

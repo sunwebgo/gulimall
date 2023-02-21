@@ -28,7 +28,7 @@ public class SeckillScheduled {
      * 上架秒杀商品定时任务
      */
     @Scheduled(cron = "0 0/10 * * * ?")
-    private void uploadSeckillProduct() {
+    public void uploadSeckillProduct() {
         log.info("开始上架秒杀商品");
 //        1.创建分布式锁()
         RLock up_lock = redissonClient.getLock(CommonConstants.UPLOAD_LOCK);

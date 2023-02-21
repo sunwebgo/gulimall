@@ -12,6 +12,12 @@ spring:
     alibaba:
       seata:
         tx-service-group: SEATA_GROUP
+    sentinel:
+      transport:
+        #配置Sentinel dashboard地址
+        dashboard: 192.168.26.160:8858
+        #sentinel监控服务，默认8719端口，假如被占用会自动从8719开始依次+1扫描,直至找到未被占用的端口
+        port: 8719
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.26.160:3306/gulimall_ums?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
@@ -20,6 +26,18 @@ spring:
   redis:
     host: 192.168.26.160
     port: 6379
+  #    zipkin
+  zipkin:
+    base-url: http://192.168.26.160:9411/
+    #    关闭zipkin的服务发现
+    discovery-client-enabled: false
+    #    以http的方式传输数据
+    sender:
+      type: web
+  #      sleuth采样器
+  sleuth:
+    sampler:
+      probability: 1
 
 # mybatis-plus配置
 mybatis-plus:
@@ -43,3 +61,11 @@ oauth:
     client_id: 6cc5fdfed2ad10ba2e004282103ded8b7ef7be5f734691391f5a5868362a4bd7
     client_secret: e6280cc73ae2d3a102bbab27309b11491ca1b0e30d227aa44ac38bf1c72febb7
     redirect_uri: http://auth.gulimall.com/oauth/gitee
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
